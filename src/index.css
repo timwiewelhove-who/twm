@@ -68,3 +68,29 @@ img { max-width: 100%; display: block; }
   .section { padding: 48px 0; }
   .container, .container--narrow { padding: 0 16px; }
 }
+
+/* ── Mobile Fixes ── */
+@media (max-width: 768px) {
+  /* No horizontal scroll */
+  body { overflow-x: hidden; }
+
+  /* Teaser grids: single column */
+  .section .container > div[style*="grid-template-columns: 1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  /* Tables: scrollable */
+  .card { overflow-x: auto; }
+
+  /* Data tables on mobile */
+  .data-table { font-size: 13px; }
+  .data-table th, .data-table td { padding: 8px 8px; }
+
+  /* Weltrangliste: hide year columns on mobile, show total */
+  .rangliste-year { display: none; }
+
+  /* Nav fix */
+  .nav-links { display: none !important; }
+  .nav-burger { display: block !important; }
+}

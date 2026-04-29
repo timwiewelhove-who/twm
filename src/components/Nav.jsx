@@ -30,8 +30,8 @@ export default function Nav() {
     }}>
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <img src="/trommel.svg" alt="" style={{ height: 36 }} />
-          <span style={{ fontFamily: 'Bayon, sans-serif', fontSize: 22, color: 'var(--gruen)', letterSpacing: '0.05em' }}>TRMMLR</span>
+          <img src="/trommel.svg" alt="" style={{ height: 36, filter: scrolled ? 'none' : 'brightness(0) invert(1)' }} />
+          <span style={{ fontFamily: 'Bayon, sans-serif', fontSize: 22, color: scrolled ? 'var(--gruen)' : 'white', letterSpacing: '0.05em', transition: 'color 0.3s' }}>TRMMLR</span>
         </Link>
 
         {/* Desktop */}
