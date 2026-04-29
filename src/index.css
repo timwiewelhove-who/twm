@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Bayon&family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;1,6..12,400&display=swap');
+
+:root {
+  --gruen: #1c422b;
+  --gruen-dark: #122d1d;
+  --gruen-light: #2a5c3f;
+  --gold: #b0892d;
+  --gold-light: #c9a44a;
+  --cream: #f5f0e8;
+  --cream-dark: #ede6d8;
+  --text: #1a1a1a;
+  --text-muted: #5a5a5a;
+  --text-light: #8a8a8a;
+  --white: #ffffff;
+  --border: rgba(28,66,43,0.12);
+  --border-gold: rgba(176,137,45,0.3);
+  --shadow: 0 4px 24px rgba(0,0,0,0.07);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.12);
+  --radius: 10px;
+  --radius-lg: 16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Nunito Sans', sans-serif; font-size: 16px; line-height: 1.65; color: var(--text); background: var(--cream); -webkit-font-smoothing: antialiased; }
+h1, h2, h3, h4 { font-family: 'Bayon', sans-serif; letter-spacing: 0.03em; line-height: 1.1; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+.container--narrow { max-width: 800px; margin: 0 auto; padding: 0 32px; }
+.section { padding: 80px 0; }
+.section--sm { padding: 48px 0; }
+
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: var(--radius); font-family: 'Nunito Sans', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; white-space: nowrap; }
+.btn--primary { background: var(--gruen); color: var(--white); }
+.btn--primary:hover { background: var(--gruen-light); }
+.btn--outline { background: transparent; color: var(--gruen); border: 1.5px solid var(--gruen); }
+.btn--outline:hover { background: var(--gruen); color: var(--white); }
+.btn--gold { background: var(--gold); color: var(--white); }
+.btn--gold:hover { background: var(--gold-light); }
+.btn--white { background: var(--white); color: var(--gruen); }
+.btn--white:hover { background: var(--cream); }
+
+.card { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--border); overflow: hidden; transition: box-shadow 0.2s, transform 0.2s; }
+.card--hover:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+
+.data-table { width: 100%; border-collapse: collapse; font-size: 15px; }
+.data-table th { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); padding: 10px 12px; text-align: left; border-bottom: 1.5px solid var(--border); }
+.data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--cream); }
+.data-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.data-table .rank { color: var(--text-muted); font-size: 13px; width: 40px; }
+.data-table .pts { font-weight: 700; color: var(--gruen); }
+.data-table .pos { color: #16a34a; }
+.data-table .neg { color: #dc2626; }
+
+.badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; }
+.badge--gold { background: rgba(176,137,45,0.12); color: var(--gold); }
+.badge--gruen { background: rgba(28,66,43,0.1); color: var(--gruen); }
+
+.divider { height: 1px; background: var(--border); margin: 48px 0; }
+
+@media (max-width: 768px) {
+  .section { padding: 48px 0; }
+  .container, .container--narrow { padding: 0 16px; }
+}

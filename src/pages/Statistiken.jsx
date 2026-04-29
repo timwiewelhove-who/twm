@@ -1,0 +1,163 @@
+import { Link, useLocation } from 'react-router-dom'
+import wm from '../data/wm.json'
+
+function Weltrangliste() {
+  return (
+    <div>
+      <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Weltrangliste</h2>
+      <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: 15 }}>
+        Punkte werden für WM-Platzierungen vergeben. Gewinner: 100 Pkt, Finalist: 75, Halbfinale: 50 etc.
+      </p>
+      <div className="card" style={{ overflow: 'auto' }}>
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th style={{ width: 48 }}>Pl.</th>
+              <th>Trommler</th>
+              <th className="num" style={{ fontSize: 10 }}>2006</th>
+              <th className="num" style={{ fontSize: 10 }}>2008</th>
+              <th className="num" style={{ fontSize: 10 }}>2010</th>
+              <th className="num" style={{ fontSize: 10 }}>2012</th>
+              <th className="num" style={{ fontSize: 10 }}>2014</th>
+              <th className="num" style={{ fontSize: 10 }}>2016</th>
+              <th className="num" style={{ fontSize: 10 }}>2018</th>
+              <th className="num" style={{ fontSize: 10 }}>2022</th>
+              <th className="num" style={{ fontSize: 10 }}>2024</th>
+              <th className="num" style={{ fontWeight: 700 }}>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {wm.weltrangliste.map((r, i) => (
+              <tr key={r.name}>
+                <td className="rank">{i + 1}</td>
+                <td style={{ fontWeight: i < 3 ? 700 : 400 }}>
+                  {i === 0 ? '🥇 ' : i === 1 ? '🥈 ' : i === 2 ? '🥉 ' : ''}{r.name}
+                </td>
+                {[r.wm2006, r.wm2008, r.wm2010, r.wm2012, r.wm2014, r.wm2016, r.wm2018, r.wm2022, r.wm2024].map((v, j) => (
+                  <td key={j} className="num" style={{ color: v === 100 ? 'var(--gold)' : v >= 50 ? 'var(--gruen)' : v > 0 ? 'var(--text-muted)' : 'var(--border)', fontSize: v === 0 ? 12 : 14 }}>
+                    {v || '–'}
+                  </td>
+                ))}
+                <td className="num pts">{r.total}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}
+
+function EwigeTabelle() {
+  return (
+    <div>
+      <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Ewige Tabelle</h2>
+      <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: 15 }}>
+        Sieg: 3 Punkte · Unentschieden: 1 Punkt. Alle WMs seit 2006.
+      </p>
+      <div className="card" style={{ overflow: 'auto' }}>
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th style={{ width: 48 }}>Pl.</th>
+              <th>Trommler</th>
+              <th className="num">Sp</th>
+              <th className="num">S</th>
+              <th className="num">U</th>
+              <th className="num">N</th>
+              <th className="num">T</th>
+              <th className="num">GG</th>
+              <th className="num">Diff</th>
+              <th className="num">Pkt</th>
+            </tr>
+          </thead>
+          <tbody>
+            {wm.ewige_tabelle.map((r, i) => (
+              <tr key={r.name} style={{ background: i === 0 ? 'rgba(176,137,45,0.05)' : 'transparent' }}>
+                <td className="rank">{i < 3 ? ['🥇','🥈','🥉'][i] : r.pl}</td>
+                <td style={{ fontWeight: i < 5 ? 600 : 400 }}>{r.name}</td>
+                <td className="num">{r.sp}</td>
+                <td className="num">{r.s}</td>
+                <td className="num">{r.u}</td>
+                <td className="num">{r.n}</td>
+                <td className="num">{r.t}</td>
+                <td className="num">{r.gg}</td>
+                <td className={`num ${r.diff > 0 ? 'pos' : r.diff < 0 ? 'neg' : ''}`}>{r.diff > 0 ? '+' : ''}{r.diff}</td>
+                <td className="num pts">{r.pkt}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}
+
+function Champs() {
+  const events = [...wm.weltmeister].reverse()
+  return (
+    <div>
+      <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 32 }}>Alle Weltmeister</h2>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {events.map(e => (
+          <Link key={e.jahr} to={`/events/${e.jahr}`} className="card card--hover" style={{ padding: '20px 24px', display: 'grid', gridTemplateColumns: '80px 1fr auto', alignItems: 'center', gap: 20 }}>
+            <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 36, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
+            <div>
+              <div style={{ fontWeight: 700, fontSize: 18, color: 'var(--gruen)' }}>🏆 {e.sieger}</div>
+              <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 2 }}>
+                {e.ort.split('–')[0].trim()} · {e.punkte} Pkt · {e.teilnehmer} Teilnehmer
+              </div>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>Torschützenkönig</div>
+              <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--gruen)' }}>👑 {e.torschuetzenkoenig}</div>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export default function Statistiken() {
+  const loc = useLocation()
+  const sub = loc.pathname.split('/').pop()
+  const tabs = [
+    { id: 'weltrangliste', label: 'Weltrangliste' },
+    { id: 'ewige-tabelle', label: 'Ewige Tabelle' },
+    { id: 'champs', label: 'Alle Weltmeister' },
+  ]
+  const active = tabs.find(t => t.id === sub) ? sub : 'weltrangliste'
+
+  return (
+    <div style={{ paddingTop: 80 }}>
+      <section style={{ background: 'var(--gruen)', padding: '60px 0 0' }}>
+        <div className="container">
+          <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)' }}>Zahlen & Daten</div>
+          <h1 style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: 'var(--white)', marginBottom: 32 }}>Statistiken</h1>
+          <div style={{ display: 'flex', gap: 0, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+            {tabs.map(t => (
+              <Link key={t.id} to={`/statistiken/${t.id}`} style={{
+                padding: '14px 24px',
+                fontSize: 15,
+                fontWeight: 600,
+                color: active === t.id ? 'var(--gold)' : 'rgba(255,255,255,0.6)',
+                borderBottom: active === t.id ? '2px solid var(--gold)' : '2px solid transparent',
+                marginBottom: -1,
+                transition: 'color 0.15s',
+              }}>{t.label}</Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section">
+        <div className="container">
+          {active === 'weltrangliste' && <Weltrangliste />}
+          {active === 'ewige-tabelle' && <EwigeTabelle />}
+          {active === 'champs' && <Champs />}
+        </div>
+      </section>
+    </div>
+  )
+}
