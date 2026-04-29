@@ -51,7 +51,6 @@ export default function Home() {
     <div>
       {/* HERO */}
       <section style={{
-        background: 'var(--gruen)',
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
@@ -59,10 +58,12 @@ export default function Home() {
         position: 'relative',
         overflow: 'hidden',
         paddingTop: 80,
+        backgroundImage: 'url(/hero-2024.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 30%',
       }}>
-        {/* Decorative circles */}
-        <div style={{ position: 'absolute', top: -200, right: -200, width: 600, height: 600, borderRadius: '50%', background: 'rgba(176,137,45,0.06)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', bottom: -100, left: -100, width: 400, height: 400, borderRadius: '50%', background: 'rgba(255,255,255,0.03)', pointerEvents: 'none' }} />
+        {/* Dark green overlay */}
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(18, 45, 29, 0.82)', pointerEvents: 'none' }} />
 
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center', padding: '60px 0' }}>
@@ -99,12 +100,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Wave divider */}
-        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }}>
-          <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ display: 'block' }}>
-            <path d="M0 80L1440 80L1440 20C1200 70 960 0 720 40C480 80 240 10 0 20L0 80Z" fill="#f5f0e8"/>
-          </svg>
-        </div>
+
       </section>
 
       {/* TEASER: Letztes Ergebnis */}

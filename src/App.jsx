@@ -6,6 +6,7 @@ import Events from './pages/Events'
 import EventDetail from './pages/EventDetail'
 import Statistiken from './pages/Statistiken'
 import Wissenswertes from './pages/Wissenswertes'
+import Admin from './pages/Admin'
 import './index.css'
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/statistiken/:sub" element={<Statistiken />} />
           <Route path="/wissenswertes" element={<Navigate to="/wissenswertes/historie" replace />} />
           <Route path="/wissenswertes/:sub" element={<Wissenswertes />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </main>
       <Footer />
