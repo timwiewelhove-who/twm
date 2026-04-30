@@ -183,6 +183,21 @@ function Dinos() {
           </div>
         )
       })}
+      {/* Foto-Mosaik */}
+      <div style={{ marginTop: 48 }}>
+        <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 16 }}>WM 2024 · Jaderberg</div>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: 'auto auto', gap: 12 }}>
+          <div style={{ gridRow: '1 / 3', overflow: 'hidden', borderRadius: 12 }}>
+            <img src="/dino-2.jpg" alt="Trommelschießen-Dinos WM 2024" style={{ width: '100%', height: '100%', minHeight: 360, objectFit: 'cover', objectPosition: 'top', display: 'block' }} loading="lazy" />
+          </div>
+          <div style={{ overflow: 'hidden', borderRadius: 12 }}>
+            <img src="/dino-1.jpg" alt="Trommelschießen-Dinos WM 2024" style={{ width: '100%', height: 220, objectFit: 'cover', objectPosition: 'center 20%', display: 'block' }} loading="lazy" />
+          </div>
+          <div style={{ overflow: 'hidden', borderRadius: 12 }}>
+            <img src="/dino-5.jpg" alt="Trommelschießen-Dinos WM 2024" style={{ width: '100%', height: 220, objectFit: 'cover', display: 'block' }} loading="lazy" />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

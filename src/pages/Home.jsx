@@ -232,30 +232,23 @@ export default function Home() {
       </section>
 
       {/* DINOS */}
-      <section className="section" style={{ background: 'var(--gruen)' }}>
-        <div className="container">
+      <section style={{
+        position: 'relative', overflow: 'hidden', padding: '80px 0',
+        backgroundImage: 'url(/dino-5.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 30%',
+      }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.85)' }} />
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)' }}>Treue Trommler</div>
-          <h2 style={{ fontSize: 'clamp(24px, 4vw, 42px)', color: 'white', marginBottom: 8 }}>Trommelschießen-Dinos</h2>
-          <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: 36, fontSize: 15, maxWidth: 600 }}>
-            Drei Trommler waren bei allen 9 WMs dabei – von der Premiere 2006 bis heute.
-            v.l.n.r.: Jenne Meyer, Bastian Buse, Sascha Wachtendorf.
+          <h2 style={{ fontSize: 'clamp(24px, 4vw, 48px)', color: 'white', marginBottom: 16, maxWidth: 600 }}>
+            Trommelschießen-Dinos
+          </h2>
+          <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, lineHeight: 1.8, maxWidth: 540, marginBottom: 32 }}>
+            Jenne Meyer, Bastian Buse und Sascha Wachtendorf – drei Trommler, die bei keiner einzigen WM gefehlt haben.
+            Seit 2006, durch Hitze und Regen, durch Niedersachsen und Hamburg, immer dabei, immer an der Trommel.
+            Echte Dinos.
           </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16, marginBottom: 32 }}>
-            {[
-              { src: '/dino-3.jpg', name: 'Jenne Meyer, Bastian Buse, Sascha Wachtendorf' },
-              { src: '/dino-4.jpg', name: 'Die Dinos – WM 2024' },
-              { src: '/dino-5.jpg', name: 'Trommel, Trommel, Mors, Mors!' },
-            ].map((img, i) => (
-              <div key={i} className="card" style={{ overflow: 'hidden', border: 'none' }}>
-                <img
-                  src={img.src}
-                  alt={img.name}
-                  style={{ width: '100%', height: 220, objectFit: 'cover', display: 'block' }}
-                  loading="lazy"
-                />
-              </div>
-            ))}
-          </div>
           <Link to="/statistiken/dinos" className="btn btn--gold">Dino-Statistiken ansehen →</Link>
         </div>
       </section>
