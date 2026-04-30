@@ -124,17 +124,18 @@ export default function Home() {
           <h2 style={{ fontSize: 'clamp(24px, 4vw, 42px)', color: 'var(--gruen)', marginBottom: 32 }}>
             WM {letzteWM.jahr} · {letzteWM.ort.split('–')[0].trim()}
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12 }}>
             {[
               { label: 'Weltmeister', value: letzteWM.sieger, icon: '🏆' },
-              { label: 'Torschützenkönig', value: `${letzteWM.torschuetzenkoenig} (${letzteWM.tore} Tore)`, icon: '👑' },
+              { label: 'Torschützenkönig', value: `${letzteWM.torschuetzenkoenig}`, sub: `${letzteWM.tore} Tore`, icon: '👑' },
               { label: 'Teilnehmer', value: letzteWM.teilnehmer, icon: '👥' },
-              { label: 'Punkte (Sieger)', value: `${letzteWM.punkte} Pkt. in ${letzteWM.spiele} Spielen`, icon: '📊' },
+              { label: 'Sieger-Punkte', value: `${letzteWM.punkte} Pkt.`, sub: `in ${letzteWM.spiele} Spielen`, icon: '📊' },
             ].map(item => (
-              <div key={item.label} className="card" style={{ padding: '20px' }}>
-                <div style={{ fontSize: 24, marginBottom: 6 }}>{item.icon}</div>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-light)', marginBottom: 4 }}>{item.label}</div>
-                <div style={{ fontSize: 18, fontWeight: 700, color: 'var(--gruen)', fontFamily: 'Bayon, sans-serif' }}>{item.value}</div>
+              <div key={item.label} className="card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <div style={{ fontSize: 22 }}>{item.icon}</div>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-light)' }}>{item.label}</div>
+                <div style={{ fontSize: 'clamp(16px, 1.4vw, 20px)', fontWeight: 700, color: 'var(--gruen)', fontFamily: 'Bayon, sans-serif', lineHeight: 1.2 }}>{item.value}</div>
+                {item.sub && <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>{item.sub}</div>}
               </div>
             ))}
           </div>
@@ -144,84 +145,88 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TEASER: Weltrangliste */}
+      {/* TEASER: Statistiken – 2 Karten nebeneinander */}
       <section className="section" style={{ background: 'var(--white)' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 32, alignItems: 'start' }}>
-            <div>
-              <div className="eyebrow">Weltrangliste</div>
-              <h2 style={{ fontSize: 'clamp(22px, 3vw, 36px)', color: 'var(--gruen)', marginBottom: 8 }}>Die besten Trommler aller Zeiten</h2>
-              <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: 15 }}>Basierend auf WM-Platzierungen seit 2006</p>
-              <Link to="/statistiken/weltrangliste" className="btn btn--outline">Vollständige Rangliste →</Link>
-            </div>
-            <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-              <table className="data-table">
-                <thead><tr><th>Pl.</th><th>Trommler</th><th className="num">Punkte</th></tr></thead>
-                <tbody>
-                  {top3Rangliste.map((r, i) => (
-                    <tr key={r.name}>
-                      <td className="rank">{['🥇','🥈','🥉'][i]}</td>
-                      <td style={{ fontWeight: 600 }}>{r.name}</td>
-                      <td className="num pts">{r.total}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+          <div className="eyebrow">Statistiken</div>
+          <h2 style={{ fontSize: 'clamp(24px, 4vw, 42px)', color: 'var(--gruen)', marginBottom: 32 }}>Zahlen, Daten, Trommelschießen</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+            {/* Weltrangliste Card */}
+            <Link to="/statistiken/weltrangliste" className="card card--hover" style={{
+              padding: '32px', display: 'flex', flexDirection: 'column', gap: 16,
+              background: 'var(--gruen)', color: 'white', overflow: 'hidden', position: 'relative',
+            }}>
+              <div style={{ position: 'absolute', top: -20, right: -20, fontSize: 120, opacity: 0.06, lineHeight: 1 }}>🌍</div>
+              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>Weltrangliste</div>
+              <div>
+                {top3Rangliste.map((r, i) => (
+                  <div key={r.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.1)' : 'none' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <span style={{ fontSize: 18 }}>{['🥇','🥈','🥉'][i]}</span>
+                      <span style={{ fontWeight: 600, fontSize: 16 }}>{r.name}</span>
+                    </div>
+                    <span style={{ fontFamily: 'Bayon, sans-serif', fontSize: 22, color: 'var(--gold)' }}>{r.total}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', marginTop: 'auto' }}>Alle {wm.weltrangliste.length} Trommler ansehen →</div>
+            </Link>
+
+            {/* Ewige Tabelle Card */}
+            <Link to="/statistiken/ewige-tabelle" className="card card--hover" style={{
+              padding: '32px', display: 'flex', flexDirection: 'column', gap: 16,
+              border: '2px solid var(--gruen)', overflow: 'hidden', position: 'relative',
+            }}>
+              <div style={{ position: 'absolute', top: -20, right: -20, fontSize: 120, opacity: 0.04, lineHeight: 1 }}>📊</div>
+              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Ewige Tabelle</div>
+              <div>
+                {top5Tabelle.map((r, i) => (
+                  <div key={r.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: i < 4 ? '1px solid var(--border)' : 'none' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <span style={{ fontSize: 13, color: 'var(--text-light)', minWidth: 20 }}>{i + 1}</span>
+                      <span style={{ fontWeight: 600, fontSize: 15, color: 'var(--gruen)' }}>{i === 0 ? '🏆 ' : ''}{r.name}</span>
+                    </div>
+                    <span style={{ fontFamily: 'Bayon, sans-serif', fontSize: 20, color: 'var(--gold)' }}>{r.pkt}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ fontSize: 14, color: 'var(--text-muted)', marginTop: 'auto' }}>Alle {wm.ewige_tabelle.length} Trommler ansehen →</div>
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* TEASER: Ewige Tabelle */}
+      {/* TEASER: WM-Events – Foto-ready grid */}
       <section className="section" style={{ background: 'var(--cream)' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 32, alignItems: 'start' }}>
-            <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-              <table className="data-table">
-                <thead><tr><th>Pl.</th><th>Trommler</th><th className="num">Sp</th><th className="num">Pkt</th></tr></thead>
-                <tbody>
-                  {top5Tabelle.map((r, i) => (
-                    <tr key={r.name}>
-                      <td className="rank">{i + 1}</td>
-                      <td style={{ fontWeight: 600 }}>{i === 0 ? '🏆 ' : ''}{r.name}</td>
-                      <td className="num" style={{ color: 'var(--text-muted)' }}>{r.sp}</td>
-                      <td className="num pts">{r.pkt}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <div>
-              <div className="eyebrow">Ewige Tabelle</div>
-              <h2 style={{ fontSize: 'clamp(22px, 3vw, 36px)', color: 'var(--gruen)', marginBottom: 8 }}>Alle Spiele, alle Punkte</h2>
-              <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: 15 }}>56 Trommler in der ewigen Wertung – von 2006 bis heute</p>
-              <Link to="/statistiken/ewige-tabelle" className="btn btn--outline">Alle 56 Trommler →</Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* TEASER: WM-Events */}
-      <section className="section" style={{ background: 'var(--gruen)' }}>
-        <div className="container">
-          <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)' }}>WM-Archiv</div>
-          <h2 style={{ fontSize: 'clamp(24px, 4vw, 48px)', color: 'var(--white)', marginBottom: 32 }}>9 Turniere · 9 Weltmeister</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 12 }}>
-            {letzteEvents.map(e => (
-              <Link key={e.jahr} to={`/events/${e.jahr}`} style={{
-                background: 'rgba(255,255,255,0.08)', border: '1px solid rgba(255,255,255,0.12)',
-                borderRadius: 12, padding: '20px', display: 'block', transition: 'all 0.2s',
-              }}
-                onMouseEnter={ev => { ev.currentTarget.style.background='rgba(255,255,255,0.14)'; ev.currentTarget.style.borderColor='rgba(176,137,45,0.4)' }}
-                onMouseLeave={ev => { ev.currentTarget.style.background='rgba(255,255,255,0.08)'; ev.currentTarget.style.borderColor='rgba(255,255,255,0.12)' }}>
-                <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 36, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
-                <div style={{ fontWeight: 700, color: 'var(--white)', fontSize: 17, marginTop: 6 }}>{e.sieger}</div>
-                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', marginTop: 3 }}>{e.ort.split('–')[0].trim()} · {e.teilnehmer} TN</div>
+          <div className="eyebrow">WM-Archiv</div>
+          <h2 style={{ fontSize: 'clamp(24px, 4vw, 48px)', color: 'var(--gruen)', marginBottom: 32 }}>9 Turniere · 9 Weltmeister</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16 }}>
+            {letzteEvents.map((e, i) => (
+              <Link key={e.jahr} to={`/events/${e.jahr}`} className="card card--hover" style={{
+                display: 'block', overflow: 'hidden', position: 'relative',
+              }}>
+                {/* Foto-Platzhalter – wird später durch echtes Foto ersetzt */}
+                <div style={{
+                  height: 160,
+                  background: `linear-gradient(135deg, var(--gruen-dark, #122d1d) 0%, var(--gruen) 100%)`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  position: 'relative', overflow: 'hidden',
+                }}>
+                  <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 80, color: 'rgba(255,255,255,0.08)', lineHeight: 1 }}>{e.jahr}</div>
+                  <div style={{ position: 'absolute', bottom: 12, left: 16 }}>
+                    <span style={{ background: 'var(--gold)', color: 'white', padding: '4px 12px', borderRadius: 100, fontSize: 12, fontWeight: 700 }}>{e.jahr}</span>
+                  </div>
+                </div>
+                <div style={{ padding: '16px 20px' }}>
+                  <div style={{ fontWeight: 700, color: 'var(--gruen)', fontSize: 17, marginBottom: 4 }}>🏆 {e.sieger}</div>
+                  <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>{e.ort.split('–')[0].trim()} · {e.teilnehmer} Teilnehmer</div>
+                </div>
               </Link>
             ))}
           </div>
           <div style={{ marginTop: 24 }}>
-            <Link to="/events" className="btn btn--white">Alle WMs ansehen →</Link>
+            <Link to="/events" className="btn btn--outline">Alle WMs ansehen →</Link>
           </div>
         </div>
       </section>

@@ -119,6 +119,74 @@ function Champs() {
   )
 }
 
+
+const ALLE_JAHRE = [2006,2008,2010,2012,2014,2016,2018,2022,2024]
+const DINOS_NAMES = ['Bastian Buse','Jenne Meyer','Sascha Wachtendorf']
+
+function Dinos() {
+  return (
+    <div>
+      <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Trommelschießen-Dinos</h2>
+      <p style={{ color: 'var(--text-muted)', marginBottom: 32, fontSize: 15, lineHeight: 1.7 }}>
+        Nur drei Trommler waren bei allen {ALLE_JAHRE.length} WMs dabei – von der Premiere 2006 in Hamburg bis 2024 in Jaderberg.
+      </p>
+      {DINOS_NAMES.map(name => {
+        const ewige = wm.ewige_tabelle.find(r => r.name === name)
+        const weltR = wm.weltrangliste.find(r => r.name === name)
+        const ergebnisse = ALLE_JAHRE.map(j => {
+          const t = wm.abschlusstabellen[String(j)] || []
+          const r = t.find(r => r.name === name)
+          return { jahr: j, pl: r?.pl, pkt: r?.pkt }
+        })
+        const beste = ergebnisse.reduce((best, e) => (!best || e.pl < best.pl) ? e : best, null)
+        return (
+          <div key={name} className="card" style={{ padding: '28px', marginBottom: 16 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 16, marginBottom: 20 }}>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
+                  <span style={{ fontSize: 28 }}>🦕</span>
+                  <h3 style={{ fontFamily: 'Bayon, sans-serif', fontSize: 28, color: 'var(--gruen)', letterSpacing: '0.03em' }}>{name}</h3>
+                </div>
+                <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+                  Dabei seit 2006 · Bestes Ergebnis: Platz {beste?.pl} ({beste?.jahr})
+                </div>
+              </div>
+              {ewige && (
+                <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 28, color: 'var(--gold)' }}>{ewige.pkt}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Ewige Pkt.</div>
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 28, color: 'var(--gruen)' }}>{ewige.sp}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Spiele</div>
+                  </div>
+                  {weltR && <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 28, color: 'var(--gruen)' }}>#{weltR.pl}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Weltrangliste</div>
+                  </div>}
+                </div>
+              )}
+            </div>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {ergebnisse.map(e => (
+                <Link key={e.jahr} to={`/events/${e.jahr}`} style={{
+                  padding: '6px 14px', borderRadius: 8, fontSize: 13, fontWeight: 600,
+                  background: e.pl === 1 ? 'rgba(176,137,45,0.15)' : e.pl <= 3 ? 'rgba(28,66,43,0.08)' : 'rgba(0,0,0,0.04)',
+                  color: e.pl === 1 ? 'var(--gold)' : e.pl <= 3 ? 'var(--gruen)' : 'var(--text-muted)',
+                  border: '1px solid', borderColor: e.pl === 1 ? 'rgba(176,137,45,0.3)' : 'rgba(0,0,0,0.08)',
+                }}>
+                  {e.jahr}: Pl. {e.pl}
+                </Link>
+              ))}
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 export default function Statistiken() {
   const loc = useLocation()
   const sub = loc.pathname.split('/').pop()
@@ -126,6 +194,7 @@ export default function Statistiken() {
     { id: 'weltrangliste', label: 'Weltrangliste' },
     { id: 'ewige-tabelle', label: 'Ewige Tabelle' },
     { id: 'champs', label: 'Alle Weltmeister' },
+    { id: 'dinos', label: 'Dinos' },
   ]
   const active = tabs.find(t => t.id === sub) ? sub : 'weltrangliste'
 
@@ -156,6 +225,7 @@ export default function Statistiken() {
           {active === 'weltrangliste' && <Weltrangliste />}
           {active === 'ewige-tabelle' && <EwigeTabelle />}
           {active === 'champs' && <Champs />}
+          {active === 'dinos' && <Dinos />}
         </div>
       </section>
     </div>
