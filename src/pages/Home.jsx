@@ -232,28 +232,33 @@ export default function Home() {
       </section>
 
       {/* DINOS */}
-      {dinos.length > 0 && (
-        <section className="section" style={{ background: 'var(--cream-dark, #ede6d8)' }}>
-          <div className="container">
-            <div className="eyebrow">Treue Trommler</div>
-            <h2 style={{ fontSize: 'clamp(24px, 4vw, 42px)', color: 'var(--gruen)', marginBottom: 8 }}>Trommelschießen-Dinos</h2>
-            <p style={{ color: 'var(--text-muted)', marginBottom: 32, fontSize: 15 }}>
-              Diese Trommler waren bei allen {ALLE_JAHRE.length} Turnieren dabei – von 2006 bis 2024.
-            </p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-              {dinos.map(name => (
-                <div key={name} className="card" style={{ padding: '12px 20px', display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <span style={{ fontSize: 18 }}>🦕</span>
-                  <span style={{ fontWeight: 600, color: 'var(--gruen)' }}>{name}</span>
-                </div>
-              ))}
-            </div>
-            <div style={{ marginTop: 24 }}>
-              <Link to="/wissenswertes/dinos" className="btn btn--outline">Mehr über die Dinos →</Link>
-            </div>
+      <section className="section" style={{ background: 'var(--gruen)' }}>
+        <div className="container">
+          <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)' }}>Treue Trommler</div>
+          <h2 style={{ fontSize: 'clamp(24px, 4vw, 42px)', color: 'white', marginBottom: 8 }}>Trommelschießen-Dinos</h2>
+          <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: 36, fontSize: 15, maxWidth: 600 }}>
+            Drei Trommler waren bei allen 9 WMs dabei – von der Premiere 2006 bis heute.
+            v.l.n.r.: Jenne Meyer, Bastian Buse, Sascha Wachtendorf.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 16, marginBottom: 32 }}>
+            {[
+              { src: '/dino-3.jpg', name: 'Jenne Meyer, Bastian Buse, Sascha Wachtendorf' },
+              { src: '/dino-4.jpg', name: 'Die Dinos – WM 2024' },
+              { src: '/dino-5.jpg', name: 'Trommel, Trommel, Mors, Mors!' },
+            ].map((img, i) => (
+              <div key={i} className="card" style={{ overflow: 'hidden', border: 'none' }}>
+                <img
+                  src={img.src}
+                  alt={img.name}
+                  style={{ width: '100%', height: 220, objectFit: 'cover', display: 'block' }}
+                  loading="lazy"
+                />
+              </div>
+            ))}
           </div>
-        </section>
-      )}
+          <Link to="/statistiken/dinos" className="btn btn--gold">Dino-Statistiken ansehen →</Link>
+        </div>
+      </section>
     </div>
   )
 }
