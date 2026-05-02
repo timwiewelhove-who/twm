@@ -101,7 +101,7 @@ function Champs() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {events.map(e => (
           <Link key={e.jahr} to={`/events/${e.jahr}`} className="card card--hover" style={{ padding: '20px 24px', display: 'grid', gridTemplateColumns: '80px 1fr auto', alignItems: 'center', gap: 20 }}>
-            <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 36, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
+            <div style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 36, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
             <div>
               <div style={{ fontWeight: 700, fontSize: 18, color: 'var(--gruen)' }}>🏆 {e.sieger}</div>
               <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 2 }}>
@@ -145,7 +145,7 @@ function Dinos() {
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
                   <span style={{ fontSize: 28 }}>🦕</span>
-                  <h3 style={{ fontFamily: 'Bayon, sans-serif', fontSize: 28, color: 'var(--gruen)', letterSpacing: '0.03em' }}>{name}</h3>
+                  <h3 style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 28, color: 'var(--gruen)', letterSpacing: '0.03em' }}>{name}</h3>
                 </div>
                 <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>
                   Dabei seit 2006 · Bestes Ergebnis: Platz {beste?.pl} ({beste?.jahr})
@@ -154,15 +154,15 @@ function Dinos() {
               {ewige && (
                 <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 28, color: 'var(--gold)' }}>{ewige.pkt}</div>
+                    <div style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 28, color: 'var(--gold)' }}>{ewige.pkt}</div>
                     <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Ewige Pkt.</div>
                   </div>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 28, color: 'var(--gruen)' }}>{ewige.sp}</div>
+                    <div style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 28, color: 'var(--gruen)' }}>{ewige.sp}</div>
                     <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Spiele</div>
                   </div>
                   {weltR && <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 28, color: 'var(--gruen)' }}>#{weltR.pl}</div>
+                    <div style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 28, color: 'var(--gruen)' }}>#{weltR.pl}</div>
                     <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Weltrangliste</div>
                   </div>}
                 </div>
@@ -246,7 +246,7 @@ function Ballermann() {
             background: i === 0 ? 'var(--gruen)' : 'var(--white)',
             display: 'flex', alignItems: 'center', gap: 16,
           }}>
-            <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 40, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>
+            <div style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 40, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>
               {anzahl}x
             </div>
             <div>
@@ -269,7 +269,7 @@ function Ballermann() {
           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
           gap: 8, position: 'relative',
         }}>
-          <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 56, color: 'var(--gold)', lineHeight: 1 }}>HENNING DIERS</div>
+          <div style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 56, color: 'var(--gold)', lineHeight: 1 }}>HENNING DIERS</div>
           <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15 }}>3× Torschützenkönig · 3× Weltmeister</div>
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 4, background: 'var(--gold)' }} />
         </div>
@@ -370,7 +370,7 @@ function Schiessbude() {
         {top.slice(0, 3).map((r, i) => (
           <div key={r.name} className="card" style={{ padding: '24px', textAlign: 'center' }}>
             <div style={{ fontSize: 36, marginBottom: 8 }}>{'🏚️🚪🕳️'[i]}</div>
-            <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 48, color: i === 0 ? '#dc2626' : i === 1 ? '#ea580c' : '#d97706', lineHeight: 1 }}>{r.gg}</div>
+            <div style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 48, color: i === 0 ? '#dc2626' : i === 1 ? '#ea580c' : '#d97706', lineHeight: 1 }}>{r.gg}</div>
             <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', margin: '6px 0 4px' }}>Gegentore</div>
             <div style={{ fontWeight: 700, color: 'var(--gruen)', fontSize: 16 }}>{r.name}</div>
             <div style={{ fontSize: 12, color: 'var(--text-light)', marginTop: 4 }}>{r.sp} Spiele · {r.quote}/Sp</div>
@@ -414,6 +414,124 @@ function Schiessbude() {
   )
 }
 
+
+function Remiskoenige() {
+  const remisMap = {}
+  const spieleMap = {}
+  const toreMap = {}
+  const ggMap = {}
+  Object.values(wm.abschlusstabellen).forEach(tabelle => {
+    tabelle.forEach(r => {
+      remisMap[r.name] = (remisMap[r.name] || 0) + (r.u || 0)
+      spieleMap[r.name] = (spieleMap[r.name] || 0) + (r.sp || 0)
+      toreMap[r.name] = (toreMap[r.name] || 0) + (r.t || 0)
+      ggMap[r.name] = (ggMap[r.name] || 0) + (r.gg || 0)
+    })
+  })
+
+  const all = Object.entries(remisMap)
+    .map(([name, u]) => ({
+      name, u,
+      sp: spieleMap[name],
+      t: toreMap[name],
+      gg: ggMap[name],
+      quote: (u / spieleMap[name]).toFixed(3),
+      quotePct: ((u / spieleMap[name]) * 100).toFixed(1),
+    }))
+    .sort((a, b) => b.u - a.u)
+
+  const top3 = all.slice(0, 3)
+  const topQuote = [...all].filter(r => r.sp >= 100).sort((a, b) => b.quote - a.quote).slice(0, 10)
+
+  return (
+    <div>
+      <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Remiskönige</h2>
+      <p style={{ color: 'var(--text-muted)', marginBottom: 40, fontSize: 15 }}>
+        Wer holt am häufigsten das Unentschieden? Die Meister des kontrollierten Patt.
+      </p>
+
+      {/* Top 3 Highlight */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 40 }}>
+        {top3.map((r, i) => (
+          <div key={r.name} className="card" style={{ padding: '24px', textAlign: 'center', background: i === 0 ? 'var(--gruen)' : 'var(--white)' }}>
+            <div style={{ fontSize: 36, marginBottom: 8 }}>{'🤝🫱🫲'[i]}</div>
+            <div style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 52, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>{r.u}</div>
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: i === 0 ? 'rgba(255,255,255,0.5)' : 'var(--text-muted)', margin: '6px 0 4px' }}>Unentschieden</div>
+            <div style={{ fontWeight: 700, color: i === 0 ? 'white' : 'var(--gruen)', fontSize: 16 }}>{r.name}</div>
+            <div style={{ fontSize: 12, color: i === 0 ? 'rgba(255,255,255,0.5)' : 'var(--text-light)', marginTop: 4 }}>{r.sp} Spiele · {r.quotePct}%</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Alle Trommler – nach Unentschieden gesamt */}
+      <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 20, fontWeight: 700, color: 'var(--gruen)', marginBottom: 16 }}>
+        🤝 Meiste Unentschieden gesamt
+      </h3>
+      <div className="card" style={{ overflow: 'auto', marginBottom: 40 }}>
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th style={{ width: 48 }}>Pl.</th>
+              <th>Trommler</th>
+              <th className="num">Remis</th>
+              <th className="num">Spiele</th>
+              <th className="num">Quote</th>
+              <th className="num">%</th>
+              <th className="num">Tore</th>
+              <th className="num">GG</th>
+            </tr>
+          </thead>
+          <tbody>
+            {all.map((r, i) => (
+              <tr key={r.name} style={{ background: i === 0 ? 'rgba(28,66,43,0.05)' : 'transparent' }}>
+                <td className="rank">{i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}</td>
+                <td style={{ fontWeight: i < 3 ? 700 : 400 }}>{r.name}</td>
+                <td className="num pts">{r.u}</td>
+                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.sp}</td>
+                <td className="num" style={{ color: 'var(--text-muted)', fontSize: 13 }}>{r.quote}</td>
+                <td className="num" style={{ color: 'var(--text-muted)', fontSize: 13 }}>{r.quotePct}%</td>
+                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.t}</td>
+                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.gg}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Beste Quote */}
+      <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 20, fontWeight: 700, color: 'var(--gruen)', marginBottom: 16 }}>
+        📊 Höchste Remis-Quote (mind. 100 Spiele)
+      </h3>
+      <div className="card" style={{ overflow: 'auto' }}>
+        <table className="data-table">
+          <thead>
+            <tr>
+              <th style={{ width: 48 }}>Pl.</th>
+              <th>Trommler</th>
+              <th className="num">Quote</th>
+              <th className="num">%</th>
+              <th className="num">Remis</th>
+              <th className="num">Spiele</th>
+            </tr>
+          </thead>
+          <tbody>
+            {topQuote.map((r, i) => (
+              <tr key={r.name}>
+                <td className="rank">{i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}</td>
+                <td style={{ fontWeight: i < 3 ? 700 : 400 }}>{r.name}</td>
+                <td className="num pts">{r.quote}</td>
+                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.quotePct}%</td>
+                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.u}</td>
+                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.sp}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}
+
 export default function Statistiken() {
   const loc = useLocation()
   const sub = loc.pathname.split('/').pop()
@@ -424,6 +542,7 @@ export default function Statistiken() {
     { id: 'dinos', label: 'DINOS' },
     { id: 'ballermann', label: 'BALLERMÄNNER' },
     { id: 'schiessbude', label: 'SCHIESSBUDEN' },
+    { id: 'remiskoenig', label: 'REMISKÖNIGE' },
   ]
   const active = tabs.find(t => t.id === sub) ? sub : 'weltrangliste'
 
@@ -457,6 +576,7 @@ export default function Statistiken() {
           {active === 'dinos' && <Dinos />}
           {active === 'ballermann' && <Ballermann />}
           {active === 'schiessbude' && <Schiessbude />}
+          {active === 'remiskoenig' && <Remiskoenige />}
         </div>
       </section>
     </div>

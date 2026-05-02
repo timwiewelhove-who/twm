@@ -26,7 +26,7 @@ export default function Admin() {
   if (!auth) return (
     <div style={{ minHeight: '100vh', background: 'var(--gruen)', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 64 }}>
       <div style={{ width: 320, padding: 40, background: 'rgba(0,0,0,0.25)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.1)' }}>
-        <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 28, color: 'var(--gold)', marginBottom: 8, textAlign: 'center' }}>TRMMLR</div>
+        <div style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 28, color: 'var(--gold)', marginBottom: 8, textAlign: 'center' }}>TRMMLR</div>
         <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', textAlign: 'center', marginBottom: 32 }}>Admin-Bereich</div>
         <input
           type="password"
@@ -58,7 +58,7 @@ export default function Admin() {
       <div style={{ background: 'var(--gruen)', padding: '40px 0 32px' }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
-            <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 32, color: 'var(--gold)' }}>Admin</div>
+            <div style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 32, color: 'var(--gold)' }}>Admin</div>
             <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>trommelschiessen.de</div>
           </div>
           <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
@@ -84,7 +84,7 @@ export default function Admin() {
           ].map(s => (
             <div key={s.label} className="card" style={{ padding: '20px 24px' }}>
               <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', marginBottom: 6 }}>{s.label}</div>
-              <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 28, color: 'var(--gruen)' }}>{s.value}</div>
+              <div style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 28, color: 'var(--gruen)' }}>{s.value}</div>
             </div>
           ))}
         </div>
@@ -99,7 +99,7 @@ export default function Admin() {
             <tbody>
               {events.map(e => (
                 <tr key={e.jahr}>
-                  <td style={{ fontFamily: 'Bayon, sans-serif', fontSize: 20, color: 'var(--gold)' }}>{e.jahr}</td>
+                  <td style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 20, color: 'var(--gold)' }}>{e.jahr}</td>
                   <td style={{ fontWeight: 600 }}>🏆 {e.sieger}</td>
                   <td style={{ color: 'var(--text-muted)', fontSize: 14 }}>{e.ort}</td>
                   <td style={{ color: 'var(--text-muted)' }}>{e.teilnehmer}</td>

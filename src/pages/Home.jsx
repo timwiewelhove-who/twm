@@ -16,7 +16,7 @@ function Countdown() {
 
   const Block = ({ n, label }) => (
     <div style={{ textAlign: 'center', minWidth: 60 }}>
-      <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 'clamp(40px, 6vw, 72px)', color: 'white', lineHeight: 1, letterSpacing: '-0.02em' }}>
+      <div style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 'clamp(40px, 6vw, 72px)', color: 'white', lineHeight: 1, letterSpacing: '-0.02em' }}>
         {String(n).padStart(2, '0')}
       </div>
       <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginTop: 6 }}>
@@ -25,7 +25,7 @@ function Countdown() {
     </div>
   )
   const Sep = () => (
-    <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 'clamp(32px, 5vw, 56px)', color: 'rgba(255,255,255,0.3)', lineHeight: 1, marginBottom: 18 }}>:</div>
+    <div style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 'clamp(32px, 5vw, 56px)', color: 'rgba(255,255,255,0.3)', lineHeight: 1, marginBottom: 18 }}>:</div>
   )
 
   return (
@@ -134,7 +134,7 @@ export default function Home() {
               <div key={item.label} className="card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <div style={{ fontSize: 22 }}>{item.icon}</div>
                 <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-light)' }}>{item.label}</div>
-                <div style={{ fontSize: 'clamp(16px, 1.4vw, 20px)', fontWeight: 700, color: 'var(--gruen)', fontFamily: 'Bayon, sans-serif', lineHeight: 1.2 }}>{item.value}</div>
+                <div style={{ fontSize: 'clamp(16px, 1.4vw, 20px)', fontWeight: 700, color: 'var(--gruen)', fontFamily: "TrommelHead, 'Bayon', sans-serif", lineHeight: 1.2 }}>{item.value}</div>
                 {item.sub && <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>{item.sub}</div>}
               </div>
             ))}
@@ -165,7 +165,7 @@ export default function Home() {
                       <span style={{ fontSize: 18 }}>{['🥇','🥈','🥉'][i]}</span>
                       <span style={{ fontWeight: 600, fontSize: 16 }}>{r.name}</span>
                     </div>
-                    <span style={{ fontFamily: 'Bayon, sans-serif', fontSize: 22, color: 'var(--gold)' }}>{r.total}</span>
+                    <span style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 22, color: 'var(--gold)' }}>{r.total}</span>
                   </div>
                 ))}
               </div>
@@ -186,7 +186,7 @@ export default function Home() {
                       <span style={{ fontSize: 13, color: 'var(--text-light)', minWidth: 20 }}>{i + 1}</span>
                       <span style={{ fontWeight: 600, fontSize: 15, color: 'var(--gruen)' }}>{i === 0 ? '🏆 ' : ''}{r.name}</span>
                     </div>
-                    <span style={{ fontFamily: 'Bayon, sans-serif', fontSize: 20, color: 'var(--gold)' }}>{r.pkt}</span>
+                    <span style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 20, color: 'var(--gold)' }}>{r.pkt}</span>
                   </div>
                 ))}
               </div>

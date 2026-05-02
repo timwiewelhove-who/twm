@@ -103,7 +103,7 @@ export default function Nav() {
         {/* Logo */}
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <img src="/trommel.svg" alt="" style={{ height: 36, filter: isDark ? 'brightness(0) invert(1)' : 'none', transition: 'filter 0.3s' }} />
-          <span style={{ fontFamily: 'Bayon, sans-serif', fontSize: 22, color: isDark ? 'white' : 'var(--gruen)', letterSpacing: '0.05em', transition: 'color 0.3s' }}>TRMMLR</span>
+          <span style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 22, color: isDark ? 'white' : 'var(--gruen)', letterSpacing: '0.05em', transition: 'color 0.3s' }}>TRMMLR</span>
         </Link>
 
         {/* Desktop Nav */}
@@ -166,7 +166,7 @@ export default function Nav() {
         <div style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', maxHeight: '80vh', overflowY: 'auto' }}>
           {NAV_ITEMS.map(item => (
             <div key={item.to}>
-              <Link to={item.to} style={{ display: 'block', padding: '14px 24px 6px', fontSize: 18, fontFamily: 'Bayon, sans-serif', color: 'var(--gruen)', letterSpacing: '0.03em', borderBottom: '1px solid var(--border)' }}>
+              <Link to={item.to} style={{ display: 'block', padding: '14px 24px 6px', fontSize: 18, fontFamily: "TrommelHead, 'Bayon', sans-serif", color: 'var(--gruen)', letterSpacing: '0.03em', borderBottom: '1px solid var(--border)' }}>
                 {item.label}
               </Link>
               {item.children.map(child => (
