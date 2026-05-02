@@ -20,19 +20,14 @@ export default function EventDetail() {
 
   return (
     <div style={{ paddingTop: 80 }}>
-      {/* Hero – Gruppenfoto wenn vorhanden, sonst grüner BG */}
+      {/* Hero – sauberer grüner Hintergrund, kein Foto */}
       <section style={{
         background: 'var(--gruen)',
         padding: '80px 0 60px',
         position: 'relative',
         overflow: 'hidden',
-        ...(fotos?.gruppe ? {
-          backgroundImage: `url(${fotos.gruppe})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center 30%',
-        } : {})
       }}>
-        {fotos?.gruppe && <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.80)' }} />}
+        <div style={{ position: 'absolute', top: -100, right: -100, width: 400, height: 400, borderRadius: '50%', background: 'rgba(255,255,255,0.03)', pointerEvents: 'none' }} />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <Link to="/events" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 24 }}>
             ← Alle WMs
@@ -101,6 +96,23 @@ export default function EventDetail() {
           )}
         </div>
       </section>
+
+      {/* Gruppenfoto – groß, nach der Tabelle */}
+      {fotos?.gruppe && (
+        <section style={{ background: 'var(--cream)' }}>
+          <div className="container" style={{ paddingBottom: 0 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 16, paddingTop: 48 }}>
+              Die Trommler · WM {event.jahr}
+            </div>
+          </div>
+          <img
+            src={fotos.gruppe}
+            alt={`Alle Teilnehmer WM ${event.jahr}`}
+            style={{ width: '100%', height: 'auto', display: 'block', maxHeight: 600, objectFit: 'cover', objectPosition: 'center 20%' }}
+            loading="lazy"
+          />
+        </section>
+      )}
 
       {/* Extra-Fotos (z.B. WM 2016 mit Henning) */}
       {fotos?.extra && fotos.extra.length > 0 && (

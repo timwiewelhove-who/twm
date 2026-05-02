@@ -14,9 +14,9 @@
   font-family: 'Bayon';
   font-style: normal;
   font-weight: 400;
-  src: local('Russo One'), local('RussoOne-Regular');
-  unicode-range: U+00C4, U+00D6, U+00DC, U+00E4, U+00F6, U+00FC, U+00DF,
-                 U+00C0-U+00FF; /* Alle Latin Extended-A Zeichen */
+  /* Russo One woff2 direkt von Google CDN – kein local() nötig */
+  src: url('https://fonts.gstatic.com/s/russoone/v16/Z9XUDmZRWg6M1LvRYsH-yMOInrib9Q.woff2') format('woff2');
+  unicode-range: U+00C0-U+00FF; /* Latin Extended: alle Umlaute + ß */
 }
 
 :root {
