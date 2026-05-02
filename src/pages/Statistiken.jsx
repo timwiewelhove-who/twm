@@ -217,8 +217,6 @@ function Ballermann() {
   const top = Object.entries(toreMap)
     .map(([name, tore]) => ({ name, tore, sp: spieleMap[name], quote: (tore / spieleMap[name]).toFixed(3) }))
     .sort((a, b) => b.tore - a.tore)
-    .slice(0, 15)
-
   // Torschützenkönig-Titel
   const koenige = {}
   wm.weltmeister.forEach(e => {
@@ -356,7 +354,6 @@ function Schiessbude() {
   const top = Object.entries(ggMap)
     .map(([name, gg]) => ({ name, gg, sp: spieleMap[name], t: toreMap[name], diff: toreMap[name] - gg, quote: (gg / spieleMap[name]).toFixed(3) }))
     .sort((a, b) => b.gg - a.gg)
-    .slice(0, 15)
 
   return (
     <div>

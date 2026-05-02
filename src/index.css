@@ -1,31 +1,30 @@
 /* Alle @imports müssen ganz oben stehen */
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;1,6..12,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bayon&family=Russo+One&family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;1,6..12,400&display=swap');
 
 /* ── TrommelHead: Bayon + Russo One für Umlaute ────────────────────────────
-   Bayon hat keine deutschen Sonderzeichen.
-   Lösung: Eigene Font-Family 'TrommelHead' aus zwei @font-face Blöcken:
-   - Block 1: Russo One für Umlaute + ß (U+00C0-U+00FF)
-   - Block 2: Bayon für alle anderen Zeichen (ASCII)
-   Der erste passende Block gewinnt pro Zeichen.
+   Beide Fonts via Google Fonts @import geladen (zuverlässig).
+   TrommelHead kombiniert beide via unicode-range:
+   - Russo One übernimmt nur Umlaute + ß
+   - Bayon übernimmt alle anderen Zeichen
 ──────────────────────────────────────────────────────────────────────────── */
 
-/* Block 1: Russo One für deutsche Sonderzeichen */
+/* Russo One für deutsche Sonderzeichen (U+00C0-00FF: ÄÖÜäöüß etc.) */
 @font-face {
   font-family: 'TrommelHead';
   font-style: normal;
   font-weight: 400;
-  src: url('https://fonts.gstatic.com/s/russoone/v16/Z9XUDmZRWg6M1LvRYsH-yMOInrib9Q.woff2') format('woff2');
+  src: local('Russo One'), local('RussoOne');
   unicode-range: U+00C0-U+00FF;
   font-display: swap;
 }
 
-/* Block 2: Bayon für ASCII (Buchstaben, Ziffern, Satzzeichen) */
+/* Bayon für alle anderen Zeichen */
 @font-face {
   font-family: 'TrommelHead';
   font-style: normal;
   font-weight: 400;
-  src: url('https://fonts.gstatic.com/s/bayon/v27/9XUrlJNmn0LPFl-pgRY.woff2') format('woff2');
-  unicode-range: U+0000-U+00BF;
+  src: local('Bayon');
+  unicode-range: U+0020-U+00BF;
   font-display: swap;
 }
 

@@ -28,6 +28,7 @@ const NAV_ITEMS = [
       { to: '/statistiken/ballermann', label: 'Ballermänner' },
       { to: '/statistiken/schiessbude', label: 'Schießbuden' },
       { to: '/statistiken/dinos', label: 'Dinos' },
+      { to: '/statistiken/remiskoenig', label: 'Remiskönige' },
     ]
   },
   {
