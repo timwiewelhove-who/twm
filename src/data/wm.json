@@ -3990,14 +3990,37 @@
     ]
   },
   "fotos": {
-    "2006": "https://trommelschiessen.de/web/wp-content/uploads/2013/08/WM2006_",
-    "2008": "https://trommelschiessen.de/web/wp-content/uploads/2013/08/WM2008_",
-    "2010": "https://trommelschiessen.de/web/wp-content/uploads/2013/08/WM2010_",
-    "2012": "https://trommelschiessen.de/web/wp-content/uploads/2013/08/WM2012_",
-    "2014": "https://trommelschiessen.de/web/wp-content/uploads/2014/07/",
-    "2016": "https://trommelschiessen.de/web/wp-content/uploads/2020/05/TS_2016_",
-    "2018": "https://trommelschiessen.de/web/wp-content/uploads/2020/05/",
-    "2022": "featured_media_id_1581",
-    "2024": "featured_media_id_1630"
+    "2006": {
+      "gruppe": "/wm-2006-gruppe.jpg"
+    },
+    "2008": {
+      "gruppe": "/wm-2008-gruppe.jpg"
+    },
+    "2010": {
+      "gruppe": "/wm-2010-gruppe.jpg"
+    },
+    "2012": {
+      "gruppe": "/wm-2012-gruppe.jpg"
+    },
+    "2014": {
+      "gruppe": "/wm-2014-gruppe.jpg"
+    },
+    "2016": {
+      "gruppe": "/wm-2016-gruppe.jpg",
+      "extra": [
+        "/wm-2016-henning-1.jpg",
+        "/wm-2016-henning-2.jpg",
+        "/wm-2016-extra.jpg"
+      ]
+    },
+    "2018": {
+      "gruppe": "/wm-2018-gruppe.jpg"
+    },
+    "2022": {
+      "gruppe": "/wm-2022-gruppe.jpg"
+    },
+    "2024": {
+      "gruppe": "/hero-2024.jpg"
+    }
   }
 }

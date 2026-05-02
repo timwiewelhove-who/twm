@@ -58,6 +58,18 @@ export default function Wissenswertes() {
               <div style={{ marginTop: 40, padding: '24px', background: 'var(--gruen)', borderRadius: 'var(--radius-lg)', textAlign: 'center' }}>
                 <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 28, color: 'var(--gold)' }}>Trommel, Trommel … mors, mors!!!</div>
               </div>
+
+              {/* Mood-Galerie */}
+              <div style={{ marginTop: 48 }}>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 16 }}>Impressionen · WM 2016 Hamburg</div>
+                <div style={{ columns: '2 260px', columnGap: 12 }}>
+                  {['/mood-0.jpg', '/mood-3.jpg', '/mood-1.jpg', '/mood-6.jpg', '/mood-2.jpg', '/meisterschale.jpg'].map((src, i) => (
+                    <div key={i} style={{ breakInside: 'avoid', marginBottom: 12 }}>
+                      <img src={src} alt="Trommelschießen-WM Impressionen" style={{ width: '100%', height: 'auto', display: 'block', borderRadius: 12 }} loading="lazy" />
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
 

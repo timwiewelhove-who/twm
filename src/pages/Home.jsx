@@ -196,6 +196,19 @@ export default function Home() {
         </div>
       </section>
 
+
+      {/* Mood-Bild Trenner */}
+      <div style={{
+        height: 'clamp(280px, 40vw, 520px)',
+        backgroundImage: 'url(/mood-1.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        position: 'relative',
+      }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.3)' }} />
+      </div>
+
       {/* TEASER: WM-Events – Foto-ready grid */}
       <section className="section" style={{ background: 'var(--cream)' }}>
         <div className="container">
@@ -206,14 +219,13 @@ export default function Home() {
               <Link key={e.jahr} to={`/events/${e.jahr}`} className="card card--hover" style={{
                 display: 'block', overflow: 'hidden', position: 'relative',
               }}>
-                {/* Foto-Platzhalter – wird später durch echtes Foto ersetzt */}
                 <div style={{
-                  height: 160,
-                  background: `linear-gradient(135deg, var(--gruen-dark, #122d1d) 0%, var(--gruen) 100%)`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  position: 'relative', overflow: 'hidden',
+                  height: 180, position: 'relative', overflow: 'hidden',
+                  background: 'var(--gruen)',
+                  backgroundImage: wm.fotos?.[e.jahr]?.gruppe ? `url(${wm.fotos[e.jahr].gruppe})` : 'none',
+                  backgroundSize: 'cover', backgroundPosition: 'center 30%',
                 }}>
-                  <div style={{ fontFamily: 'Bayon, sans-serif', fontSize: 80, color: 'rgba(255,255,255,0.08)', lineHeight: 1 }}>{e.jahr}</div>
+                  <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.45)' }} />
                   <div style={{ position: 'absolute', bottom: 12, left: 16 }}>
                     <span style={{ background: 'var(--gold)', color: 'white', padding: '4px 12px', borderRadius: 100, fontSize: 12, fontWeight: 700 }}>{e.jahr}</span>
                   </div>
