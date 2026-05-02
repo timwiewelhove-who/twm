@@ -1,3 +1,4 @@
+import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import wm from '../data/wm.json'
 
@@ -204,20 +205,55 @@ function Dinos() {
 }
 
 
-function Ballermann() {
-  // Tore summieren aus Abschlusstabellen
-  const toreMap = {}
-  const spieleMap = {}
-  Object.values(wm.abschlusstabellen).forEach(tabelle => {
-    tabelle.forEach(r => {
-      toreMap[r.name] = (toreMap[r.name] || 0) + (r.t || 0)
-      spieleMap[r.name] = (spieleMap[r.name] || 0) + (r.sp || 0)
+// ── Toggle Button Helper ──────────────────────────────────────────────────
+function Toggle({ options, value, onChange }) {
+  return (
+    <div style={{ display: 'inline-flex', background: 'var(--cream)', borderRadius: 10, padding: 4, gap: 2, marginBottom: 32 }}>
+      {options.map(opt => (
+        <button key={opt.id} onClick={() => onChange(opt.id)} style={{
+          padding: '8px 20px', borderRadius: 8, border: 'none', cursor: 'pointer',
+          fontSize: 14, fontWeight: 600, transition: 'all 0.15s',
+          background: value === opt.id ? 'var(--gruen)' : 'transparent',
+          color: value === opt.id ? 'white' : 'var(--text-muted)',
+        }}>{opt.label}</button>
+      ))}
+    </div>
+  )
+}
+
+// ── Berechne Statistiken aus Abschlusstabellen ────────────────────────────
+function calcStats() {
+  const map = {}
+  Object.values(wm.abschlusstabellen).forEach(tab => {
+    tab.forEach(r => {
+      if (!map[r.name]) map[r.name] = { name: r.name, sp: 0, s: 0, u: 0, n: 0, t: 0, gg: 0 }
+      map[r.name].sp += r.sp || 0
+      map[r.name].s  += r.s  || 0
+      map[r.name].u  += r.u  || 0
+      map[r.name].n  += r.n  || 0
+      map[r.name].t  += r.t  || 0
+      map[r.name].gg += r.gg || 0
     })
   })
-  const top = Object.entries(toreMap)
-    .map(([name, tore]) => ({ name, tore, sp: spieleMap[name], quote: (tore / spieleMap[name]).toFixed(3) }))
-    .sort((a, b) => b.tore - a.tore)
-  // Torschützenkönig-Titel
+  return Object.values(map).map(r => ({
+    ...r,
+    diff: r.t - r.gg,
+    tQuote: r.sp ? (r.t / r.sp).toFixed(3) : '0.000',
+    ggQuote: r.sp ? (r.gg / r.sp).toFixed(3) : '0.000',
+    uQuote: r.sp ? (r.u / r.sp).toFixed(3) : '0.000',
+    uPct: r.sp ? ((r.u / r.sp) * 100).toFixed(1) : '0.0',
+  }))
+}
+
+function Ballermann() {
+  const [mode, setMode] = React.useState('absolut')
+  const stats = calcStats()
+
+  const sorted = mode === 'absolut'
+    ? [...stats].sort((a, b) => b.t - a.t)
+    : [...stats].sort((a, b) => parseFloat(b.tQuote) - parseFloat(a.tQuote))
+
+  // Torschützenkönige
   const koenige = {}
   wm.weltmeister.forEach(e => {
     e.torschuetzenkoenig.split(' & ').forEach(name => {
@@ -229,109 +265,54 @@ function Ballermann() {
   return (
     <div>
       <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Ballermänner</h2>
-      <p style={{ color: 'var(--text-muted)', marginBottom: 40, fontSize: 15 }}>
-        Die treffsichersten Trommler aller Zeiten – nach Gesamttoren und Torquote.
+      <p style={{ color: 'var(--text-muted)', marginBottom: 32, fontSize: 15 }}>
+        Die treffsichersten Trommler aller Zeiten.
       </p>
 
-      {/* Torschützenkönige */}
-      <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 20, fontWeight: 700, color: 'var(--gruen)', marginBottom: 16 }}>
-        👑 Torschützenkönige
-      </h3>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12, marginBottom: 40 }}>
+      <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 18, fontWeight: 700, color: 'var(--gruen)', marginBottom: 16 }}>👑 Torschützenkönige</h3>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 40 }}>
         {topKoenige.map(([name, anzahl], i) => (
-          <div key={name} className="card" style={{
-            padding: '20px 24px',
-            background: i === 0 ? 'var(--gruen)' : 'var(--white)',
-            display: 'flex', alignItems: 'center', gap: 16,
-          }}>
-            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 40, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>
-              {anzahl}x
-            </div>
+          <div key={name} className="card" style={{ padding: '20px 24px', background: i === 0 ? 'var(--gruen)' : 'var(--white)', display: 'flex', alignItems: 'center', gap: 16 }}>
+            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 36, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>{anzahl}x</div>
             <div>
-              <div style={{ fontWeight: 700, fontSize: 16, color: i === 0 ? 'white' : 'var(--gruen)' }}>{name}</div>
+              <div style={{ fontWeight: 700, fontSize: 15, color: i === 0 ? 'white' : 'var(--gruen)' }}>{name}</div>
               <div style={{ fontSize: 12, color: i === 0 ? 'rgba(255,255,255,0.5)' : 'var(--text-muted)', marginTop: 2 }}>
-                {wm.weltmeister
-                  .filter(e => e.torschuetzenkoenig.includes(name))
-                  .map(e => e.jahr).join(', ')}
+                {wm.weltmeister.filter(e => e.torschuetzenkoenig.includes(name)).map(e => e.jahr).join(', ')}
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Foto-Platzhalter für Henning Diers – wird ersetzt wenn Foto da */}
-      <div style={{ marginBottom: 40, borderRadius: 16, overflow: 'hidden', maxWidth: 600 }}>
-        <div style={{
-          height: 280,
-          background: 'linear-gradient(135deg, var(--gruen) 0%, #2a5c3f 100%)',
-          display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-          gap: 8, position: 'relative',
-        }}>
-          <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 56, color: 'var(--gold)', lineHeight: 1 }}>HENNING DIERS</div>
-          <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15 }}>3× Torschützenkönig · 3× Weltmeister</div>
-          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 4, background: 'var(--gold)' }} />
-        </div>
-      </div>
-
-      {/* Top-Torschützen Tabelle */}
-      <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 20, fontWeight: 700, color: 'var(--gruen)', marginBottom: 16 }}>
-        ⚽ Meiste Tore gesamt
-      </h3>
-      <div className="card" style={{ overflow: 'auto', marginBottom: 40 }}>
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th style={{ width: 48 }}>Pl.</th>
-              <th>Trommler</th>
-              <th className="num">Tore</th>
-              <th className="num">Spiele</th>
-              <th className="num">Quote</th>
-            </tr>
-          </thead>
-          <tbody>
-            {top.map((r, i) => (
-              <tr key={r.name} style={{ background: i === 0 ? 'rgba(176,137,45,0.06)' : 'transparent' }}>
-                <td className="rank">{i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}</td>
-                <td style={{ fontWeight: i < 3 ? 700 : 400 }}>{r.name}</td>
-                <td className="num pts">{r.tore}</td>
-                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.sp}</td>
-                <td className="num" style={{ color: 'var(--text-muted)', fontSize: 13 }}>{r.quote}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Beste Torquote */}
-      <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 20, fontWeight: 700, color: 'var(--gruen)', marginBottom: 16 }}>
-        🎯 Beste Torquote (mind. 100 Spiele)
-      </h3>
+      <Toggle
+        options={[{ id: 'absolut', label: 'Meiste Treffer' }, { id: 'quote', label: 'Beste Quote' }]}
+        value={mode} onChange={setMode}
+      />
       <div className="card" style={{ overflow: 'auto' }}>
         <table className="data-table">
           <thead>
             <tr>
               <th style={{ width: 48 }}>Pl.</th>
               <th>Trommler</th>
-              <th className="num">Quote</th>
-              <th className="num">Tore</th>
+              <th className="num">{mode === 'absolut' ? 'Tore' : 'Quote'}</th>
+              <th className="num">{mode === 'absolut' ? 'Quote' : 'Tore'}</th>
               <th className="num">Spiele</th>
+              <th className="num">GG</th>
+              <th className="num">Diff</th>
             </tr>
           </thead>
           <tbody>
-            {Object.entries(toreMap)
-              .map(([name, tore]) => ({ name, tore, sp: spieleMap[name], quote: tore / spieleMap[name] }))
-              .filter(r => r.sp >= 100)
-              .sort((a, b) => b.quote - a.quote)
-              .slice(0, 10)
-              .map((r, i) => (
-                <tr key={r.name}>
-                  <td className="rank">{i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}</td>
-                  <td style={{ fontWeight: i < 3 ? 700 : 400 }}>{r.name}</td>
-                  <td className="num pts">{r.quote.toFixed(3)}</td>
-                  <td className="num" style={{ color: 'var(--text-muted)' }}>{r.tore}</td>
-                  <td className="num" style={{ color: 'var(--text-muted)' }}>{r.sp}</td>
-                </tr>
-              ))}
+            {sorted.map((r, i) => (
+              <tr key={r.name} style={{ background: i === 0 ? 'rgba(176,137,45,0.06)' : 'transparent' }}>
+                <td className="rank">{i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}</td>
+                <td style={{ fontWeight: i < 3 ? 700 : 400 }}>{r.name}</td>
+                <td className="num pts">{mode === 'absolut' ? r.t : r.tQuote}</td>
+                <td className="num" style={{ color: 'var(--text-muted)' }}>{mode === 'absolut' ? r.tQuote : r.t}</td>
+                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.sp}</td>
+                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.gg}</td>
+                <td className={`num ${r.diff > 0 ? 'pos' : r.diff < 0 ? 'neg' : ''}`}>{r.diff > 0 ? '+' : ''}{r.diff}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
@@ -340,153 +321,127 @@ function Ballermann() {
 }
 
 function Schiessbude() {
-  const ggMap = {}
-  const spieleMap = {}
-  const toreMap = {}
-  Object.values(wm.abschlusstabellen).forEach(tabelle => {
-    tabelle.forEach(r => {
-      ggMap[r.name] = (ggMap[r.name] || 0) + (r.gg || 0)
-      spieleMap[r.name] = (spieleMap[r.name] || 0) + (r.sp || 0)
-      toreMap[r.name] = (toreMap[r.name] || 0) + (r.t || 0)
-    })
-  })
+  const [mode, setMode] = React.useState('absolut')
+  const stats = calcStats()
 
-  const top = Object.entries(ggMap)
-    .map(([name, gg]) => ({ name, gg, sp: spieleMap[name], t: toreMap[name], diff: toreMap[name] - gg, quote: (gg / spieleMap[name]).toFixed(3) }))
-    .sort((a, b) => b.gg - a.gg)
+  const sorted = mode === 'absolut'
+    ? [...stats].sort((a, b) => b.gg - a.gg)
+    : [...stats].sort((a, b) => parseFloat(b.ggQuote) - parseFloat(a.ggQuote))
+
+  const top3 = [...stats].sort((a, b) => b.gg - a.gg).slice(0, 3)
 
   return (
     <div>
       <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Schiessbuden</h2>
       <p style={{ color: 'var(--text-muted)', marginBottom: 32, fontSize: 15 }}>
-        Die großzügigsten Torwächter des Trommelschießens – wer hat den Gegner am häufigsten jubeln lassen?
+        Die großzügigsten Torwächter – wer hat den Gegner am häufigsten jubeln lassen?
       </p>
 
-      {/* Top 3 Highlight */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 40 }}>
-        {top.slice(0, 3).map((r, i) => (
+        {top3.map((r, i) => (
           <div key={r.name} className="card" style={{ padding: '24px', textAlign: 'center' }}>
-            <div style={{ fontSize: 36, marginBottom: 8 }}>{'🏚️🚪🕳️'[i]}</div>
-            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 48, color: i === 0 ? '#dc2626' : i === 1 ? '#ea580c' : '#d97706', lineHeight: 1 }}>{r.gg}</div>
+            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 52, color: ['#dc2626','#ea580c','#d97706'][i], lineHeight: 1 }}>{r.gg}</div>
             <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', margin: '6px 0 4px' }}>Gegentore</div>
             <div style={{ fontWeight: 700, color: 'var(--gruen)', fontSize: 16 }}>{r.name}</div>
-            <div style={{ fontSize: 12, color: 'var(--text-light)', marginTop: 4 }}>{r.sp} Spiele · {r.quote}/Sp</div>
+            <div style={{ fontSize: 12, color: 'var(--text-light)', marginTop: 4 }}>{r.sp} Spiele · {r.ggQuote}/Sp</div>
           </div>
         ))}
       </div>
 
+      <Toggle
+        options={[{ id: 'absolut', label: 'Meiste Gegentore' }, { id: 'quote', label: 'Höchste Quote' }]}
+        value={mode} onChange={setMode}
+      />
       <div className="card" style={{ overflow: 'auto' }}>
         <table className="data-table">
           <thead>
             <tr>
               <th style={{ width: 48 }}>Pl.</th>
               <th>Trommler</th>
-              <th className="num">Gegentore</th>
+              <th className="num">{mode === 'absolut' ? 'GG-Tore' : 'Quote'}</th>
+              <th className="num">{mode === 'absolut' ? 'Quote' : 'GG-Tore'}</th>
               <th className="num">Tore</th>
               <th className="num">Diff</th>
               <th className="num">Spiele</th>
-              <th className="num">GG/Sp</th>
             </tr>
           </thead>
           <tbody>
-            {top.map((r, i) => (
+            {sorted.map((r, i) => (
               <tr key={r.name}>
-                <td className="rank">{i + 1}</td>
+                <td className="rank">{i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}</td>
                 <td style={{ fontWeight: i < 3 ? 700 : 400 }}>{r.name}</td>
-                <td className="num" style={{ color: '#dc2626', fontWeight: 700 }}>{r.gg}</td>
-                <td className="num">{r.t}</td>
+                <td className="num" style={{ color: '#dc2626', fontWeight: i < 3 ? 700 : 400 }}>{mode === 'absolut' ? r.gg : r.ggQuote}</td>
+                <td className="num" style={{ color: 'var(--text-muted)' }}>{mode === 'absolut' ? r.ggQuote : r.gg}</td>
+                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.t}</td>
                 <td className={`num ${r.diff > 0 ? 'pos' : r.diff < 0 ? 'neg' : ''}`}>{r.diff > 0 ? '+' : ''}{r.diff}</td>
                 <td className="num" style={{ color: 'var(--text-muted)' }}>{r.sp}</td>
-                <td className="num" style={{ color: 'var(--text-muted)', fontSize: 13 }}>{r.quote}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-
-      <div style={{ marginTop: 24, padding: '16px 20px', background: 'rgba(220,38,38,0.05)', borderRadius: 12, border: '1px solid rgba(220,38,38,0.1)', fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7 }}>
-        💡 <strong>Hinweis:</strong> Wer viele Gegentore kassiert hat, ist meist auch lange dabei – die Dinos und Veteranen dominieren naturgemäß diese Liste. Für den echten Vergleich lohnt sich die Quote pro Spiel.
+      <div style={{ marginTop: 20, padding: '14px 18px', background: 'rgba(220,38,38,0.04)', borderRadius: 10, border: '1px solid rgba(220,38,38,0.1)', fontSize: 13, color: 'var(--text-muted)' }}>
+        💡 Wer viele Gegentore kassiert hat, ist meist auch am längsten dabei. Für den echten Vergleich lohnt die Quote.
       </div>
     </div>
   )
 }
 
-
 function Remiskoenige() {
-  const remisMap = {}
-  const spieleMap = {}
-  const toreMap = {}
-  const ggMap = {}
-  Object.values(wm.abschlusstabellen).forEach(tabelle => {
-    tabelle.forEach(r => {
-      remisMap[r.name] = (remisMap[r.name] || 0) + (r.u || 0)
-      spieleMap[r.name] = (spieleMap[r.name] || 0) + (r.sp || 0)
-      toreMap[r.name] = (toreMap[r.name] || 0) + (r.t || 0)
-      ggMap[r.name] = (ggMap[r.name] || 0) + (r.gg || 0)
-    })
-  })
+  const [mode, setMode] = React.useState('absolut')
+  const stats = calcStats()
 
-  const all = Object.entries(remisMap)
-    .map(([name, u]) => ({
-      name, u,
-      sp: spieleMap[name],
-      t: toreMap[name],
-      gg: ggMap[name],
-      quote: (u / spieleMap[name]).toFixed(3),
-      quotePct: ((u / spieleMap[name]) * 100).toFixed(1),
-    }))
-    .sort((a, b) => b.u - a.u)
+  const sorted = mode === 'absolut'
+    ? [...stats].sort((a, b) => b.u - a.u)
+    : [...stats].sort((a, b) => parseFloat(b.uQuote) - parseFloat(a.uQuote))
 
-  const top3 = all.slice(0, 3)
-  const topQuote = [...all].filter(r => r.sp >= 100).sort((a, b) => b.quote - a.quote).slice(0, 10)
+  const top3 = [...stats].sort((a, b) => b.u - a.u).slice(0, 3)
 
   return (
     <div>
       <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Remiskönige</h2>
-      <p style={{ color: 'var(--text-muted)', marginBottom: 40, fontSize: 15 }}>
+      <p style={{ color: 'var(--text-muted)', marginBottom: 32, fontSize: 15 }}>
         Wer holt am häufigsten das Unentschieden? Die Meister des kontrollierten Patt.
       </p>
 
-      {/* Top 3 Highlight */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 40 }}>
         {top3.map((r, i) => (
           <div key={r.name} className="card" style={{ padding: '24px', textAlign: 'center', background: i === 0 ? 'var(--gruen)' : 'var(--white)' }}>
-            <div style={{ fontSize: 36, marginBottom: 8 }}>{'🤝🫱🫲'[i]}</div>
             <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 52, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>{r.u}</div>
             <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: i === 0 ? 'rgba(255,255,255,0.5)' : 'var(--text-muted)', margin: '6px 0 4px' }}>Unentschieden</div>
             <div style={{ fontWeight: 700, color: i === 0 ? 'white' : 'var(--gruen)', fontSize: 16 }}>{r.name}</div>
-            <div style={{ fontSize: 12, color: i === 0 ? 'rgba(255,255,255,0.5)' : 'var(--text-light)', marginTop: 4 }}>{r.sp} Spiele · {r.quotePct}%</div>
+            <div style={{ fontSize: 12, color: i === 0 ? 'rgba(255,255,255,0.5)' : 'var(--text-light)', marginTop: 4 }}>{r.sp} Spiele · {r.uPct}%</div>
           </div>
         ))}
       </div>
 
-      {/* Alle Trommler – nach Unentschieden gesamt */}
-      <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 20, fontWeight: 700, color: 'var(--gruen)', marginBottom: 16 }}>
-        🤝 Meiste Unentschieden gesamt
-      </h3>
-      <div className="card" style={{ overflow: 'auto', marginBottom: 40 }}>
+      <Toggle
+        options={[{ id: 'absolut', label: 'Meiste Remis' }, { id: 'quote', label: 'Höchste Quote' }]}
+        value={mode} onChange={setMode}
+      />
+      <div className="card" style={{ overflow: 'auto' }}>
         <table className="data-table">
           <thead>
             <tr>
               <th style={{ width: 48 }}>Pl.</th>
               <th>Trommler</th>
-              <th className="num">Remis</th>
-              <th className="num">Spiele</th>
-              <th className="num">Quote</th>
+              <th className="num">{mode === 'absolut' ? 'Remis' : 'Quote'}</th>
+              <th className="num">{mode === 'absolut' ? 'Quote' : 'Remis'}</th>
               <th className="num">%</th>
+              <th className="num">Spiele</th>
               <th className="num">Tore</th>
               <th className="num">GG</th>
             </tr>
           </thead>
           <tbody>
-            {all.map((r, i) => (
-              <tr key={r.name} style={{ background: i === 0 ? 'rgba(28,66,43,0.05)' : 'transparent' }}>
+            {sorted.map((r, i) => (
+              <tr key={r.name}>
                 <td className="rank">{i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}</td>
                 <td style={{ fontWeight: i < 3 ? 700 : 400 }}>{r.name}</td>
-                <td className="num pts">{r.u}</td>
+                <td className="num pts">{mode === 'absolut' ? r.u : r.uQuote}</td>
+                <td className="num" style={{ color: 'var(--text-muted)' }}>{mode === 'absolut' ? r.uQuote : r.u}</td>
+                <td className="num" style={{ color: 'var(--text-muted)', fontSize: 13 }}>{r.uPct}%</td>
                 <td className="num" style={{ color: 'var(--text-muted)' }}>{r.sp}</td>
-                <td className="num" style={{ color: 'var(--text-muted)', fontSize: 13 }}>{r.quote}</td>
-                <td className="num" style={{ color: 'var(--text-muted)', fontSize: 13 }}>{r.quotePct}%</td>
                 <td className="num" style={{ color: 'var(--text-muted)' }}>{r.t}</td>
                 <td className="num" style={{ color: 'var(--text-muted)' }}>{r.gg}</td>
               </tr>
@@ -494,40 +449,10 @@ function Remiskoenige() {
           </tbody>
         </table>
       </div>
-
-      {/* Beste Quote */}
-      <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 20, fontWeight: 700, color: 'var(--gruen)', marginBottom: 16 }}>
-        📊 Höchste Remis-Quote (mind. 100 Spiele)
-      </h3>
-      <div className="card" style={{ overflow: 'auto' }}>
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th style={{ width: 48 }}>Pl.</th>
-              <th>Trommler</th>
-              <th className="num">Quote</th>
-              <th className="num">%</th>
-              <th className="num">Remis</th>
-              <th className="num">Spiele</th>
-            </tr>
-          </thead>
-          <tbody>
-            {topQuote.map((r, i) => (
-              <tr key={r.name}>
-                <td className="rank">{i < 3 ? ['🥇','🥈','🥉'][i] : i + 1}</td>
-                <td style={{ fontWeight: i < 3 ? 700 : 400 }}>{r.name}</td>
-                <td className="num pts">{r.quote}</td>
-                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.quotePct}%</td>
-                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.u}</td>
-                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.sp}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
     </div>
   )
 }
+
 
 export default function Statistiken() {
   const loc = useLocation()
