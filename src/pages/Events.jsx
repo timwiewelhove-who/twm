@@ -31,7 +31,7 @@ export default function Events() {
               }}
                 onMouseEnter={ev => { ev.currentTarget.style.borderColor = 'var(--gold)'; ev.currentTarget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.08)' }}
                 onMouseLeave={ev => { ev.currentTarget.style.borderColor = 'var(--border)'; ev.currentTarget.style.boxShadow = 'none' }}>
-                <div style={{ fontFamily: "'Russo One', sans-serif", fontSize: 48, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
+                <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 48, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: 20, color: 'var(--gruen)', marginBottom: 4 }}>
                     🏆 {e.sieger} {e.titel === 1 ? '' : `(${e.titel}. Titel)`}

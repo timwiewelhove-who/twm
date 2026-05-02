@@ -101,7 +101,7 @@ function Champs() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {events.map(e => (
           <Link key={e.jahr} to={`/events/${e.jahr}`} className="card card--hover" style={{ padding: '20px 24px', display: 'grid', gridTemplateColumns: '80px 1fr auto', alignItems: 'center', gap: 20 }}>
-            <div style={{ fontFamily: "'Russo One', sans-serif", fontSize: 36, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
+            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 36, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
             <div>
               <div style={{ fontWeight: 700, fontSize: 18, color: 'var(--gruen)' }}>🏆 {e.sieger}</div>
               <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 2 }}>
@@ -126,7 +126,7 @@ const DINOS_NAMES = ['Bastian Buse','Jenne Meyer','Sascha Wachtendorf']
 function Dinos() {
   return (
     <div>
-      <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Trommelschießen-Dinos</h2>
+      <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Trommelschiessen-Dinos</h2>
       <p style={{ color: 'var(--text-muted)', marginBottom: 32, fontSize: 15, lineHeight: 1.7 }}>
         Nur drei Trommler waren bei allen {ALLE_JAHRE.length} WMs dabei – von der Premiere 2006 in Hamburg bis 2024 in Jaderberg.
       </p>
@@ -145,7 +145,7 @@ function Dinos() {
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
                   <span style={{ fontSize: 28 }}>🦕</span>
-                  <h3 style={{ fontFamily: "'Russo One', sans-serif", fontSize: 28, color: 'var(--gruen)', letterSpacing: '0.03em' }}>{name}</h3>
+                  <h3 style={{ fontFamily: "'Bayon', sans-serif", fontSize: 28, color: 'var(--gruen)', letterSpacing: '0.03em' }}>{name}</h3>
                 </div>
                 <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>
                   Dabei seit 2006 · Bestes Ergebnis: Platz {beste?.pl} ({beste?.jahr})
@@ -154,15 +154,15 @@ function Dinos() {
               {ewige && (
                 <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontFamily: "'Russo One', sans-serif", fontSize: 28, color: 'var(--gold)' }}>{ewige.pkt}</div>
+                    <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 28, color: 'var(--gold)' }}>{ewige.pkt}</div>
                     <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Ewige Pkt.</div>
                   </div>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontFamily: "'Russo One', sans-serif", fontSize: 28, color: 'var(--gruen)' }}>{ewige.sp}</div>
+                    <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 28, color: 'var(--gruen)' }}>{ewige.sp}</div>
                     <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Spiele</div>
                   </div>
                   {weltR && <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontFamily: "'Russo One', sans-serif", fontSize: 28, color: 'var(--gruen)' }}>#{weltR.pl}</div>
+                    <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 28, color: 'var(--gruen)' }}>#{weltR.pl}</div>
                     <div style={{ fontSize: 11, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Weltrangliste</div>
                   </div>}
                 </div>
@@ -244,7 +244,7 @@ function Ballermann() {
             background: i === 0 ? 'var(--gruen)' : 'var(--white)',
             display: 'flex', alignItems: 'center', gap: 16,
           }}>
-            <div style={{ fontFamily: "'Russo One', sans-serif", fontSize: 40, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>
+            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 40, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>
               {anzahl}x
             </div>
             <div>
@@ -267,7 +267,7 @@ function Ballermann() {
           display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
           gap: 8, position: 'relative',
         }}>
-          <div style={{ fontFamily: "'Russo One', sans-serif", fontSize: 56, color: 'var(--gold)', lineHeight: 1 }}>HENNING DIERS</div>
+          <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 56, color: 'var(--gold)', lineHeight: 1 }}>HENNING DIERS</div>
           <div style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15 }}>3× Torschützenkönig · 3× Weltmeister</div>
           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 4, background: 'var(--gold)' }} />
         </div>
@@ -357,7 +357,7 @@ function Schiessbude() {
 
   return (
     <div>
-      <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Schießbuden</h2>
+      <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Schiessbuden</h2>
       <p style={{ color: 'var(--text-muted)', marginBottom: 32, fontSize: 15 }}>
         Die großzügigsten Torwächter des Trommelschießens – wer hat den Gegner am häufigsten jubeln lassen?
       </p>
@@ -367,7 +367,7 @@ function Schiessbude() {
         {top.slice(0, 3).map((r, i) => (
           <div key={r.name} className="card" style={{ padding: '24px', textAlign: 'center' }}>
             <div style={{ fontSize: 36, marginBottom: 8 }}>{'🏚️🚪🕳️'[i]}</div>
-            <div style={{ fontFamily: "'Russo One', sans-serif", fontSize: 48, color: i === 0 ? '#dc2626' : i === 1 ? '#ea580c' : '#d97706', lineHeight: 1 }}>{r.gg}</div>
+            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 48, color: i === 0 ? '#dc2626' : i === 1 ? '#ea580c' : '#d97706', lineHeight: 1 }}>{r.gg}</div>
             <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', margin: '6px 0 4px' }}>Gegentore</div>
             <div style={{ fontWeight: 700, color: 'var(--gruen)', fontSize: 16 }}>{r.name}</div>
             <div style={{ fontSize: 12, color: 'var(--text-light)', marginTop: 4 }}>{r.sp} Spiele · {r.quote}/Sp</div>
@@ -452,7 +452,7 @@ function Remiskoenige() {
         {top3.map((r, i) => (
           <div key={r.name} className="card" style={{ padding: '24px', textAlign: 'center', background: i === 0 ? 'var(--gruen)' : 'var(--white)' }}>
             <div style={{ fontSize: 36, marginBottom: 8 }}>{'🤝🫱🫲'[i]}</div>
-            <div style={{ fontFamily: "'Russo One', sans-serif", fontSize: 52, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>{r.u}</div>
+            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 52, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>{r.u}</div>
             <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: i === 0 ? 'rgba(255,255,255,0.5)' : 'var(--text-muted)', margin: '6px 0 4px' }}>Unentschieden</div>
             <div style={{ fontWeight: 700, color: i === 0 ? 'white' : 'var(--gruen)', fontSize: 16 }}>{r.name}</div>
             <div style={{ fontSize: 12, color: i === 0 ? 'rgba(255,255,255,0.5)' : 'var(--text-light)', marginTop: 4 }}>{r.sp} Spiele · {r.quotePct}%</div>

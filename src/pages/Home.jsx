@@ -16,7 +16,7 @@ function Countdown() {
 
   const Block = ({ n, label }) => (
     <div style={{ textAlign: 'center', minWidth: 60 }}>
-      <div style={{ fontFamily: "'Russo One', sans-serif", fontSize: 'clamp(40px, 6vw, 72px)', color: 'white', lineHeight: 1, letterSpacing: '-0.02em' }}>
+      <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(40px, 6vw, 72px)', color: 'white', lineHeight: 1, letterSpacing: '-0.02em' }}>
         {String(n).padStart(2, '0')}
       </div>
       <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginTop: 6 }}>
@@ -25,7 +25,7 @@ function Countdown() {
     </div>
   )
   const Sep = () => (
-    <div style={{ fontFamily: "'Russo One', sans-serif", fontSize: 'clamp(32px, 5vw, 56px)', color: 'rgba(255,255,255,0.3)', lineHeight: 1, marginBottom: 18 }}>:</div>
+    <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(32px, 5vw, 56px)', color: 'rgba(255,255,255,0.3)', lineHeight: 1, marginBottom: 18 }}>:</div>
   )
 
   return (
@@ -101,7 +101,7 @@ export default function Home() {
             06.06.2026 · Édition Jubilaire · 20 Jahre Trommelschiessen
           </div>
           <h1 style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: 'white', marginBottom: 32 }}>
-            10. Trommelschießen-WM
+            10. Trommelschiessen-WM
           </h1>
           <p style={{ fontSize: 'clamp(16px, 1.8vw, 20px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, maxWidth: 680, margin: '0 auto 40px' }}>
             Eine Waschmaschine, ein Ball, und der unbändige Wille das Runde ins Runde zu bekommen –
@@ -134,7 +134,7 @@ export default function Home() {
               <div key={item.label} className="card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: 6 }}>
                 <div style={{ fontSize: 22 }}>{item.icon}</div>
                 <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-light)' }}>{item.label}</div>
-                <div style={{ fontSize: 'clamp(16px, 1.4vw, 20px)', fontWeight: 700, color: 'var(--gruen)', fontFamily: "'Russo One', sans-serif", lineHeight: 1.2 }}>{item.value}</div>
+                <div style={{ fontSize: 'clamp(16px, 1.4vw, 20px)', fontWeight: 700, color: 'var(--gruen)', fontFamily: "'Bayon', sans-serif", lineHeight: 1.2 }}>{item.value}</div>
                 {item.sub && <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>{item.sub}</div>}
               </div>
             ))}
@@ -149,7 +149,7 @@ export default function Home() {
       <section className="section" style={{ background: 'var(--white)' }}>
         <div className="container">
           <div className="eyebrow">Statistiken</div>
-          <h2 style={{ fontSize: 'clamp(24px, 4vw, 42px)', color: 'var(--gruen)', marginBottom: 32 }}>Zahlen, Daten, Trommelschießen</h2>
+          <h2 style={{ fontSize: 'clamp(24px, 4vw, 42px)', color: 'var(--gruen)', marginBottom: 32 }}>Zahlen, Daten, Trommelschiessen</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
             {/* Weltrangliste Card */}
             <Link to="/statistiken/weltrangliste" className="card card--hover" style={{
@@ -165,7 +165,7 @@ export default function Home() {
                       <span style={{ fontSize: 18 }}>{['🥇','🥈','🥉'][i]}</span>
                       <span style={{ fontWeight: 600, fontSize: 16 }}>{r.name}</span>
                     </div>
-                    <span style={{ fontFamily: "'Russo One', sans-serif", fontSize: 22, color: 'var(--gold)' }}>{r.total}</span>
+                    <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 22, color: 'var(--gold)' }}>{r.total}</span>
                   </div>
                 ))}
               </div>
@@ -186,7 +186,7 @@ export default function Home() {
                       <span style={{ fontSize: 13, color: 'var(--text-light)', minWidth: 20 }}>{i + 1}</span>
                       <span style={{ fontWeight: 600, fontSize: 15, color: 'var(--gruen)' }}>{i === 0 ? '🏆 ' : ''}{r.name}</span>
                     </div>
-                    <span style={{ fontFamily: "'Russo One', sans-serif", fontSize: 20, color: 'var(--gold)' }}>{r.pkt}</span>
+                    <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 20, color: 'var(--gold)' }}>{r.pkt}</span>
                   </div>
                 ))}
               </div>
@@ -254,7 +254,7 @@ export default function Home() {
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)' }}>Treue Trommler</div>
           <h2 style={{ fontSize: 'clamp(24px, 4vw, 48px)', color: 'white', marginBottom: 16, maxWidth: 600 }}>
-            Trommelschießen-Dinos
+            Trommelschiessen-Dinos
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, lineHeight: 1.8, maxWidth: 540, marginBottom: 32 }}>
             Jenne Meyer, Bastian Buse und Sascha Wachtendorf – drei Trommler, die bei keiner einzigen WM gefehlt haben.

@@ -8,7 +8,7 @@ export default function Footer() {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
               <img src="/trommel.svg" alt="" style={{ height: 32, opacity: 0.8 }} />
-              <span style={{ fontFamily: "'Russo One', sans-serif", fontSize: 20, color: 'var(--gold)', letterSpacing: '0.05em' }}>TRMMLR</span>
+              <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 20, color: 'var(--gold)', letterSpacing: '0.05em' }}>TRMMLR</span>
             </div>
             <p style={{ fontSize: 14, lineHeight: 1.6 }}>Trommelschießen-Weltmeisterschaft<br />seit 2006 · Édition Jubilaire 2026</p>
           </div>
