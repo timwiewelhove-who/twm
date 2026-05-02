@@ -254,7 +254,7 @@ export default function Home() {
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)' }}>Treue Trommler</div>
           <h2 style={{ fontSize: 'clamp(24px, 4vw, 48px)', color: 'white', marginBottom: 16, maxWidth: 600 }}>
-            Trommelschiessen-Dinos
+            Trommelschießen-Dinos
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, lineHeight: 1.8, maxWidth: 540, marginBottom: 32 }}>
             Jenne Meyer, Bastian Buse und Sascha Wachtendorf – drei Trommler, die bei keiner einzigen WM gefehlt haben.
