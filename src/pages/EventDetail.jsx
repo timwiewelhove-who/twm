@@ -97,20 +97,22 @@ export default function EventDetail() {
         </div>
       </section>
 
-      {/* Gruppenfoto – groß, nach der Tabelle */}
+      {/* Gruppenfoto – nach der Tabelle, kein Crop */}
       {fotos?.gruppe && (
-        <section style={{ background: 'var(--cream)' }}>
-          <div className="container" style={{ paddingBottom: 0 }}>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 16, paddingTop: 48 }}>
+        <section className="section--sm" style={{ background: 'var(--cream)' }}>
+          <div className="container">
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 16 }}>
               Die Trommler · WM {event.jahr}
             </div>
+            <div className="card" style={{ overflow: 'hidden' }}>
+              <img
+                src={fotos.gruppe}
+                alt={`Alle Teilnehmer WM ${event.jahr}`}
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+                loading="lazy"
+              />
+            </div>
           </div>
-          <img
-            src={fotos.gruppe}
-            alt={`Alle Teilnehmer WM ${event.jahr}`}
-            style={{ width: '100%', height: 'auto', display: 'block', maxHeight: 600, objectFit: 'cover', objectPosition: 'center 20%' }}
-            loading="lazy"
-          />
         </section>
       )}
 
