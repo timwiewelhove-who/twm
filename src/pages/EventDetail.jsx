@@ -43,7 +43,7 @@ export default function EventDetail() {
             ].map(item => (
               <div key={item.label} style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)', borderRadius: 10, padding: '14px 20px', border: '1px solid rgba(255,255,255,0.15)' }}>
                 <div style={{ fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: 4 }}>{item.label}</div>
-                <div style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 20, color: 'var(--gold)' }}>{item.value}</div>
+                <div style={{ fontFamily: "'Russo One', sans-serif", fontSize: 20, color: 'var(--gold)' }}>{item.value}</div>
               </div>
             ))}
           </div>

@@ -56,7 +56,7 @@ export default function Wissenswertes() {
                 <p key={i} style={{ fontSize: 17, lineHeight: 1.8, color: 'var(--text)', marginBottom: 24 }}>{p}</p>
               ))}
               <div style={{ marginTop: 40, padding: '24px', background: 'var(--gruen)', borderRadius: 'var(--radius-lg)', textAlign: 'center' }}>
-                <div style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 28, color: 'var(--gold)' }}>Trommel, Trommel … mors, mors!!!</div>
+                <div style={{ fontFamily: "'Russo One', sans-serif", fontSize: 28, color: 'var(--gold)' }}>Trommel, Trommel … mors, mors!!!</div>
               </div>
 
               {/* Mood-Galerie */}
@@ -85,7 +85,7 @@ export default function Wissenswertes() {
                 ))}
               </div>
               <div style={{ marginTop: 32, padding: '24px', background: 'var(--gruen)', borderRadius: 'var(--radius-lg)', textAlign: 'center' }}>
-                <div style={{ fontFamily: "TrommelHead, 'Bayon', sans-serif", fontSize: 28, color: 'var(--gold)' }}>Trommel, Trommel … mors, mors!!!</div>
+                <div style={{ fontFamily: "'Russo One', sans-serif", fontSize: 28, color: 'var(--gold)' }}>Trommel, Trommel … mors, mors!!!</div>
               </div>
             </div>
           )}

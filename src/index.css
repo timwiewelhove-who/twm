@@ -1,32 +1,5 @@
-/* Alle @imports müssen ganz oben stehen */
-@import url('https://fonts.googleapis.com/css2?family=Bayon&family=Russo+One&family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;1,6..12,400&display=swap');
-
-/* ── TrommelHead: Bayon + Russo One für Umlaute ────────────────────────────
-   Beide Fonts via Google Fonts @import geladen (zuverlässig).
-   TrommelHead kombiniert beide via unicode-range:
-   - Russo One übernimmt nur Umlaute + ß
-   - Bayon übernimmt alle anderen Zeichen
-──────────────────────────────────────────────────────────────────────────── */
-
-/* Russo One für deutsche Sonderzeichen (U+00C0-00FF: ÄÖÜäöüß etc.) */
-@font-face {
-  font-family: 'TrommelHead';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Russo One'), local('RussoOne');
-  unicode-range: U+00C0-U+00FF;
-  font-display: swap;
-}
-
-/* Bayon für alle anderen Zeichen */
-@font-face {
-  font-family: 'TrommelHead';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Bayon');
-  unicode-range: U+0020-U+00BF;
-  font-display: swap;
-}
+/* Russo One als Headline-Schrift: kondensiert, Display, vollständige deutsche Zeichen */
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&family=Nunito+Sans:ital,opsz,wght@0,6..12,300;0,6..12,400;0,6..12,600;0,6..12,700;1,6..12,400&display=swap');
 
 :root {
   --gruen: #1c422b;
@@ -51,7 +24,7 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body { font-family: 'Nunito Sans', sans-serif; font-size: 16px; line-height: 1.65; color: var(--text); background: var(--cream); -webkit-font-smoothing: antialiased; }
-h1, h2, h3, h4 { font-family: 'TrommelHead', 'Bayon', sans-serif; letter-spacing: 0.03em; line-height: 1.1; }
+h1, h2, h3, h4 { font-family: 'Russo One', sans-serif; letter-spacing: 0.03em; line-height: 1.1; }
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
 
