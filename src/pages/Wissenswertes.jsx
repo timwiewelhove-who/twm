@@ -23,8 +23,8 @@ export default function Wissenswertes() {
   const loc = useLocation()
   const sub = loc.pathname.split('/').pop()
   const tabs = [
-    { id: 'historie', label: 'Historie' },
-    { id: 'regelwerk', label: 'Regelwerk' },
+    { id: 'historie', label: 'HISTORIE' },
+    { id: 'regelwerk', label: 'REGELWERK' },
   ]
   const active = tabs.find(t => t.id === sub) ? sub : 'historie'
 
@@ -32,7 +32,7 @@ export default function Wissenswertes() {
     <div style={{ paddingTop: 80 }}>
       <section style={{ background: 'var(--gruen)', padding: '60px 0 0' }}>
         <div className="container">
-          <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)' }}>Über das Spiel</div>
+          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: 'rgba(176,137,45,0.8)', marginBottom: 12 }}>ÜBER DAS SPIEL</div>
           <h1 style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: 'var(--white)', marginBottom: 32 }}>Wissenswertes</h1>
           <div style={{ display: 'flex', gap: 0, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
             {tabs.map(t => (

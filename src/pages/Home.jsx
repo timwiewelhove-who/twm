@@ -98,7 +98,7 @@ export default function Home() {
       <section style={{ background: 'var(--gruen)', padding: '80px 0' }}>
         <div className="container--narrow" style={{ textAlign: 'center' }}>
           <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)', marginBottom: 20 }}>
-            06.06.2026 · Édition Jubilaire · 20 Jahre Trommelschießen
+            06.06.2026 · Édition Jubilaire · 20 Jahre Trommelschiessen
           </div>
           <h1 style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: 'white', marginBottom: 32 }}>
             10. Trommelschießen-WM

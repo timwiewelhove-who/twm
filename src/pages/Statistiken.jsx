@@ -418,12 +418,12 @@ export default function Statistiken() {
   const loc = useLocation()
   const sub = loc.pathname.split('/').pop()
   const tabs = [
-    { id: 'weltrangliste', label: 'Weltrangliste' },
-    { id: 'ewige-tabelle', label: 'Ewige Tabelle' },
-    { id: 'champs', label: 'Alle Weltmeister' },
-    { id: 'dinos', label: 'Dinos' },
-    { id: 'ballermann', label: 'Ballermänner' },
-    { id: 'schiessbude', label: 'Schießbuden' },
+    { id: 'weltrangliste', label: 'WELTRANGLISTE' },
+    { id: 'ewige-tabelle', label: 'EWIGE TABELLE' },
+    { id: 'champs', label: 'ALLE WELTMEISTER' },
+    { id: 'dinos', label: 'DINOS' },
+    { id: 'ballermann', label: 'BALLERMÄNNER' },
+    { id: 'schiessbude', label: 'SCHIESSBUDEN' },
   ]
   const active = tabs.find(t => t.id === sub) ? sub : 'weltrangliste'
 
