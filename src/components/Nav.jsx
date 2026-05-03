@@ -29,7 +29,13 @@ const NAV_ITEMS = [
       { to: '/statistiken/schiessbude', label: 'Schiessbuden' },
       { to: '/statistiken/dinos', label: 'Dinos' },
       { to: '/statistiken/remiskoenig', label: 'Remiskönige' },
+      { to: '/statistiken/knappste', label: 'Knappste Rennen' },
     ]
+  },
+  {
+    to: '/spielerprofile',
+    label: 'Spielerprofile',
+    children: []
   },
   {
     to: '/wissenswertes',
@@ -125,10 +131,10 @@ export default function Nav() {
                   paddingBottom: 6, transition: 'color 0.15s',
                 }}>
                   {item.label}
-                  <span style={{ fontSize: 10, opacity: 0.6, marginTop: 1 }}>▾</span>
+                  {item.children?.length > 0 && <span style={{ fontSize: 10, opacity: 0.6, marginTop: 1 }}>▾</span>}
                 </Link>
                 {/* Dropdown */}
-                {showDrop && (
+                {showDrop && item.children?.length > 0 && (
                   <div style={{
                     position: 'absolute', top: '100%', left: 0,
                     background: 'white',

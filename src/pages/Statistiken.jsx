@@ -452,6 +452,86 @@ function Remiskoenige() {
 }
 
 
+
+function KnappsteRennen() {
+  const rennen = wm.weltmeister.map(e => {
+    const tab = wm.abschlusstabellen[String(e.jahr)] || []
+    const diff = tab.length >= 2 ? tab[0].pkt - tab[1].pkt : null
+    return { ...e, zweiter: tab[1]?.name, s_pkt: tab[0]?.pkt, z_pkt: tab[1]?.pkt, diff }
+  }).filter(r => r.diff !== null).sort((a, b) => a.diff - b.diff)
+
+  const maxDiff = Math.max(...rennen.map(r => r.diff))
+
+  return (
+    <div>
+      <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Knappste Rennen</h2>
+      <p style={{ color: 'var(--text-muted)', marginBottom: 40, fontSize: 15 }}>
+        Kein WM-Titel wurde je mit mehr als 5 Punkten Vorsprung gewonnen. 2016 entschied ein einziger Punkt über die Meisterschaft.
+      </p>
+
+      {/* Highlight: engste WM */}
+      {(() => {
+        const r = rennen[0]
+        return (
+          <div className="card" style={{ background: 'var(--gruen)', padding: '32px', marginBottom: 40, display: 'flex', gap: 32, flexWrap: 'wrap', alignItems: 'center' }}>
+            <div>
+              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(176,137,45,0.7)', marginBottom: 8 }}>Engste WM aller Zeiten</div>
+              <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 80, color: 'var(--gold)', lineHeight: 1 }}>1</div>
+              <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>Punkt Unterschied · WM {r.jahr}</div>
+            </div>
+            <div style={{ flex: 1, minWidth: 200 }}>
+              <div style={{ marginBottom: 12 }}>
+                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginBottom: 4 }}>Sieger</div>
+                <div style={{ fontWeight: 700, fontSize: 20, color: 'white' }}>🏆 {r.sieger}</div>
+                <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 28, color: 'var(--gold)' }}>{r.s_pkt} Punkte</div>
+              </div>
+              <div>
+                <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginBottom: 4 }}>Zweiter</div>
+                <div style={{ fontWeight: 600, fontSize: 16, color: 'rgba(255,255,255,0.7)' }}>{r.zweiter}</div>
+                <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 22, color: 'rgba(255,255,255,0.4)' }}>{r.z_pkt} Punkte</div>
+              </div>
+            </div>
+          </div>
+        )
+      })()}
+
+      {/* Alle Rennen */}
+      <div className="card" style={{ overflow: 'hidden' }}>
+        {rennen.map((r, i) => (
+          <div key={r.jahr} style={{ display: 'grid', gridTemplateColumns: '72px 1fr auto', gap: 16, alignItems: 'center', padding: '16px 24px', borderBottom: i < rennen.length - 1 ? '1px solid var(--border)' : 'none' }}>
+            <div>
+              <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 28, color: 'var(--gruen)', lineHeight: 1 }}>{r.jahr}</div>
+              <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{r.ort}</div>
+            </div>
+            <div>
+              <div style={{ fontSize: 14, marginBottom: 8 }}>
+                <strong style={{ color: 'var(--gruen)' }}>{r.sieger}</strong>
+                <span style={{ color: 'var(--text-muted)', fontSize: 13 }}> ({r.s_pkt} Pkt) vs. {r.zweiter} ({r.z_pkt} Pkt)</span>
+              </div>
+              <div style={{ background: 'var(--cream)', borderRadius: 4, height: 8, overflow: 'hidden' }}>
+                <div style={{
+                  width: `${Math.round(r.diff / maxDiff * 100)}%`,
+                  height: '100%',
+                  borderRadius: 4,
+                  background: r.diff === 1 ? '#dc2626' : r.diff <= 2 ? '#ea580c' : r.diff <= 3 ? '#d97706' : 'var(--gruen)',
+                }} />
+              </div>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 40, lineHeight: 1, color: r.diff === 1 ? '#dc2626' : r.diff <= 2 ? '#ea580c' : r.diff <= 3 ? '#d97706' : 'var(--gruen)' }}>{r.diff}</div>
+              <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Pkt. Diff.</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ marginTop: 24, padding: '16px 20px', background: 'rgba(176,137,45,0.08)', borderRadius: 12, border: '1px solid rgba(176,137,45,0.2)', fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7 }}>
+        In 9 WMs betrug der maximale Vorsprung des Siegers <strong style={{color:'var(--gruen)'}}>5 Punkte</strong>. Das Trommelschießen bleibt bis zur letzten Runde offen.
+      </div>
+    </div>
+  )
+}
+
 export default function Statistiken() {
   const loc = useLocation()
   const sub = loc.pathname.split('/').pop()
@@ -463,6 +543,7 @@ export default function Statistiken() {
     { id: 'ballermann', label: 'BALLERMÄNNER' },
     { id: 'schiessbude', label: 'SCHIESSBUDEN' },
     { id: 'remiskoenig', label: 'REMISKÖNIGE' },
+    { id: 'knappste', label: 'KNAPPSTES RENNEN' },
   ]
   const active = tabs.find(t => t.id === sub) ? sub : 'weltrangliste'
 
@@ -497,6 +578,7 @@ export default function Statistiken() {
           {active === 'ballermann' && <Ballermann />}
           {active === 'schiessbude' && <Schiessbude />}
           {active === 'remiskoenig' && <Remiskoenige />}
+          {active === 'knappste' && <KnappsteRennen />}
         </div>
       </section>
     </div>

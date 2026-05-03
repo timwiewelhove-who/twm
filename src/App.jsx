@@ -7,6 +7,7 @@ import Events from './pages/Events'
 import EventDetail from './pages/EventDetail'
 import Statistiken from './pages/Statistiken'
 import Wissenswertes from './pages/Wissenswertes'
+import Spielerprofile from './pages/Spielerprofile'
 import Admin from './pages/Admin'
 import './index.css'
 
