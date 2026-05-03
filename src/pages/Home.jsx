@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { PlateIcon } from '../components/PlateIcon'
 import { Link } from 'react-router-dom'
 import wm from '../data/wm.json'
 
@@ -97,8 +96,8 @@ export default function Home() {
 
       {/* MANIFEST */}
       <section style={{ background: 'var(--gruen)', padding: '80px 0' }}>
-        <div className="container--narrow" style={{ textAlign: 'center' }}>
-          <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)', marginBottom: 20 }}>
+        <div className="container" style={{ textAlign: 'center', maxWidth: 900, margin: '0 auto' }}>
+          <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 20 }}>
             06.06.2026 · Édition Jubilaire · 20 Jahre Trommelschiessen
           </div>
           <h1 style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: 'white', marginBottom: 32 }}>
@@ -163,7 +162,7 @@ export default function Home() {
                 {top3Rangliste.map((r, i) => (
                   <div key={r.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.1)' : 'none' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                      {i === 0 ? <PlateIcon size={18} color="var(--gold)" /> : <span style={{ fontSize: 14, fontWeight: 700, color: 'rgba(255,255,255,0.5)' }}>{i+1}</span>}
+                      ['🥇','🥈','🥉'][i]
                       <span style={{ fontWeight: 600, fontSize: 16 }}>{r.name}</span>
                     </div>
                     <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 22, color: 'var(--gold)' }}>{r.total}</span>
@@ -244,6 +243,73 @@ export default function Home() {
         </div>
       </section>
 
+
+      {/* TEASER: Ballermänner – großes Zitat-Style */}
+      <section style={{ background: 'var(--cream-dark, #ede6d8)', padding: '80px 0' }}>
+        <div className="container">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 48, alignItems: 'center' }}>
+            <div>
+              <div className="eyebrow">Statistiken</div>
+              <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: 'var(--gruen)', marginBottom: 16 }}>
+                Ballermänner & Schiessbuden
+              </h2>
+              <p style={{ color: 'var(--text-muted)', fontSize: 15, lineHeight: 1.8, marginBottom: 24 }}>
+                Wer hat die meisten Tore geschossen – und wer die meisten kassiert?
+                Sortierbar nach Gesamtzahl oder Quote pro Spiel.
+              </p>
+              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+                <Link to="/statistiken/ballermann" className="btn btn--primary">Ballermänner →</Link>
+                <Link to="/statistiken/schiessbude" className="btn btn--outline">Schiessbuden →</Link>
+              </div>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {[
+                { name: wm.ewige_tabelle[0]?.name, label: 'Meiste Tore gesamt', value: `${Object.values(wm.abschlusstabellen).flat().filter(r=>r.name===wm.ewige_tabelle[0]?.name).reduce((s,r)=>s+(r.t||0),0)} Tore` },
+                { name: wm.ewige_tabelle[1]?.name, label: 'Platz 2', value: `${Object.values(wm.abschlusstabellen).flat().filter(r=>r.name===wm.ewige_tabelle[1]?.name).reduce((s,r)=>s+(r.t||0),0)} Tore` },
+                { name: wm.ewige_tabelle[2]?.name, label: 'Platz 3', value: `${Object.values(wm.abschlusstabellen).flat().filter(r=>r.name===wm.ewige_tabelle[2]?.name).reduce((s,r)=>s+(r.t||0),0)} Tore` },
+              ].map((r, i) => (
+                <div key={r.name} className="card" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 28, color: 'var(--gold)', lineHeight: 1, minWidth: 32 }}>{i+1}</span>
+                    <span style={{ fontWeight: 600, color: 'var(--gruen)' }}>{r.name}</span>
+                  </div>
+                  <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 22, color: 'var(--gruen)' }}>{r.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* TEASER: Remiskönige – kompaktes Zahlen-Highlight */}
+      <section style={{ background: 'var(--white)', padding: '80px 0' }}>
+        <div className="container">
+          <div className="eyebrow">Statistiken</div>
+          <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: 'var(--gruen)', marginBottom: 40 }}>Remiskönige</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 2 }}>
+            {wm.ewige_tabelle.slice(0,5).map((r, i) => {
+              const remis = Object.values(wm.abschlusstabellen).flat().filter(x=>x.name===r.name).reduce((s,x)=>s+(x.u||0),0)
+              const sp = Object.values(wm.abschlusstabellen).flat().filter(x=>x.name===r.name).reduce((s,x)=>s+(x.sp||0),0)
+              return (
+                <div key={r.name} style={{
+                  background: i === 0 ? 'var(--gruen)' : 'var(--cream)',
+                  padding: '28px 24px',
+                  borderRadius: i === 0 ? 'var(--radius-lg) 0 0 var(--radius-lg)' : i === 4 ? '0 var(--radius-lg) var(--radius-lg) 0' : 0,
+                }}>
+                  <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 48, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>{remis}</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: i === 0 ? 'rgba(255,255,255,0.5)' : 'var(--text-muted)', margin: '6px 0 4px' }}>Remis</div>
+                  <div style={{ fontWeight: 600, fontSize: 14, color: i === 0 ? 'white' : 'var(--gruen)' }}>{r.name}</div>
+                  <div style={{ fontSize: 12, color: i === 0 ? 'rgba(255,255,255,0.4)' : 'var(--text-light)', marginTop: 2 }}>{sp > 0 ? `${((remis/sp)*100).toFixed(0)}% aller Spiele` : ''}</div>
+                </div>
+              )
+            })}
+          </div>
+          <div style={{ marginTop: 24 }}>
+            <Link to="/statistiken/remiskoenig" className="btn btn--outline">Alle Remiskönige →</Link>
+          </div>
+        </div>
+      </section>
+
       {/* DINOS */}
       <section style={{
         position: 'relative', overflow: 'hidden', padding: '80px 0',
@@ -255,7 +321,7 @@ export default function Home() {
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)' }}>Treue Trommler</div>
           <h2 style={{ fontSize: 'clamp(24px, 4vw, 48px)', color: 'white', marginBottom: 16, maxWidth: 600 }}>
-            Trommelschießen-Dinos
+            Trommelschiessen-Dinos
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, lineHeight: 1.8, maxWidth: 540, marginBottom: 32 }}>
             Jenne Meyer, Bastian Buse und Sascha Wachtendorf – drei Trommler, die bei keiner einzigen WM gefehlt haben.

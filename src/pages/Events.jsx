@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom'
-import { PlateIcon } from '../components/PlateIcon'
 import wm from '../data/wm.json'
 
 export default function Events() {
@@ -35,7 +34,7 @@ export default function Events() {
                 <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 48, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: 20, color: 'var(--gruen)', marginBottom: 4, display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <PlateIcon size={18} color='var(--gold)' /> {e.sieger} {e.titel === 1 ? '' : `(${e.titel}. Titel)`}
+                    {'🏆'} {e.sieger} {e.titel === 1 ? '' : `(${e.titel}. Titel)`}
                   </div>
                   <div style={{ fontSize: 14, color: 'var(--text-muted)' }}>
                     {e.ort} · {e.datum} · {e.teilnehmer} Teilnehmer · 👑 {e.torschuetzenkoenig} ({e.tore} Tore)
