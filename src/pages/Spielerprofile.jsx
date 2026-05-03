@@ -74,15 +74,15 @@ function FotoAvatar({ name, size = 80, fontSize = 22 }) {
 }
 
 // Galerie: lädt _1, _2, _3 ... bis Ladefehler
-function FotoGalerie({ name }) {
+function FotoGalerie({ name, onNoPhoto }) {
   const [fotos, setFotos] = React.useState([1])
   const [aktiv, setAktiv] = React.useState(0)
   const [maxVersuch, setMaxVersuch] = React.useState(2)
+  const [keinFoto, setKeinFoto] = React.useState(false)
   const base = getFotoBase(name)
 
-  // Versuche Fotos _1 bis _5 zu laden
   React.useEffect(() => {
-    setFotos([1]); setAktiv(0); setMaxVersuch(2)
+    setFotos([1]); setAktiv(0); setMaxVersuch(2); setKeinFoto(false)
   }, [name])
 
   const handleLoad = (idx) => {
@@ -91,15 +91,24 @@ function FotoGalerie({ name }) {
       setMaxVersuch(prev => prev + 1)
     }
   }
-  const handleError = (idx) => {
-    setFotos(prev => prev.filter(n => n <= idx))
+  const handleError = (n) => {
+    if (n === 1) {
+      // Erstes Foto fehlt → kein Foto vorhanden
+      setKeinFoto(true)
+      setFotos([])
+      if (onNoPhoto) onNoPhoto()
+    } else {
+      setFotos(prev => prev.filter(x => x < n))
+    }
   }
 
   const istChamp = wm.weltmeister.some(e => e.sieger === name)
 
+  // Kein Foto: nichts rendern, Layout wird vom Parent angepasst
+  if (keinFoto) return null
+
   return (
     <div>
-      {/* Hauptbild */}
       <div style={{ position: 'relative', borderRadius: 16, overflow: 'hidden', marginBottom: 12, background: 'var(--gruen)', aspectRatio: '3/4', maxHeight: 480 }}>
         {fotos.map((n, i) => (
           <img
@@ -117,22 +126,11 @@ function FotoGalerie({ name }) {
             }}
           />
         ))}
-        {/* Kein Foto → Initialen-Placeholder */}
-        {fotos.length === 0 && (
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
-            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 64, color: 'rgba(255,255,255,0.15)' }}>
-              {name.split(' ').map(w => w[0]).join('').slice(0,2)}
-            </div>
-            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)' }}>Kein Foto vorhanden</div>
-          </div>
-        )}
-        {/* Titel-Badge bei Champions */}
         {istChamp && (
           <div style={{ position: 'absolute', top: 12, right: 12, background: 'var(--gold)', color: 'var(--gruen)', fontSize: 12, fontWeight: 700, padding: '4px 10px', borderRadius: 20 }}>
             🏆 Weltmeister
           </div>
         )}
-        {/* Pfeil-Navigation bei mehreren Fotos */}
         {fotos.length > 1 && (
           <>
             <button onClick={() => setAktiv(a => Math.max(0, a-1))} disabled={aktiv === 0}
@@ -142,7 +140,6 @@ function FotoGalerie({ name }) {
           </>
         )}
       </div>
-      {/* Thumbnails */}
       {fotos.length > 1 && (
         <div style={{ display: 'flex', gap: 8 }}>
           {fotos.map((n, i) => (
@@ -216,6 +213,7 @@ function KarriereChart({ spieler }) {
 }
 
 function SpielerDetail({ spieler }) {
+  const [hatFoto, setHatFoto] = React.useState(true)
   const siegQ = spieler.sp ? (spieler.s / spieler.sp * 100).toFixed(1) : 0
   const torQ  = spieler.sp ? (spieler.t / spieler.sp).toFixed(3) : 0
   const ggQ   = spieler.sp ? (spieler.gg / spieler.sp).toFixed(3) : 0
@@ -233,12 +231,12 @@ function SpielerDetail({ spieler }) {
       {/* Foto + Stats – klar unterhalb des Headers */}
       <section style={{ background: 'var(--cream)' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px, 340px) 1fr', gap: 32, alignItems: 'start', padding: '40px 0', flexWrap: 'wrap' }}>
-            {/* Linke Spalte: Galerie */}
-            <div>
-              <FotoGalerie name={spieler.name} />
-            </div>
-            {/* Rechte Spalte: Name + Badges + Stats */}
+          <div style={{ display: 'grid', gridTemplateColumns: hatFoto ? 'minmax(220px, 340px) 1fr' : '1fr', gap: 32, alignItems: 'start', padding: '40px 0' }}>
+            {hatFoto && (
+              <div>
+                <FotoGalerie name={spieler.name} onNoPhoto={() => setHatFoto(false)} />
+              </div>
+            )}
             <div>
               <h1 style={{ color: 'var(--gruen)', fontSize: 'clamp(26px, 3.5vw, 48px)', marginBottom: 12, lineHeight: 1.1 }}>{spieler.name}</h1>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 24 }}>
@@ -352,7 +350,7 @@ function SpielerListe() {
         </div>
       </div>
 
-      <section className="section--sm" style={{ background: 'var(--cream)' }}>
+      <section className="section--sm" style={{ background: 'var(--cream)', paddingBottom: 80 }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 12 }}>
             {gefiltert.map((s, i) => (
