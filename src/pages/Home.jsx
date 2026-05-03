@@ -162,7 +162,7 @@ export default function Home() {
                 {top3Rangliste.map((r, i) => (
                   <div key={r.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.1)' : 'none' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                      ['🥇','🥈','🥉'][i]
+                      <span style={{ fontSize: 18 }}>{['🥇','🥈','🥉'][i]}</span>
                       <span style={{ fontWeight: 600, fontSize: 16 }}>{r.name}</span>
                     </div>
                     <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 22, color: 'var(--gold)' }}>{r.total}</span>
@@ -197,16 +197,26 @@ export default function Home() {
       </section>
 
 
-      {/* Mood-Bild Trenner */}
-      <div style={{
-        height: 'clamp(280px, 40vw, 520px)',
-        backgroundImage: 'url(/mood-1.jpg)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
-        position: 'relative',
-      }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.3)' }} />
+      {/* Mood-Bilder Trenner – zwei nebeneinander */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', height: 'clamp(240px, 35vw, 480px)', overflow: 'hidden' }}>
+        <div style={{
+          backgroundImage: 'url(/mood-1.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+          position: 'relative',
+        }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.25)' }} />
+        </div>
+        <div style={{
+          backgroundImage: 'url(/wm-2016-extra.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed',
+          position: 'relative',
+        }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.25)' }} />
+        </div>
       </div>
 
       {/* TEASER: WM-Events – Foto-ready grid */}
@@ -263,11 +273,15 @@ export default function Home() {
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {[
-                { name: wm.ewige_tabelle[0]?.name, label: 'Meiste Tore gesamt', value: `${Object.values(wm.abschlusstabellen).flat().filter(r=>r.name===wm.ewige_tabelle[0]?.name).reduce((s,r)=>s+(r.t||0),0)} Tore` },
-                { name: wm.ewige_tabelle[1]?.name, label: 'Platz 2', value: `${Object.values(wm.abschlusstabellen).flat().filter(r=>r.name===wm.ewige_tabelle[1]?.name).reduce((s,r)=>s+(r.t||0),0)} Tore` },
-                { name: wm.ewige_tabelle[2]?.name, label: 'Platz 3', value: `${Object.values(wm.abschlusstabellen).flat().filter(r=>r.name===wm.ewige_tabelle[2]?.name).reduce((s,r)=>s+(r.t||0),0)} Tore` },
-              ].map((r, i) => (
+              {(() => {
+                const alle = [...new Set(Object.values(wm.abschlusstabellen).flat().map(x=>x.name))]
+                return alle.map(name => ({
+                  name,
+                  tore: Object.values(wm.abschlusstabellen).flat().filter(x=>x.name===name).reduce((s,x)=>s+(x.t||0),0)
+                })).sort((a,b)=>b.tore-a.tore).slice(0,3).map((r,i) => ({
+                  name: r.name, label: `Platz ${i+1}`, value: `${r.tore} Tore`
+                }))
+              })().map((r, i) => (
                 <div key={r.name} className="card" style={{ padding: '16px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                     <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 28, color: 'var(--gold)', lineHeight: 1, minWidth: 32 }}>{i+1}</span>
@@ -287,9 +301,17 @@ export default function Home() {
           <div className="eyebrow">Statistiken</div>
           <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: 'var(--gruen)', marginBottom: 40 }}>Remiskönige</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 2 }}>
-            {wm.ewige_tabelle.slice(0,5).map((r, i) => {
-              const remis = Object.values(wm.abschlusstabellen).flat().filter(x=>x.name===r.name).reduce((s,x)=>s+(x.u||0),0)
-              const sp = Object.values(wm.abschlusstabellen).flat().filter(x=>x.name===r.name).reduce((s,x)=>s+(x.sp||0),0)
+            {(() => {
+            const alleTrainer = [...new Set(Object.values(wm.abschlusstabellen).flat().map(x=>x.name))]
+            const mitRemis = alleTrainer.map(name => ({
+              name,
+              remis: Object.values(wm.abschlusstabellen).flat().filter(x=>x.name===name).reduce((s,x)=>s+(x.u||0),0),
+              sp: Object.values(wm.abschlusstabellen).flat().filter(x=>x.name===name).reduce((s,x)=>s+(x.sp||0),0),
+            })).sort((a,b)=>b.remis-a.remis).slice(0,5)
+            return mitRemis
+          })().map((r, i) => {
+              const remis = r.remis
+              const sp = r.sp
               return (
                 <div key={r.name} style={{
                   background: i === 0 ? 'var(--gruen)' : 'var(--cream)',
