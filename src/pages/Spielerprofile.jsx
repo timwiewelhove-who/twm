@@ -37,33 +37,28 @@ function berechneAlle() {
 const ALLE = berechneAlle()
 
 
-// Name → Foto-Pfad (Leerzeichen → _, Umlaute → ae/oe/ue)
-function getFoto(name) {
-  const cleaned = name
+// Name → Basis-Dateipfad
+function getFotoBase(name) {
+  return name
     .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
     .replace(/Ä/g, 'Ae').replace(/Ö/g, 'Oe').replace(/Ü/g, 'Ue')
-    .replace(/ß/g, 'ss')
-    .replace(/ /g, '_')
-  return `/spieler/${cleaned}.jpg`
+    .replace(/ß/g, 'ss').replace(/ /g, '_')
 }
 
+// Avatar-Kreis: zeigt _1.jpg oder Initialen
 function FotoAvatar({ name, size = 80, fontSize = 22 }) {
   const [hasPhoto, setHasPhoto] = React.useState(true)
   const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2)
   const istChamp = wm.weltmeister.some(e => e.sieger === name)
+  const borderStyle = istChamp ? '3px solid var(--gold)' : '2px solid rgba(28,66,43,0.15)'
 
   if (hasPhoto) {
     return (
       <img
-        src={getFoto(name)}
+        src={`/spieler/${getFotoBase(name)}_1.jpg`}
         alt={name}
         onError={() => setHasPhoto(false)}
-        style={{
-          width: size, height: size, borderRadius: '50%',
-          objectFit: 'cover', objectPosition: 'center top',
-          border: istChamp ? '3px solid var(--gold)' : '2px solid rgba(28,66,43,0.15)',
-          flexShrink: 0,
-        }}
+        style={{ width: size, height: size, borderRadius: '50%', objectFit: 'cover', objectPosition: 'center top', border: borderStyle, flexShrink: 0 }}
       />
     )
   }
@@ -73,11 +68,90 @@ function FotoAvatar({ name, size = 80, fontSize = 22 }) {
       background: istChamp ? 'var(--gold)' : 'rgba(28,66,43,0.1)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       fontFamily: "'Bayon', sans-serif", fontSize,
-      color: istChamp ? 'var(--gruen)' : 'var(--gruen)',
-      flexShrink: 0,
-      border: istChamp ? '3px solid var(--gold)' : '2px solid rgba(28,66,43,0.15)',
-    }}>
-      {initials}
+      color: 'var(--gruen)', flexShrink: 0, border: borderStyle,
+    }}>{initials}</div>
+  )
+}
+
+// Galerie: lädt _1, _2, _3 ... bis Ladefehler
+function FotoGalerie({ name }) {
+  const [fotos, setFotos] = React.useState([1])
+  const [aktiv, setAktiv] = React.useState(0)
+  const [maxVersuch, setMaxVersuch] = React.useState(2)
+  const base = getFotoBase(name)
+
+  // Versuche Fotos _1 bis _5 zu laden
+  React.useEffect(() => {
+    setFotos([1]); setAktiv(0); setMaxVersuch(2)
+  }, [name])
+
+  const handleLoad = (idx) => {
+    if (idx === maxVersuch - 1 && maxVersuch <= 5) {
+      setFotos(prev => [...prev, maxVersuch])
+      setMaxVersuch(prev => prev + 1)
+    }
+  }
+  const handleError = (idx) => {
+    setFotos(prev => prev.filter(n => n <= idx))
+  }
+
+  const istChamp = wm.weltmeister.some(e => e.sieger === name)
+
+  return (
+    <div>
+      {/* Hauptbild */}
+      <div style={{ position: 'relative', borderRadius: 16, overflow: 'hidden', marginBottom: 12, background: 'var(--gruen)', aspectRatio: '4/3' }}>
+        {fotos.map((n, i) => (
+          <img
+            key={n}
+            src={`/spieler/${base}_${n}.jpg`}
+            alt={`${name} ${n}`}
+            onLoad={() => handleLoad(i)}
+            onError={() => handleError(n)}
+            style={{
+              position: 'absolute', inset: 0, width: '100%', height: '100%',
+              objectFit: 'cover', objectPosition: 'center top',
+              opacity: i === aktiv ? 1 : 0,
+              transition: 'opacity 0.3s',
+              display: i <= aktiv + 1 ? 'block' : 'none',
+            }}
+          />
+        ))}
+        {/* Kein Foto → Initialen-Placeholder */}
+        {fotos.length === 0 && (
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 64, color: 'rgba(255,255,255,0.15)' }}>
+              {name.split(' ').map(w => w[0]).join('').slice(0,2)}
+            </div>
+            <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.3)' }}>Kein Foto vorhanden</div>
+          </div>
+        )}
+        {/* Titel-Badge bei Champions */}
+        {istChamp && (
+          <div style={{ position: 'absolute', top: 12, right: 12, background: 'var(--gold)', color: 'var(--gruen)', fontSize: 12, fontWeight: 700, padding: '4px 10px', borderRadius: 20 }}>
+            🏆 Weltmeister
+          </div>
+        )}
+        {/* Pfeil-Navigation bei mehreren Fotos */}
+        {fotos.length > 1 && (
+          <>
+            <button onClick={() => setAktiv(a => Math.max(0, a-1))} disabled={aktiv === 0}
+              style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.85)', border: 'none', borderRadius: '50%', width: 36, height: 36, cursor: 'pointer', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: aktiv === 0 ? 0.3 : 1 }}>‹</button>
+            <button onClick={() => setAktiv(a => Math.min(fotos.length-1, a+1))} disabled={aktiv === fotos.length-1}
+              style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'rgba(255,255,255,0.85)', border: 'none', borderRadius: '50%', width: 36, height: 36, cursor: 'pointer', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: aktiv === fotos.length-1 ? 0.3 : 1 }}>›</button>
+          </>
+        )}
+      </div>
+      {/* Thumbnails */}
+      {fotos.length > 1 && (
+        <div style={{ display: 'flex', gap: 8 }}>
+          {fotos.map((n, i) => (
+            <button key={n} onClick={() => setAktiv(i)} style={{ padding: 0, border: i === aktiv ? '2px solid var(--gold)' : '2px solid transparent', borderRadius: 8, overflow: 'hidden', cursor: 'pointer', width: 56, height: 56, flexShrink: 0 }}>
+              <img src={`/spieler/${base}_${n}.jpg`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} />
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -150,27 +224,29 @@ function SpielerDetail({ spieler }) {
   return (
     <div>
       {/* Header */}
-      <div style={{ background: 'var(--gruen)', padding: '80px 0 48px' }}>
+      <div style={{ background: 'var(--gruen)', padding: '80px 0 0' }}>
         <div className="container">
-          <Link to="/spielerprofile" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, display: 'inline-block', marginBottom: 24 }}>← Alle Profile</Link>
-          <div style={{ display: 'flex', alignItems: 'flex-end', gap: 24, flexWrap: 'wrap' }}>
-            <FotoAvatar name={spieler.name} size={80} fontSize={26} />
-            <div>
-              <h1 style={{ color: 'white', fontSize: 'clamp(28px, 4vw, 48px)', marginBottom: 8 }}>{spieler.name}</h1>
-              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-                {spieler.titel > 0 && <span style={{ background: 'var(--gold)', color: 'var(--gruen)', fontSize: 12, fontWeight: 700, padding: '4px 12px', borderRadius: 20 }}>🏆 {spieler.titel}× Weltmeister</span>}
-                {spieler.tsk > 0 && <span style={{ background: 'rgba(176,137,45,0.2)', color: 'var(--gold)', fontSize: 12, fontWeight: 700, padding: '4px 12px', borderRadius: 20 }}>👑 {spieler.tsk}× Torschützenkönig</span>}
-                <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: 13 }}>{spieler.wms} WMs · {spieler.sp} Spiele</span>
-              </div>
-            </div>
-          </div>
+          <Link to="/spielerprofile" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, display: 'inline-block', marginBottom: 32 }}>← Alle Profile</Link>
         </div>
       </div>
 
-      {/* Stats Grid */}
-      <section className="section--sm" style={{ background: 'var(--cream)' }}>
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 12, marginBottom: 40 }}>
+      {/* Foto + Stats nebeneinander */}
+      <section style={{ background: 'var(--cream)' }}>
+        <div className="container" style={{ paddingTop: 0 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(240px, 380px) 1fr', gap: 32, alignItems: 'start', marginBottom: 40 }}>
+            {/* Linke Spalte: Galerie */}
+            <div style={{ marginTop: -40 }}>
+              <FotoGalerie name={spieler.name} />
+            </div>
+            {/* Rechte Spalte: Name + Badges + Stats */}
+            <div style={{ paddingTop: 24 }}>
+              <h1 style={{ color: 'var(--gruen)', fontSize: 'clamp(28px, 4vw, 52px)', marginBottom: 12, lineHeight: 1 }}>{spieler.name}</h1>
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 24 }}>
+                {spieler.titel > 0 && <span style={{ background: 'var(--gold)', color: 'var(--gruen)', fontSize: 12, fontWeight: 700, padding: '4px 12px', borderRadius: 20 }}>🏆 {spieler.titel}× Weltmeister</span>}
+                {spieler.tsk > 0 && <span style={{ background: 'rgba(28,66,43,0.1)', color: 'var(--gruen)', fontSize: 12, fontWeight: 700, padding: '4px 12px', borderRadius: 20 }}>👑 {spieler.tsk}× Torschützenkönig</span>}
+                <span style={{ background: 'rgba(28,66,43,0.07)', color: 'var(--text-muted)', fontSize: 12, padding: '4px 12px', borderRadius: 20 }}>{spieler.wms} WMs · {spieler.sp} Spiele</span>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 10 }}>
             {[
               { label: 'Siege', value: spieler.s, sub: `${siegQ}%` },
               { label: 'Remis', value: spieler.u, sub: `${(spieler.u/spieler.sp*100).toFixed(1)}%` },
@@ -181,13 +257,15 @@ function SpielerDetail({ spieler }) {
               { label: 'Beste Platz.', value: `${spieler.bestePlatz}.` },
               { label: 'Gesamt-Pkt.', value: spieler.pkt, sub: 'Weltrangliste' },
             ].map(s => (
-              <div key={s.label} className="card" style={{ padding: '16px 20px' }}>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 6 }}>{s.label}</div>
-                <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 36, color: s.color || 'var(--gruen)', lineHeight: 1 }}>{s.value}</div>
-                {s.sub && <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>{s.sub}</div>}
+              <div key={s.label} style={{ background: 'rgba(28,66,43,0.06)', borderRadius: 10, padding: '14px 16px' }}>
+                <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 4 }}>{s.label}</div>
+                <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 32, color: s.color || 'var(--gruen)', lineHeight: 1 }}>{s.value}</div>
+                {s.sub && <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 3 }}>{s.sub}</div>}
               </div>
             ))}
-          </div>
+              </div>{/* end stats grid */}
+            </div>{/* end right column */}
+          </div>{/* end two-col layout */}
 
           {/* Karrierekurve */}
           <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 24 }}>Karriereverlauf</h2>
