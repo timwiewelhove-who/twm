@@ -1,4 +1,5 @@
 import { useParams, Link } from 'react-router-dom'
+import { PlateIcon } from '../components/PlateIcon'
 import wm from '../data/wm.json'
 
 export default function EventDetail() {
@@ -36,14 +37,14 @@ export default function EventDetail() {
           <h1 style={{ fontSize: 'clamp(40px, 7vw, 80px)', color: 'var(--white)' }}>WM {event.jahr}</h1>
           <div style={{ display: 'flex', gap: 16, marginTop: 20, flexWrap: 'wrap' }}>
             {[
-              { label: 'Weltmeister', value: `🏆 ${event.sieger}` },
+              { label: 'Weltmeister', value: event.sieger, plate: true },
               { label: 'Torschützenkönig', value: `👑 ${event.torschuetzenkoenig} (${event.tore} Tore)` },
               { label: 'Teilnehmer', value: event.teilnehmer },
               { label: 'Sieger-Punkte', value: `${event.punkte} Pkt.` },
             ].map(item => (
               <div key={item.label} style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)', borderRadius: 10, padding: '14px 20px', border: '1px solid rgba(255,255,255,0.15)' }}>
                 <div style={{ fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: 4 }}>{item.label}</div>
-                <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 20, color: 'var(--gold)' }}>{item.value}</div>
+                <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 20, color: 'var(--gold)', display: 'flex', alignItems: 'center', gap: 8 }}>{item.plate && <PlateIcon size={18} color='var(--gold)' />}{item.value}</div>
               </div>
             ))}
           </div>
@@ -74,7 +75,7 @@ export default function EventDetail() {
                 <tbody>
                   {tabelle.map(r => (
                     <tr key={r.name} style={{ background: r.pl === 1 ? 'rgba(176,137,45,0.06)' : 'transparent' }}>
-                      <td className="rank">{r.pl === 1 ? '🏆' : r.pl}</td>
+                      <td className="rank">{r.pl === 1 ? <PlateIcon size={14} color='var(--gold)' /> : r.pl}</td>
                       <td style={{ fontWeight: r.pl <= 3 ? 700 : 400 }}>
                         {!event.torschuetzenkoenig.includes('&') && r.name === event.torschuetzenkoenig ? '👑 ' : ''}{r.name}
                       </td>

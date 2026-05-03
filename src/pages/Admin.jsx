@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { PlateIcon } from '../components/PlateIcon'
 import { Link } from 'react-router-dom'
 import wm from '../data/wm.json'
 
@@ -100,7 +101,7 @@ export default function Admin() {
               {events.map(e => (
                 <tr key={e.jahr}>
                   <td style={{ fontFamily: "'Bayon', sans-serif", fontSize: 20, color: 'var(--gold)' }}>{e.jahr}</td>
-                  <td style={{ fontWeight: 600 }}>🏆 {e.sieger}</td>
+                  <td style={{ fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}><PlateIcon size={14} color='var(--gold)' />{e.sieger}</td>
                   <td style={{ color: 'var(--text-muted)', fontSize: 14 }}>{e.ort}</td>
                   <td style={{ color: 'var(--text-muted)' }}>{e.teilnehmer}</td>
                   <td>

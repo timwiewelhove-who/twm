@@ -1,4 +1,5 @@
 import React from 'react'
+import { PlateIcon } from '../components/PlateIcon'
 import { Link, useLocation } from 'react-router-dom'
 import wm from '../data/wm.json'
 
@@ -75,7 +76,7 @@ function EwigeTabelle() {
           <tbody>
             {wm.ewige_tabelle.map((r, i) => (
               <tr key={r.name} style={{ background: i === 0 ? 'rgba(176,137,45,0.05)' : 'transparent' }}>
-                <td className="rank">{i < 3 ? ['🥇','🥈','🥉'][i] : r.pl}</td>
+                <td className="rank">{i === 0 ? <PlateIcon size={14} color='var(--gold)' /> : i === 1 ? '2' : i === 2 ? '3' : r.pl}</td>
                 <td style={{ fontWeight: i < 5 ? 600 : 400 }}>{r.name}</td>
                 <td className="num">{r.sp}</td>
                 <td className="num">{r.s}</td>
@@ -104,7 +105,7 @@ function Champs() {
           <Link key={e.jahr} to={`/events/${e.jahr}`} className="card card--hover" style={{ padding: '20px 24px', display: 'grid', gridTemplateColumns: '80px 1fr auto', alignItems: 'center', gap: 20 }}>
             <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 36, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
             <div>
-              <div style={{ fontWeight: 700, fontSize: 18, color: 'var(--gruen)' }}>🏆 {e.sieger}</div>
+              <div style={{ fontWeight: 700, fontSize: 18, color: 'var(--gruen)', display: 'flex', alignItems: 'center', gap: 8 }}><PlateIcon size={16} color='var(--gold)' />{e.sieger}</div>
               <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 2 }}>
                 {e.ort.split('–')[0].trim()} · {e.punkte} Pkt · {e.teilnehmer} Teilnehmer
               </div>
@@ -380,9 +381,7 @@ function Schiessbude() {
           </tbody>
         </table>
       </div>
-      <div style={{ marginTop: 20, padding: '14px 18px', background: 'rgba(220,38,38,0.04)', borderRadius: 10, border: '1px solid rgba(220,38,38,0.1)', fontSize: 13, color: 'var(--text-muted)' }}>
-        💡 Wer viele Gegentore kassiert hat, ist meist auch am längsten dabei. Für den echten Vergleich lohnt die Quote.
-      </div>
+
     </div>
   )
 }

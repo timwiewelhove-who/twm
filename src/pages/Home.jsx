@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { PlateIcon } from '../components/PlateIcon'
 import { Link } from 'react-router-dom'
 import wm from '../data/wm.json'
 
@@ -156,13 +157,13 @@ export default function Home() {
               padding: '32px', display: 'flex', flexDirection: 'column', gap: 16,
               background: 'var(--gruen)', color: 'white', overflow: 'hidden', position: 'relative',
             }}>
-              <div style={{ position: 'absolute', top: -20, right: -20, fontSize: 120, opacity: 0.06, lineHeight: 1 }}>🌍</div>
+              
               <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)' }}>Weltrangliste</div>
               <div>
                 {top3Rangliste.map((r, i) => (
                   <div key={r.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 0', borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.1)' : 'none' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                      <span style={{ fontSize: 18 }}>{['🥇','🥈','🥉'][i]}</span>
+                      {i === 0 ? <PlateIcon size={18} color="var(--gold)" /> : <span style={{ fontSize: 14, fontWeight: 700, color: 'rgba(255,255,255,0.5)' }}>{i+1}</span>}
                       <span style={{ fontWeight: 600, fontSize: 16 }}>{r.name}</span>
                     </div>
                     <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 22, color: 'var(--gold)' }}>{r.total}</span>
