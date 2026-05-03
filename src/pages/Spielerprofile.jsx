@@ -100,7 +100,7 @@ function FotoGalerie({ name }) {
   return (
     <div>
       {/* Hauptbild */}
-      <div style={{ position: 'relative', borderRadius: 16, overflow: 'hidden', marginBottom: 12, background: 'var(--gruen)', aspectRatio: '4/3' }}>
+      <div style={{ position: 'relative', borderRadius: 16, overflow: 'hidden', marginBottom: 12, background: 'var(--gruen)', aspectRatio: '3/4', maxHeight: 480 }}>
         {fotos.map((n, i) => (
           <img
             key={n}
@@ -223,24 +223,24 @@ function SpielerDetail({ spieler }) {
 
   return (
     <div>
-      {/* Header */}
-      <div style={{ background: 'var(--gruen)', padding: '80px 0 0' }}>
+      {/* Header – grüner Streifen mit Back-Link */}
+      <div style={{ background: 'var(--gruen)', padding: '80px 0 48px' }}>
         <div className="container">
-          <Link to="/spielerprofile" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, display: 'inline-block', marginBottom: 32 }}>← Alle Profile</Link>
+          <Link to="/spielerprofile" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, display: 'inline-block', marginBottom: 0 }}>← Alle Profile</Link>
         </div>
       </div>
 
-      {/* Foto + Stats nebeneinander */}
+      {/* Foto + Stats – klar unterhalb des Headers */}
       <section style={{ background: 'var(--cream)' }}>
-        <div className="container" style={{ paddingTop: 0 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(240px, 380px) 1fr', gap: 32, alignItems: 'start', marginBottom: 40 }}>
+        <div className="container">
+          <div style={{ display: 'grid', gridTemplateColumns: 'minmax(220px, 340px) 1fr', gap: 32, alignItems: 'start', padding: '40px 0', flexWrap: 'wrap' }}>
             {/* Linke Spalte: Galerie */}
-            <div style={{ marginTop: -40 }}>
+            <div>
               <FotoGalerie name={spieler.name} />
             </div>
             {/* Rechte Spalte: Name + Badges + Stats */}
-            <div style={{ paddingTop: 24 }}>
-              <h1 style={{ color: 'var(--gruen)', fontSize: 'clamp(28px, 4vw, 52px)', marginBottom: 12, lineHeight: 1 }}>{spieler.name}</h1>
+            <div>
+              <h1 style={{ color: 'var(--gruen)', fontSize: 'clamp(26px, 3.5vw, 48px)', marginBottom: 12, lineHeight: 1.1 }}>{spieler.name}</h1>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 24 }}>
                 {spieler.titel > 0 && <span style={{ background: 'var(--gold)', color: 'var(--gruen)', fontSize: 12, fontWeight: 700, padding: '4px 12px', borderRadius: 20 }}>🏆 {spieler.titel}× Weltmeister</span>}
                 {spieler.tsk > 0 && <span style={{ background: 'rgba(28,66,43,0.1)', color: 'var(--gruen)', fontSize: 12, fontWeight: 700, padding: '4px 12px', borderRadius: 20 }}>👑 {spieler.tsk}× Torschützenkönig</span>}
@@ -263,9 +263,9 @@ function SpielerDetail({ spieler }) {
                 {s.sub && <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 3 }}>{s.sub}</div>}
               </div>
             ))}
-              </div>{/* end stats grid */}
-            </div>{/* end right column */}
-          </div>{/* end two-col layout */}
+              </div>
+            </div>
+          </div>
 
           {/* Karrierekurve */}
           <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 24 }}>Karriereverlauf</h2>
