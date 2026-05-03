@@ -84,7 +84,7 @@ export default function WM2026() {
           {/* Titelverteidiger */}
           <h2 style={{ fontSize: 32, color: 'var(--gruen)', marginBottom: 24 }}>Titelverteidiger</h2>
           <div className="card" style={{ padding: '24px 32px', display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap', marginBottom: 48 }}>
-            <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Bayon', sans-serif", fontSize: 22, color: 'var(--gruen)', flexShrink: 0 }}>PC</div>
+            <img src="/spieler/Patrick_Christof.jpg" alt="Patrick Christof" style={{ width: 64, height: 64, borderRadius: '50%', objectFit: 'cover', objectPosition: 'center top', border: '3px solid var(--gold)', flexShrink: 0 }} onError={e => { e.target.style.display='none' }} />
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 4 }}>Weltmeister 2024</div>
               <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 36, color: 'var(--gruen)', lineHeight: 1 }}>Patrick Christof</div>

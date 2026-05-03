@@ -36,6 +36,52 @@ function berechneAlle() {
 
 const ALLE = berechneAlle()
 
+
+// Name → Foto-Pfad (Leerzeichen → _, Umlaute → ae/oe/ue)
+function getFoto(name) {
+  const cleaned = name
+    .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
+    .replace(/Ä/g, 'Ae').replace(/Ö/g, 'Oe').replace(/Ü/g, 'Ue')
+    .replace(/ß/g, 'ss')
+    .replace(/ /g, '_')
+  return `/spieler/${cleaned}.jpg`
+}
+
+function FotoAvatar({ name, size = 80, fontSize = 22 }) {
+  const [hasPhoto, setHasPhoto] = React.useState(true)
+  const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2)
+  const istChamp = wm.weltmeister.some(e => e.sieger === name)
+
+  if (hasPhoto) {
+    return (
+      <img
+        src={getFoto(name)}
+        alt={name}
+        onError={() => setHasPhoto(false)}
+        style={{
+          width: size, height: size, borderRadius: '50%',
+          objectFit: 'cover', objectPosition: 'center top',
+          border: istChamp ? '3px solid var(--gold)' : '2px solid rgba(28,66,43,0.15)',
+          flexShrink: 0,
+        }}
+      />
+    )
+  }
+  return (
+    <div style={{
+      width: size, height: size, borderRadius: '50%',
+      background: istChamp ? 'var(--gold)' : 'rgba(28,66,43,0.1)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontFamily: "'Bayon', sans-serif", fontSize,
+      color: istChamp ? 'var(--gruen)' : 'var(--gruen)',
+      flexShrink: 0,
+      border: istChamp ? '3px solid var(--gold)' : '2px solid rgba(28,66,43,0.15)',
+    }}>
+      {initials}
+    </div>
+  )
+}
+
 function KarriereChart({ spieler }) {
   const canvasRef = React.useRef(null)
   const chartRef = React.useRef(null)
@@ -108,9 +154,7 @@ function SpielerDetail({ spieler }) {
         <div className="container">
           <Link to="/spielerprofile" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, display: 'inline-block', marginBottom: 24 }}>← Alle Profile</Link>
           <div style={{ display: 'flex', alignItems: 'flex-end', gap: 24, flexWrap: 'wrap' }}>
-            <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'rgba(176,137,45,0.2)', border: '2px solid var(--gold)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Bayon', sans-serif", fontSize: 28, color: 'var(--gold)', flexShrink: 0 }}>
-              {spieler.name.split(' ').map(w => w[0]).join('').slice(0,2)}
-            </div>
+            <FotoAvatar name={spieler.name} size={80} fontSize={26} />
             <div>
               <h1 style={{ color: 'white', fontSize: 'clamp(28px, 4vw, 48px)', marginBottom: 8 }}>{spieler.name}</h1>
               <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
@@ -238,9 +282,7 @@ function SpielerListe() {
                 <div className="card" style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: 16, transition: 'transform 0.15s', cursor: 'pointer' }}
                   onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
                   onMouseLeave={e => e.currentTarget.style.transform = 'none'}>
-                  <div style={{ width: 44, height: 44, borderRadius: '50%', background: s.titel > 0 ? 'var(--gold)' : 'rgba(28,66,43,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Bayon', sans-serif", fontSize: 16, color: s.titel > 0 ? 'var(--gruen)' : 'var(--gruen)', flexShrink: 0 }}>
-                    {s.name.split(' ').map(w => w[0]).join('').slice(0,2)}
-                  </div>
+                  <FotoAvatar name={s.name} size={44} fontSize={14} />
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontWeight: 700, color: 'var(--gruen)', fontSize: 15, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                       {s.name}
