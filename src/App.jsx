@@ -21,12 +21,15 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/events/2026" element={<WM2026 />} />
           <Route path="/events/:jahr" element={<EventDetail />} />
           <Route path="/statistiken" element={<Navigate to="/statistiken/weltrangliste" replace />} />
           <Route path="/statistiken/:sub" element={<Statistiken />} />
           <Route path="/wissenswertes" element={<Navigate to="/wissenswertes/historie" replace />} />
           <Route path="/wissenswertes/:sub" element={<Wissenswertes />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/spielerprofile" element={<Spielerprofile />} />
+          <Route path="/spielerprofile/:name" element={<Spielerprofile />} />
         </Routes>
       </main>
       <Footer />
