@@ -8,6 +8,7 @@ import EventDetail from './pages/EventDetail'
 import Statistiken from './pages/Statistiken'
 import Wissenswertes from './pages/Wissenswertes'
 import Spielerprofile from './pages/Spielerprofile'
+import WM2026 from './pages/WM2026'
 import Admin from './pages/Admin'
 import './index.css'
 

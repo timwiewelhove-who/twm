@@ -6,6 +6,7 @@ const NAV_ITEMS = [
     to: '/events',
     label: 'WM-Events',
     children: [
+      { to: '/events/2026', label: '🔜 WM 2026 · Édition Jubilaire' },
       { to: '/events/2024', label: 'WM 2024 · Jaderberg' },
       { to: '/events/2022', label: 'WM 2022 · Oldenburg' },
       { to: '/events/2018', label: 'WM 2018 · Berne' },
