@@ -51,7 +51,7 @@ export default function Wissenswertes() {
         <div className="container--narrow">
           {active === 'historie' && (
             <div>
-              <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 32 }}>Die Geschichte des Trommelschießens</h2>
+              <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 32 }}>Die Geschichte des Trommelschiessens</h2>
               {HISTORIE.split('\n\n').map((p, i) => (
                 <p key={i} style={{ fontSize: 17, lineHeight: 1.8, color: 'var(--text)', marginBottom: 24 }}>{p}</p>
               ))}
