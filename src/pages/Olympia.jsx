@@ -103,6 +103,22 @@ export default function Olympia() {
         </div>
       </section>
 
+      {/* Foto */}
+      <section style={{ background: 'white', padding: '64px 0' }}>
+        <div className="container">
+          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 20 }}>
+            Fünf Maschinen. Fünf Ringe. Eine Vision.
+          </div>
+          <div style={{ borderRadius: 16, overflow: 'hidden', lineHeight: 0 }}>
+            <img
+              src="/olympia-waschmaschinen.jpg"
+              alt="Fünf Waschmaschinen im Garten, deren bunte Bullaugen die olympischen Ringe ergeben"
+              style={{ width: '100%', height: 'auto', display: 'block' }}
+            />
+          </div>
+        </div>
+      </section>
+
       {/* 7 Argumente */}
       <section style={{ background: 'var(--cream)', padding: '80px 0' }}>
         <div className="container">
@@ -136,22 +152,6 @@ export default function Olympia() {
         </div>
       </section>
 
-
-      {/* Foto */}
-      <section style={{ background: 'white', padding: '64px 0' }}>
-        <div className="container">
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 20 }}>
-            Fünf Maschinen. Fünf Ringe. Eine Vision.
-          </div>
-          <div style={{ borderRadius: 16, overflow: 'hidden', lineHeight: 0 }}>
-            <img
-              src="/olympia-waschmaschinen.jpg"
-              alt="Fünf Waschmaschinen im Garten, deren bunte Bullaugen die olympischen Ringe ergeben"
-              style={{ width: '100%', height: 'auto', display: 'block' }}
-            />
-          </div>
-        </div>
-      </section>
 
       {/* Vergleichstabelle */}
       <section style={{ background: 'var(--gruen)', padding: '80px 0' }}>
