@@ -137,20 +137,19 @@ export default function Olympia() {
       </section>
 
 
-      {/* Illustration */}
+      {/* Foto */}
       <section style={{ background: 'white', padding: '64px 0' }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 24 }}>
-            Visuelle Unterstützung für die IOC-Bewerbung
-          </div>
-          <img
-            src="/olympia-ringe.svg"
-            alt="Fünf Waschmaschinen, deren bunte Bullaugen die olympischen Ringe ergeben – Trommelschießen Hamburg"
-            style={{ maxWidth: 640, width: '100%', display: 'block', margin: '0 auto' }}
-          />
-          <p style={{ fontSize: 13, color: 'var(--text-light)', marginTop: 16, fontStyle: 'italic' }}>
+        <div className="container">
+          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 20 }}>
             Fünf Maschinen. Fünf Ringe. Eine Vision.
-          </p>
+          </div>
+          <div style={{ borderRadius: 16, overflow: 'hidden', lineHeight: 0 }}>
+            <img
+              src="/olympia-waschmaschinen.jpg"
+              alt="Fünf Waschmaschinen im Garten, deren bunte Bullaugen die olympischen Ringe ergeben"
+              style={{ width: '100%', height: 'auto', display: 'block' }}
+            />
+          </div>
         </div>
       </section>
 

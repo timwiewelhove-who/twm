@@ -100,7 +100,7 @@ export default function Home() {
           <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 20 }}>
             Kurz erklärt – in 30 Sekunden
           </div>
-          <h1 style={{ fontSize: 'clamp(28px, 4.5vw, 60px)', color: 'white', marginBottom: 32 }}>
+          <h1 style={{ fontSize: 'clamp(28px, 4.5vw, 60px)', color: 'var(--gruen)', marginBottom: 32 }}>
             Was ist Trommelschiessen?
           </h1>
           <p style={{ fontSize: 'clamp(16px, 1.8vw, 20px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, maxWidth: 680, margin: '0 auto 40px' }}>
@@ -146,7 +146,7 @@ export default function Home() {
       </section>
 
       {/* TEASER: Statistiken – 2 Karten nebeneinander */}
-      <section className="section" style={{ background: 'var(--white)' }}>
+      <section className="section" style={{ background: 'var(--cream-dark, #ede6d8)' }}>
         <div className="container">
           <div className="eyebrow">Statistiken</div>
           <h2 style={{ fontSize: 'clamp(24px, 4vw, 42px)', color: 'var(--gruen)', marginBottom: 32 }}>Zahlen, Daten, Trommelschiessen</h2>
@@ -363,6 +363,35 @@ export default function Home() {
 
 
 
+
+
+      {/* TEASER: Olympia */}
+      <section style={{ background: 'var(--cream)', overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', minHeight: 420 }}>
+          {/* Text links */}
+          <div style={{ padding: 'clamp(40px, 5vw, 72px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'var(--cream)' }}>
+            <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 16 }}>Über</div>
+            <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 40px)', color: 'var(--gruen)', marginBottom: 16, lineHeight: 1.15 }}>
+              Warum Trommelschiessen olympisch sein sollte
+            </h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: 15, lineHeight: 1.8, marginBottom: 24 }}>
+              Breakdance ist olympisch. Skateboarding auch. Die Gastgeberstadt darf eigene Sportarten vorschlagen.
+              Hamburg hat am 31. Mai 2026 die Wahl.
+            </p>
+            <Link to="/wissenswertes/olympia" className="btn btn--primary" style={{ alignSelf: 'flex-start' }}>
+              Das Plädoyer lesen →
+            </Link>
+          </div>
+          {/* Foto rechts – kein Overlay! */}
+          <div style={{ position: 'relative', minHeight: 300, overflow: 'hidden' }}>
+            <img
+              src="/olympia-waschmaschinen.jpg"
+              alt="Fünf Waschmaschinen mit bunten Bullaugen als olympische Ringe"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
+            />
+          </div>
+        </div>
+      </section>
 
       {/* TEASER: Spielerprofile */}
       <section style={{ background: 'var(--gruen)', overflow: 'hidden' }}>
