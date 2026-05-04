@@ -56,6 +56,21 @@ export default function Wissenswertes() {
               {HISTORIE.split('\n\n').map((p, i) => (
                 <p key={i} style={{ fontSize: 17, lineHeight: 1.8, color: 'var(--text)', marginBottom: 24 }}>{p}</p>
               ))}
+              {/* Greetings from Maschine – Video */}
+              <div style={{ margin: '48px 0' }}>
+                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 12 }}>
+                  Grüße aus Maschine · Ocean Breeze
+                </div>
+                <div style={{ borderRadius: 16, overflow: 'hidden', background: '#0a1c12', boxShadow: '0 8px 32px rgba(0,0,0,0.12)' }}>
+                  <video
+                    controls playsInline
+                    style={{ width: '100%', display: 'block', maxHeight: 500, objectFit: 'contain', background: '#0a1c12' }}
+                  >
+                    <source src="/greetings-maschine.mp4" type="video/mp4" />
+                  </video>
+                </div>
+              </div>
+
               <div style={{ marginTop: 40, padding: '24px', background: 'var(--gruen)', borderRadius: 'var(--radius-lg)', textAlign: 'center' }}>
                 <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 28, color: 'var(--gold)' }}>Trommel, Trommel … mors, mors!!!</div>
               </div>

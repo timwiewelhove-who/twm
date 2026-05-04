@@ -246,37 +246,35 @@ export default function Home() {
 
 
 
-      {/* MODUL 4: Édition Jubilaire – Video Background */}
-      <section style={{ position: 'relative', overflow: 'hidden', minHeight: 480, display: 'flex', alignItems: 'center' }}>
-        {/* Video */}
-        <video
-          autoPlay muted loop playsInline
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }}
-        >
-          <source src="/wm2026-teaser.mp4" type="video/mp4" />
-        </video>
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,28,18,0.78)', zIndex: 1 }} />
-        <div className="container" style={{ position: 'relative', zIndex: 2, padding: '80px 24px' }}>
-          <div style={{ maxWidth: 640 }}>
+      {/* MODUL 4: Edition Jubilaire – 2-spaltig */}
+      <section style={{ background: '#0a1c12', overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', minHeight: 520 }}>
+          <div style={{ position: 'relative', minHeight: 300, overflow: 'hidden' }}>
+            <video autoPlay muted loop playsInline
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}>
+              <source src="/wm2026-teaser.mp4" type="video/mp4" />
+            </video>
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, transparent 55%, #0a1c12)' }} />
+          </div>
+          <div style={{ padding: 'clamp(40px, 6vw, 72px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 16 }}>
               06. Juni 2026
             </div>
-            <h2 style={{ fontSize: 'clamp(28px, 4.5vw, 56px)', color: 'white', lineHeight: 1.05, marginBottom: 20 }}>
-              Édition Jubilaire
+            <h2 style={{ fontSize: 'clamp(28px, 4vw, 52px)', color: 'white', lineHeight: 1.05, marginBottom: 20 }}>
+              EDITION JUBILAIRE
             </h2>
-            <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: 16, lineHeight: 1.8, marginBottom: 12 }}>
+            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15, lineHeight: 1.8, marginBottom: 12 }}>
               20 Jahre Trommelschießen. Die X. WM ist das Jubiläum einer Idee,
               die in einer Norderstedter WG begann – und heute echte Weltmeisterschafts-Geschichte schreibt.
             </p>
-            <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 14, lineHeight: 1.7, marginBottom: 32 }}>
+            <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 14, lineHeight: 1.7, marginBottom: 32 }}>
               Der Austragungsort ist noch geheim – wird rechtzeitig bekannt gegeben.
-              Das Turnier kann am 06.06.2026 live auf dem Dashboard verfolgt werden.
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               <Link to="/events/2026" className="btn" style={{ background: 'var(--gold)', color: 'var(--gruen)', fontWeight: 700, border: 'none' }}>
                 Mehr zur WM 2026 →
               </Link>
-              <a href="https://trommelwm.vercel.app" target="_blank" rel="noopener" className="btn btn--outline" style={{ color: 'white', borderColor: 'rgba(255,255,255,0.3)' }}>
+              <a href="https://trommelwm.vercel.app" target="_blank" rel="noopener" className="btn btn--outline" style={{ color: 'white', borderColor: 'rgba(255,255,255,0.25)' }}>
                 Live-Dashboard →
               </a>
             </div>
@@ -284,8 +282,7 @@ export default function Home() {
         </div>
       </section>
 
-
-            {/* TEASER: Ballermänner – großes Zitat-Style */}
+      {/* TEASER: Ballermänner – großes Zitat-Style */}
       <section style={{ background: 'var(--cream-dark, #ede6d8)', padding: '80px 0' }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 48, alignItems: 'center' }}>
@@ -364,50 +361,26 @@ export default function Home() {
       </section>
 
 
+
+
+
       {/* TEASER: Spielerprofile */}
-      <section style={{ background: 'var(--gruen)', padding: '80px 0', overflow: 'hidden', position: 'relative' }}>
-        <div style={{ position: 'absolute', right: -80, top: -80, width: 400, height: 400, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.05)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', right: 60, top: 40, width: 200, height: 200, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.05)', pointerEvents: 'none' }} />
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 48, alignItems: 'center' }}>
-            {/* Avatare Preview */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-              {(() => {
-                const alle = [...new Set(Object.values(wm.abschlusstabellen).flat().map(r => r.name))]
-                const mitPkt = wm.ewige_tabelle.map(r => r.name)
-                return mitPkt.slice(0, 18).map((name, i) => {
-                  const initials = name.split(' ').map(w => w[0]).join('').slice(0,2)
-                  const istChamp = wm.weltmeister.some(e => e.sieger === name)
-                  return (
-                    <Link key={name} to={`/spielerprofile/${encodeURIComponent(name)}`}
-                      style={{ width: 52, height: 52, borderRadius: '50%',
-                        background: istChamp ? 'var(--gold)' : 'rgba(255,255,255,0.1)',
-                        border: istChamp ? '2px solid var(--gold)' : '1px solid rgba(255,255,255,0.15)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontFamily: "'Bayon', sans-serif", fontSize: 16,
-                        color: istChamp ? 'var(--gruen)' : 'rgba(255,255,255,0.7)',
-                        transition: 'transform 0.15s', textDecoration: 'none',
-                        transform: `translateY(${i % 3 === 1 ? 8 : 0}px)`,
-                      }}
-                      onMouseEnter={e => e.currentTarget.style.transform = `translateY(${i % 3 === 1 ? 4 : -4}px) scale(1.1)`}
-                      onMouseLeave={e => e.currentTarget.style.transform = `translateY(${i % 3 === 1 ? 8 : 0}px)`}
-                      title={name}
-                    >{initials}</Link>
-                  )
-                })
-              })()}
-              <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(255,255,255,0.3)', fontSize: 18 }}>+{wm.ewige_tabelle.length - 18}</div>
-            </div>
-            <div>
-              <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 16 }}>Neu</div>
-              <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: 'white', marginBottom: 16 }}>Spielerprofile</h2>
-              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15, lineHeight: 1.8, marginBottom: 24 }}>
-                Alle 56 Trommler mit vollständigen Karrieredaten, Platzierungsverläufen und WM-Ergebnissen. Goldene Avatare sind Weltmeister.
-              </p>
-              <Link to="/spielerprofile" className="btn" style={{ background: 'var(--gold)', color: 'var(--gruen)', fontWeight: 700, border: 'none' }}>
-                Alle Profile ansehen →
-              </Link>
-            </div>
+      <section style={{ background: 'var(--gruen)', overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', minHeight: 440 }}>
+          <div style={{ position: 'relative', minHeight: 280, overflow: 'hidden' }}>
+            <img src="/spielerprofile-teaser.jpg" alt="Trommelschießen Spieler"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 35%' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, transparent 50%, var(--gruen))' }} />
+          </div>
+          <div style={{ padding: 'clamp(40px, 5vw, 72px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 16 }}>Neu</div>
+            <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: 'white', marginBottom: 16 }}>Spielerprofile</h2>
+            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15, lineHeight: 1.8, marginBottom: 24 }}>
+              Alle 56 Trommler mit vollständigen Karrieredaten, Platzierungsverläufen und WM-Ergebnissen.
+            </p>
+            <Link to="/spielerprofile" className="btn" style={{ background: 'var(--gold)', color: 'var(--gruen)', fontWeight: 700, border: 'none', alignSelf: 'flex-start' }}>
+              Alle Profile ansehen →
+            </Link>
           </div>
         </div>
       </section>

@@ -24,11 +24,8 @@ export default function WM2026() {
     <div>
       {/* Hero */}
       <section style={{ background: 'var(--gruen)', padding: '100px 0 80px', position: 'relative', overflow: 'hidden' }}>
-        <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.25, zIndex: 0 }}>
-          <source src="/wm2026-teaser.mp4" type="video/mp4" />
-        </video>
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,28,18,0.7)', zIndex: 1 }} />
-        <div className="container" style={{ position: 'relative', textAlign: 'center', zIndex: 2 }}>
+        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/hero-2024.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.2 }} />
+        <div className="container" style={{ position: 'relative', textAlign: 'center' }}>
           <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.15em', color: 'var(--gold)', marginBottom: 16, textTransform: 'uppercase' }}>
             Édition Jubilaire · 20 Jahre Trommelschießen
           </div>
@@ -85,6 +82,16 @@ export default function WM2026() {
             </div>
           </div>
 
+          {/* Video Jubilaire */}
+          <div style={{ marginBottom: 48 }}>
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 16 }}>Édition Jubilaire · Stimmung</div>
+            <div style={{ borderRadius: 16, overflow: 'hidden', background: '#000', aspectRatio: '16/9', maxWidth: 720 }}>
+              <video controls playsInline style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }}>
+                <source src="/wm2026-teaser.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </div>
+
           {/* Titelverteidiger */}
           <h2 style={{ fontSize: 32, color: 'var(--gruen)', marginBottom: 24 }}>Titelverteidiger</h2>
           <div className="card" style={{ padding: '24px 32px', display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap', marginBottom: 48 }}>
@@ -113,6 +120,20 @@ export default function WM2026() {
                 </div>
               </Link>
             ))}
+          </div>
+
+
+          {/* Teaser-Video */}
+          <div style={{ marginBottom: 48 }}>
+            <h2 style={{ fontSize: 32, color: 'var(--gruen)', marginBottom: 16 }}>Édition Jubilaire</h2>
+            <div style={{ borderRadius: 16, overflow: 'hidden', background: '#0a1c12' }}>
+              <video
+                controls autoPlay muted loop playsInline
+                style={{ width: '100%', display: 'block', maxHeight: 480, objectFit: 'cover' }}
+              >
+                <source src="/wm2026-teaser.mp4" type="video/mp4" />
+              </video>
+            </div>
           </div>
 
           {/* CTA */}

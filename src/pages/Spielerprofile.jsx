@@ -350,7 +350,7 @@ function SpielerListe() {
         </div>
       </div>
 
-      <section className="section--sm" style={{ background: 'var(--cream)', paddingBottom: 80 }}>
+      <section style={{ background: 'var(--cream)', padding: '40px 0 80px' }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 12 }}>
             {gefiltert.map((s, i) => (
