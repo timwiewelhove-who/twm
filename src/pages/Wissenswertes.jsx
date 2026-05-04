@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
+import Presse from './Presse'
 
 const HISTORIE = `Wenn Wohnzimmer zu Stadien mutieren und das Sofa als Fankurve dient, dann steht mal wieder ein großes Turnier auf dem Küchenkalender. Aus alten Hüten werden noch ältere Tricks gezaubert: Bierflaschen als Anzeigetafel oder Chili con carne, um dem laschen mexikanischen Querpassfußball einen Schuss Würze zu geben. Holger, Maik und Torsten haben für France 98 ihre WG in „Stade Chemin Bouleau" umbenannt. „Ey Digger, das heißt doch einfach nur 'Stadion am Birkenweg' auf Französisch", reichte als Erklärung völlig aus. Hausnummer 13 in 22850 Norderstedt, so viel schiebt der Chronist aus heutiger Sicht gerne noch hinterher.
 
@@ -89,6 +90,7 @@ export default function Wissenswertes() {
             </div>
           )}
 
+          {active === 'presse' && <Presse />}
           {active === 'regelwerk' && (
             <div>
               <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 32 }}>Regelwerk</h2>

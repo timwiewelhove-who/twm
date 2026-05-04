@@ -10,10 +10,14 @@ const ARTIKEL = [
     untertitel: 'Warum zwei Hamburger ihre Waschmaschinen mit Fußbällen füttern',
     jahr: 2006,
     pdf: '/presse/2006_Hamburger_Abendblatt.pdf',
-    text: `Das Kürzel, das in diesen Tagen so inflationär gebraucht wird, scheint nicht misszuverstehen: WM steht für (Fußball-)Weltmeisterschaft. Doch für Holger Müller und Stephan Krontal hat die zwei Hamburger das globale Fußballfest einen anderen Begriff: Waschmaschine. 150 Millionen Google-Einträge zum Begriff WM bezieht sich auf den Größel der Fußball-WM, dies: Der Großteil der knapp 150 Millionen Google Einträge zum Begriff WM bezieht sich auf den Größel der Fußball-WM, Dies Der Großteil bezieht sich auf das „das von der Internet-Suchmaschine Google unterstützt die Idee her dem Torwandschießen zu verleihen – das von der Trommel melschießen (andere Infos im Internet unter www.trommel-schiessen.de), das von den Organisatoren erfundene Turnier: Sieg und Niederlage gibt es beim „Trommelschießen" je fünf Treffer, und das Trommelschießen-Regelwerk: Jeder Trommler ab wechselnd wie im Elfmeterschießen. Ein Treffer, und das Trommelschießen ist das, was die Regel des Trommelschießens markiert, wenn der Ball in der Trommel liegen bleibt.
+    text: `HAMBURG – Das Kürzel, das in diesen Tagen so inflationär gebraucht wird, scheint nicht misszuverstehen: WM steht für Weltmeisterschaft. Doch für Holger Müller und Stephan Krontal bedeutet das globale Fußballfest etwas anderes: „Waschmaschine".
 
-Nicht ganz so formal geht es beim Trommelschießen zu – bei der Freiluft-Weltmeisterschaft auf dem Gelände einer Wohngemeinschaft in Berne. Seit 2006 veranstaltet Holger Müller zusammen mit Stephan Krontal dieses einmalige Turnier: Aus einer Distanz von 3,50 Metern versuchen die Spieler, den kleinen Ball in die Trommel einer im Garten aufgestellten Waschmaschine zu schießen. Als Treffer zählen nur Schüsse, die in der Maschine liegen bleiben.`,
-    zitat: '"Das ist unser Motto: So ist die Waschküche im Basiskonto, der Grundfläche im Basissilo, der möglichst ist 50 bis 100 Zuschauern als seiweg 57 Grünfläche im Basital, dessen Grundfläche im Basital, der Grundfläche im Basital."',
+Das Trommelschießen – das von den Organisatoren erfundene Turnier – ist so simpel wie genial: Aus einer Entfernung von 3,50 Metern versuchen die Spieler, den kleinen Ball in die Trommel einer Waschmaschine zu schießen. Als Treffer zählen nur Schüsse, die in der Maschine liegen bleiben.
+
+Gespielt wird im Duell „Eins gegen eins": Fünf Schüsse gibt jeder Trommler ab, abwechselnd wie im Elfmeterschießen. Steht es nach den fünf Versuchen unentschieden, gibt es weitere Runden nach dem K.o.-Prinzip.
+
+„Die Welt zu Gast im Garten" – so das Motto der beiden Hamburger, die ihren WG-Garten zur Weltmeisterschafts-Arena erklärt haben. Mit 50 bis 100 Zuschauern wird gerechnet. Der amtierende Trommel-Weltmeister Stephan Krontal will seinen Titel verteidigen.`,
+    zitat: '"Die Welt zu Gast im Garten – das ist unser Motto." – Hamburger Abendblatt, Juni 2006',
   },
   {
     id: 'kreisblatt2008mai',
