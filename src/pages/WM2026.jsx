@@ -27,7 +27,7 @@ export default function WM2026() {
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/hero-2024.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.2 }} />
         <div className="container" style={{ position: 'relative', textAlign: 'center' }}>
           <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.15em', color: 'var(--gold)', marginBottom: 16, textTransform: 'uppercase' }}>
-            Édition Jubilaire · 20 Jahre Trommelschießen
+            Edition Jubilaire · 20 Jahre Trommelschießen
           </div>
           <h1 style={{ fontSize: 'clamp(36px, 7vw, 88px)', color: 'white', lineHeight: 1, marginBottom: 24 }}>
             X. TRMMLR-WM
@@ -59,7 +59,7 @@ export default function WM2026() {
             <div>
               <h2 style={{ fontSize: 32, color: 'var(--gruen)', marginBottom: 16 }}>Das Jubiläum</h2>
               <p style={{ color: 'var(--text-muted)', lineHeight: 1.8, fontSize: 15 }}>
-                2006 wurde in einer Norderstedter WG eine Sportart geboren. 20 Jahre später feiern wir die 10. Weltmeisterschaft – die Édition Jubilaire. Alte Dinos, neue Talente, ein Ball, eine Trommel.
+                2006 wurde in einer Norderstedter WG eine Sportart geboren. 20 Jahre später feiern wir die 10. Weltmeisterschaft – die Edition Jubilaire. Alte Dinos, neue Talente, ein Ball, eine Trommel.
               </p>
               <p style={{ color: 'var(--text-muted)', lineHeight: 1.8, fontSize: 15, marginTop: 12 }}>
                 Wer schreibt das nächste Kapitel dieser Geschichte?
@@ -67,7 +67,7 @@ export default function WM2026() {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
               {[
-                { label: 'Edition', value: 'X.', sub: 'Jubiläums-WM' },
+                { label: 'Edition', value: '10.', sub: 'Jubiläums-WM' },
                 { label: 'Datum', value: '06.06.', sub: 'Juni 2026' },
                 { label: 'Ort', value: '???', sub: 'Wird bekannt gegeben' },
                 { label: 'Bisherige WMs', value: '9', sub: 'seit 2006' },
@@ -79,16 +79,6 @@ export default function WM2026() {
                   <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>{s.sub}</div>
                 </div>
               ))}
-            </div>
-          </div>
-
-          {/* Video Jubilaire */}
-          <div style={{ marginBottom: 48 }}>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 16 }}>Édition Jubilaire · Stimmung</div>
-            <div style={{ borderRadius: 16, overflow: 'hidden', background: '#000', aspectRatio: '16/9', maxWidth: 720 }}>
-              <video controls playsInline style={{ width: '100%', height: '100%', display: 'block', objectFit: 'cover' }}>
-                <source src="/wm2026-teaser.mp4" type="video/mp4" />
-              </video>
             </div>
           </div>
 
@@ -123,12 +113,12 @@ export default function WM2026() {
           </div>
 
 
-          {/* Teaser-Video */}
+          {/* Video */}
           <div style={{ marginBottom: 48 }}>
-            <h2 style={{ fontSize: 32, color: 'var(--gruen)', marginBottom: 16 }}>Édition Jubilaire</h2>
+            <h2 style={{ fontSize: 32, color: 'var(--gruen)', marginBottom: 16 }}>Edition Jubilaire</h2>
             <div style={{ borderRadius: 16, overflow: 'hidden', background: '#0a1c12' }}>
               <video
-                controls autoPlay muted loop playsInline
+                controls playsInline
                 style={{ width: '100%', display: 'block', maxHeight: 480, objectFit: 'cover' }}
               >
                 <source src="/wm2026-teaser.mp4" type="video/mp4" />
@@ -140,7 +130,7 @@ export default function WM2026() {
           <div style={{ textAlign: 'center', padding: '48px', background: 'var(--gruen)', borderRadius: 16 }}>
             <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(22px, 4vw, 36px)', color: 'var(--gold)', marginBottom: 12 }}>TROMMEL. TROMMEL. MORS. MORS.</div>
             <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, marginBottom: 24 }}>
-            Die X. Weltmeisterschaft im Trommelschießen hat noch nicht stattgefunden.
+            Die 10. Weltmeisterschaft im Trommelschießen hat noch nicht stattgefunden.
             Am 06.06.2026 kann das Turnier live auf dem Dashboard verfolgt werden.
           </div>
             <a href="https://trommelwm.vercel.app" target="_blank" rel="noopener" className="btn" style={{ background: 'var(--gold)', color: 'var(--gruen)', fontWeight: 700, border: 'none' }}>

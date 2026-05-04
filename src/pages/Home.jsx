@@ -98,10 +98,10 @@ export default function Home() {
       <section style={{ background: 'var(--gruen)', padding: '80px 0' }}>
         <div className="container" style={{ textAlign: 'center', maxWidth: 900, margin: '0 auto' }}>
           <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 20 }}>
-            06.06.2026 · Édition Jubilaire · 20 Jahre Trommelschiessen
+            Kurz erklärt – in 30 Sekunden
           </div>
-          <h1 style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: 'white', marginBottom: 32 }}>
-            10. Trommelschiessen-WM
+          <h1 style={{ fontSize: 'clamp(28px, 4.5vw, 60px)', color: 'white', marginBottom: 32 }}>
+            Was ist Trommelschiessen?
           </h1>
           <p style={{ fontSize: 'clamp(16px, 1.8vw, 20px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, maxWidth: 680, margin: '0 auto 40px' }}>
             Eine Waschmaschine, ein Ball, und der unbändige Wille das Runde ins Runde zu bekommen –
@@ -124,18 +124,18 @@ export default function Home() {
           <h2 style={{ fontSize: 'clamp(24px, 4vw, 42px)', color: 'var(--gruen)', marginBottom: 32 }}>
             WM {letzteWM.jahr} · {letzteWM.ort.split('–')[0].trim()}
           </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10 }}>
             {[
               { label: 'Weltmeister', value: letzteWM.sieger, icon: '🏆' },
               { label: 'Torschützenkönig', value: `${letzteWM.torschuetzenkoenig}`, sub: `${letzteWM.tore} Tore`, icon: '👑' },
               { label: 'Teilnehmer', value: letzteWM.teilnehmer, icon: '👥' },
               { label: 'Sieger-Punkte', value: `${letzteWM.punkte} Pkt.`, sub: `in ${letzteWM.spiele} Spielen`, icon: '📊' },
             ].map(item => (
-              <div key={item.label} className="card" style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <div style={{ fontSize: 22 }}>{item.icon}</div>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-light)' }}>{item.label}</div>
-                <div style={{ fontSize: 'clamp(16px, 1.4vw, 20px)', fontWeight: 700, color: 'var(--gruen)', fontFamily: "'Bayon', sans-serif", lineHeight: 1.2 }}>{item.value}</div>
-                {item.sub && <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>{item.sub}</div>}
+              <div key={item.label} className="card" style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <div style={{ fontSize: 18 }}>{item.icon}</div>
+                <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-light)' }}>{item.label}</div>
+                <div style={{ fontSize: 'clamp(14px, 1.4vw, 19px)', fontWeight: 700, color: 'var(--gruen)', fontFamily: "'Bayon', sans-serif", lineHeight: 1.2 }}>{item.value}</div>
+                {item.sub && <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{item.sub}</div>}
               </div>
             ))}
           </div>

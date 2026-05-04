@@ -229,7 +229,7 @@ function SpielerDetail({ spieler }) {
       </div>
 
       {/* Foto + Stats – klar unterhalb des Headers */}
-      <section style={{ background: 'var(--cream)' }}>
+      <section style={{ background: 'var(--cream)', paddingBottom: 80 }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: hatFoto ? 'minmax(220px, 340px) 1fr' : '1fr', gap: 32, alignItems: 'start', padding: '40px 0' }}>
             {hatFoto && (
