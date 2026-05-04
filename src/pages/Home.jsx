@@ -197,26 +197,16 @@ export default function Home() {
       </section>
 
 
-      {/* Mood-Bilder Trenner – zwei nebeneinander */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', height: 'clamp(240px, 35vw, 480px)', overflow: 'hidden' }}>
-        <div style={{
-          backgroundImage: 'url(/mood-1.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-          position: 'relative',
-        }}>
-          <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.25)' }} />
-        </div>
-        <div style={{
-          backgroundImage: 'url(/wm-2016-extra.jpg)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-          position: 'relative',
-        }}>
-          <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.25)' }} />
-        </div>
+      {/* Mood-Bild Trenner */}
+      <div style={{
+        height: 'clamp(280px, 40vw, 520px)',
+        backgroundImage: 'url(/wm-2016-extra.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 40%',
+        backgroundAttachment: 'fixed',
+        position: 'relative',
+      }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.2)' }} />
       </div>
 
       {/* TEASER: WM-Events – Foto-ready grid */}
@@ -255,44 +245,47 @@ export default function Home() {
 
 
 
-      {/* TEASER: WM 2026 Vorschau */}
-      <section style={{ background: 'white', padding: '80px 0', borderTop: '1px solid var(--border)' }}>
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 48, alignItems: 'center' }}>
-            <div>
-              <div className="eyebrow">06. Juni 2026</div>
-              <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: 'var(--gruen)', marginBottom: 16 }}>
-                Édition Jubilaire
-              </h2>
-              <p style={{ color: 'var(--text-muted)', fontSize: 15, lineHeight: 1.8, marginBottom: 24 }}>
-                20 Jahre Trommelschießen. Die X. WM ist mehr als ein Turnier –
-                sie ist das Jubiläum einer Idee, die in einer Norderstedter WG begann
-                und heute echte Weltmeisterschafts-Geschichte schreibt.
-              </p>
-              <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-                <Link to="/events/2026" className="btn btn--primary">Zur WM 2026 →</Link>
-                <a href="https://trommelwm.vercel.app" target="_blank" rel="noopener" className="btn btn--outline">Live-Dashboard →</a>
-              </div>
+
+      {/* MODUL 4: Édition Jubilaire – Video Background */}
+      <section style={{ position: 'relative', overflow: 'hidden', minHeight: 480, display: 'flex', alignItems: 'center' }}>
+        {/* Video */}
+        <video
+          autoPlay muted loop playsInline
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', zIndex: 0 }}
+        >
+          <source src="/wm2026-teaser.mp4" type="video/mp4" />
+        </video>
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,28,18,0.78)', zIndex: 1 }} />
+        <div className="container" style={{ position: 'relative', zIndex: 2, padding: '80px 24px' }}>
+          <div style={{ maxWidth: 640 }}>
+            <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 16 }}>
+              06. Juni 2026
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-              {[
-                { label: 'Auflage', value: 'X.', sub: '10. Weltmeisterschaft' },
-                { label: 'Jahr', value: '2026', sub: '20 Jahre Trommelschießen' },
-                { label: 'Datum', value: '06.06.', sub: 'Juni 2026' },
-                { label: 'Format', value: 'TBD', sub: 'Teilnehmer werden bekannt' },
-              ].map(s => (
-                <div key={s.label} className="card" style={{ padding: '20px 24px' }}>
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 6 }}>{s.label}</div>
-                  <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 40, color: 'var(--gruen)', lineHeight: 1 }}>{s.value}</div>
-                  <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>{s.sub}</div>
-                </div>
-              ))}
+            <h2 style={{ fontSize: 'clamp(28px, 4.5vw, 56px)', color: 'white', lineHeight: 1.05, marginBottom: 20 }}>
+              Édition Jubilaire
+            </h2>
+            <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: 16, lineHeight: 1.8, marginBottom: 12 }}>
+              20 Jahre Trommelschießen. Die X. WM ist das Jubiläum einer Idee,
+              die in einer Norderstedter WG begann – und heute echte Weltmeisterschafts-Geschichte schreibt.
+            </p>
+            <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: 14, lineHeight: 1.7, marginBottom: 32 }}>
+              Der Austragungsort ist noch geheim – wird rechtzeitig bekannt gegeben.
+              Das Turnier kann am 06.06.2026 live auf dem Dashboard verfolgt werden.
+            </p>
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+              <Link to="/events/2026" className="btn" style={{ background: 'var(--gold)', color: 'var(--gruen)', fontWeight: 700, border: 'none' }}>
+                Mehr zur WM 2026 →
+              </Link>
+              <a href="https://trommelwm.vercel.app" target="_blank" rel="noopener" className="btn btn--outline" style={{ color: 'white', borderColor: 'rgba(255,255,255,0.3)' }}>
+                Live-Dashboard →
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* TEASER: Ballermänner – großes Zitat-Style */}
+
+            {/* TEASER: Ballermänner – großes Zitat-Style */}
       <section style={{ background: 'var(--cream-dark, #ede6d8)', padding: '80px 0' }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 48, alignItems: 'center' }}>

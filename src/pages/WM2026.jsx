@@ -24,8 +24,11 @@ export default function WM2026() {
     <div>
       {/* Hero */}
       <section style={{ background: 'var(--gruen)', padding: '100px 0 80px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', inset: 0, backgroundImage: 'url(/hero-2024.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', opacity: 0.15 }} />
-        <div className="container" style={{ position: 'relative', textAlign: 'center' }}>
+        <video autoPlay muted loop playsInline style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.25, zIndex: 0 }}>
+          <source src="/wm2026-teaser.mp4" type="video/mp4" />
+        </video>
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(10,28,18,0.7)', zIndex: 1 }} />
+        <div className="container" style={{ position: 'relative', textAlign: 'center', zIndex: 2 }}>
           <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.15em', color: 'var(--gold)', marginBottom: 16, textTransform: 'uppercase' }}>
             Édition Jubilaire · 20 Jahre Trommelschießen
           </div>
@@ -69,6 +72,7 @@ export default function WM2026() {
               {[
                 { label: 'Edition', value: 'X.', sub: 'Jubiläums-WM' },
                 { label: 'Datum', value: '06.06.', sub: 'Juni 2026' },
+                { label: 'Ort', value: '???', sub: 'Wird bekannt gegeben' },
                 { label: 'Bisherige WMs', value: '9', sub: 'seit 2006' },
                 { label: 'Trommler', value: '56', sub: 'in der ewigen Tabelle' },
               ].map(s => (
@@ -114,7 +118,10 @@ export default function WM2026() {
           {/* CTA */}
           <div style={{ textAlign: 'center', padding: '48px', background: 'var(--gruen)', borderRadius: 16 }}>
             <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(22px, 4vw, 36px)', color: 'var(--gold)', marginBottom: 12 }}>TROMMEL. TROMMEL. MORS. MORS.</div>
-            <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, marginBottom: 24 }}>Das Live-Dashboard wird am 06.06.2026 freigeschaltet.</div>
+            <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, marginBottom: 24 }}>
+            Die X. Weltmeisterschaft im Trommelschießen hat noch nicht stattgefunden.
+            Am 06.06.2026 kann das Turnier live auf dem Dashboard verfolgt werden.
+          </div>
             <a href="https://trommelwm.vercel.app" target="_blank" rel="noopener" className="btn" style={{ background: 'var(--gold)', color: 'var(--gruen)', fontWeight: 700, border: 'none' }}>
               Jetzt Live-Dashboard ansehen →
             </a>

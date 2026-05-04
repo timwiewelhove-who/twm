@@ -553,7 +553,7 @@ export default function Statistiken() {
         <div className="container">
           <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)' }}>Zahlen & Daten</div>
           <h1 style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: 'var(--white)', marginBottom: 32 }}>Statistiken</h1>
-          <div style={{ display: 'flex', gap: 0, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+          <div className="stats-tabs" style={{ display: 'flex', gap: 0, borderBottom: '1px solid rgba(255,255,255,0.1)', overflowX: 'auto' }}>
             {tabs.map(t => (
               <Link key={t.id} to={`/statistiken/${t.id}`} style={{
                 padding: '14px 24px',

@@ -25,6 +25,7 @@ export default function Wissenswertes() {
   const tabs = [
     { id: 'historie', label: 'HISTORIE' },
     { id: 'regelwerk', label: 'REGELWERK' },
+    { id: 'presse', label: 'PRESSE' },
   ]
   const active = tabs.find(t => t.id === sub) ? sub : 'historie'
 

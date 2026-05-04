@@ -40,10 +40,11 @@ const NAV_ITEMS = [
   },
   {
     to: '/wissenswertes',
-    label: 'Wissenswertes',
+    label: 'Über',
     children: [
       { to: '/wissenswertes/historie', label: 'Historie' },
       { to: '/wissenswertes/regelwerk', label: 'Regelwerk' },
+      { to: '/wissenswertes/presse', label: 'Presse' },
     ]
   },
 ]

@@ -14,7 +14,7 @@ export default function Footer() {
           </div>
           <div>
             <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 12 }}>Navigation</div>
-            {[['/', 'Startseite'], ['/events', 'WM-Events'], ['/statistiken', 'Statistiken'], ['/wissenswertes', 'Wissenswertes']].map(([to, label]) => (
+            {[['/', 'Startseite'], ['/events', 'WM-Events'], ['/statistiken', 'Statistiken'], ['/wissenswertes', 'Über']].map(([to, label]) => (
               <Link key={to} to={to} style={{ display: 'block', marginBottom: 8, fontSize: 14, color: 'rgba(255,255,255,0.6)', transition: 'color 0.15s' }}
                 onMouseEnter={e => e.target.style.color = 'var(--gold)'}
                 onMouseLeave={e => e.target.style.color = 'rgba(255,255,255,0.6)'}>{label}</Link>
