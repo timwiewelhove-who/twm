@@ -97,6 +97,73 @@ export default function EventDetail() {
         </div>
       </section>
 
+
+      {/* Turnier-Statistiken */}
+      {tabelle.length > 0 && (() => {
+        const sorted_t  = [...tabelle].sort((a,b) => b.t  - a.t)
+        const sorted_gg = [...tabelle].sort((a,b) => b.gg - a.gg)
+        const sorted_u  = [...tabelle].sort((a,b) => b.u  - a.u)
+
+        const StatTable = ({ titel, emoji, rows, valueKey, valueLabel, quoteKey, quoteFn }) => (
+          <div>
+            <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 17, fontWeight: 700, color: 'var(--gruen)', marginBottom: 14 }}>
+              {emoji} {titel}
+            </h3>
+            <div className="card" style={{ overflow: 'auto', marginBottom: 32 }}>
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th style={{ width: 40 }}>Pl.</th>
+                    <th>Trommler</th>
+                    <th className="num">{valueLabel}</th>
+                    <th className="num">Quote</th>
+                    <th className="num">Spiele</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.map((r, i) => (
+                    <tr key={r.name} style={{ background: i === 0 ? 'rgba(176,137,45,0.05)' : 'transparent' }}>
+                      <td className="rank">{i < 3 ? ['🥇','🥈','🥉'][i] : i+1}</td>
+                      <td style={{ fontWeight: i < 3 ? 700 : 400 }}>{r.name}</td>
+                      <td className="num pts">{r[valueKey]}</td>
+                      <td className="num" style={{ color: 'var(--text-muted)', fontSize: 13 }}>
+                        {r.sp > 0 ? (r[valueKey] / r.sp).toFixed(3) : '–'}
+                      </td>
+                      <td className="num" style={{ color: 'var(--text-muted)' }}>{r.sp}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )
+
+        return (
+          <section className="section--sm" style={{ background: 'var(--cream)' }}>
+            <div className="container">
+              <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 8 }}>Turnier-Statistiken</h2>
+              <p style={{ color: 'var(--text-muted)', fontSize: 14, marginBottom: 32 }}>
+                Alle Werte beziehen sich ausschließlich auf die WM {event.jahr}.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 32 }}>
+                <StatTable
+                  titel="Ballermänner" emoji="⚽"
+                  rows={sorted_t} valueKey="t" valueLabel="Tore"
+                />
+                <StatTable
+                  titel="Schiessbuden" emoji="🥅"
+                  rows={sorted_gg} valueKey="gg" valueLabel="Gegentore"
+                />
+                <StatTable
+                  titel="Remiskönige" emoji="🤝"
+                  rows={sorted_u} valueKey="u" valueLabel="Remis"
+                />
+              </div>
+            </div>
+          </section>
+        )
+      })()}
+
       {/* Gruppenfoto – nach der Tabelle, kein Crop */}
       {fotos?.gruppe && (
         <section className="section--sm" style={{ background: 'var(--cream)' }}>
