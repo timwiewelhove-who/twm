@@ -1,0 +1,84 @@
+<svg width="100%" viewBox="0 0 680 480" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Trommelschießen – Fünf Waschmaschinen als olympische Ringe</title>
+  <desc>Fünf Waschmaschinen, deren bunte Bullaugen-Türen die olympischen fünf Ringe ergeben.</desc>
+
+  <!-- ROW 1: WM Blau, Schwarz, Rot -->
+  <g transform="translate(80, 40)">
+    <rect x="0" y="0" width="120" height="130" rx="6" fill="#f0ece2" stroke="#c8c0b0" stroke-width="1.2"/>
+    <rect x="8" y="8" width="104" height="28" rx="3" fill="#e0d8cc" stroke="#b8b0a0" stroke-width="0.8"/>
+    <circle cx="22" cy="22" r="5" fill="#888" stroke="#555" stroke-width="0.8"/>
+    <circle cx="40" cy="22" r="5" fill="#888" stroke="#555" stroke-width="0.8"/>
+    <rect x="60" y="14" width="38" height="16" rx="3" fill="#2a3828"/>
+    <circle cx="60" cy="90" r="40" fill="#0085C7" stroke="#005a8e" stroke-width="3"/>
+    <circle cx="60" cy="90" r="34" fill="#0066a0" stroke="#004d7a" stroke-width="1.5"/>
+    <ellipse cx="50" cy="78" rx="8" ry="5" fill="white" opacity="0.12" transform="rotate(-30,50,78)"/>
+    <rect x="92" y="85" width="14" height="10" rx="5" fill="#bbb" stroke="#888" stroke-width="0.8"/>
+    <rect x="4" y="122" width="28" height="8" rx="2" fill="#aaa"/>
+    <rect x="88" y="122" width="28" height="8" rx="2" fill="#aaa"/>
+  </g>
+
+  <g transform="translate(280, 40)">
+    <rect x="0" y="0" width="120" height="130" rx="6" fill="#f0ece2" stroke="#c8c0b0" stroke-width="1.2"/>
+    <rect x="8" y="8" width="104" height="28" rx="3" fill="#e0d8cc" stroke="#b8b0a0" stroke-width="0.8"/>
+    <circle cx="22" cy="22" r="5" fill="#888" stroke="#555" stroke-width="0.8"/>
+    <circle cx="40" cy="22" r="5" fill="#888" stroke="#555" stroke-width="0.8"/>
+    <rect x="60" y="14" width="38" height="16" rx="3" fill="#2a3828"/>
+    <circle cx="60" cy="90" r="40" fill="#3a3a3a" stroke="#1a1a1a" stroke-width="3"/>
+    <circle cx="60" cy="90" r="34" fill="#222" stroke="#111" stroke-width="1.5"/>
+    <ellipse cx="50" cy="78" rx="8" ry="5" fill="white" opacity="0.10" transform="rotate(-30,50,78)"/>
+    <rect x="92" y="85" width="14" height="10" rx="5" fill="#bbb" stroke="#888" stroke-width="0.8"/>
+    <rect x="4" y="122" width="28" height="8" rx="2" fill="#aaa"/>
+    <rect x="88" y="122" width="28" height="8" rx="2" fill="#aaa"/>
+  </g>
+
+  <g transform="translate(480, 40)">
+    <rect x="0" y="0" width="120" height="130" rx="6" fill="#f0ece2" stroke="#c8c0b0" stroke-width="1.2"/>
+    <rect x="8" y="8" width="104" height="28" rx="3" fill="#e0d8cc" stroke="#b8b0a0" stroke-width="0.8"/>
+    <circle cx="22" cy="22" r="5" fill="#888" stroke="#555" stroke-width="0.8"/>
+    <circle cx="40" cy="22" r="5" fill="#888" stroke="#555" stroke-width="0.8"/>
+    <rect x="60" y="14" width="38" height="16" rx="3" fill="#2a3828"/>
+    <circle cx="60" cy="90" r="40" fill="#DF0024" stroke="#a00018" stroke-width="3"/>
+    <circle cx="60" cy="90" r="34" fill="#b80018" stroke="#880010" stroke-width="1.5"/>
+    <ellipse cx="50" cy="78" rx="8" ry="5" fill="white" opacity="0.12" transform="rotate(-30,50,78)"/>
+    <rect x="92" y="85" width="14" height="10" rx="5" fill="#bbb" stroke="#888" stroke-width="0.8"/>
+    <rect x="4" y="122" width="28" height="8" rx="2" fill="#aaa"/>
+    <rect x="88" y="122" width="28" height="8" rx="2" fill="#aaa"/>
+  </g>
+
+  <!-- ROW 2: WM Gelb, Grün (versetzt) -->
+  <g transform="translate(180, 200)">
+    <rect x="0" y="0" width="120" height="130" rx="6" fill="#f0ece2" stroke="#c8c0b0" stroke-width="1.2"/>
+    <rect x="8" y="8" width="104" height="28" rx="3" fill="#e0d8cc" stroke="#b8b0a0" stroke-width="0.8"/>
+    <circle cx="22" cy="22" r="5" fill="#888" stroke="#555" stroke-width="0.8"/>
+    <circle cx="40" cy="22" r="5" fill="#888" stroke="#555" stroke-width="0.8"/>
+    <rect x="60" y="14" width="38" height="16" rx="3" fill="#2a3828"/>
+    <circle cx="60" cy="90" r="40" fill="#F4C300" stroke="#c09000" stroke-width="3"/>
+    <circle cx="60" cy="90" r="34" fill="#d4a500" stroke="#a07800" stroke-width="1.5"/>
+    <ellipse cx="50" cy="78" rx="8" ry="5" fill="white" opacity="0.14" transform="rotate(-30,50,78)"/>
+    <rect x="92" y="85" width="14" height="10" rx="5" fill="#bbb" stroke="#888" stroke-width="0.8"/>
+    <rect x="4" y="122" width="28" height="8" rx="2" fill="#aaa"/>
+    <rect x="88" y="122" width="28" height="8" rx="2" fill="#aaa"/>
+  </g>
+
+  <g transform="translate(380, 200)">
+    <rect x="0" y="0" width="120" height="130" rx="6" fill="#f0ece2" stroke="#c8c0b0" stroke-width="1.2"/>
+    <rect x="8" y="8" width="104" height="28" rx="3" fill="#e0d8cc" stroke="#b8b0a0" stroke-width="0.8"/>
+    <circle cx="22" cy="22" r="5" fill="#888" stroke="#555" stroke-width="0.8"/>
+    <circle cx="40" cy="22" r="5" fill="#888" stroke="#555" stroke-width="0.8"/>
+    <rect x="60" y="14" width="38" height="16" rx="3" fill="#2a3828"/>
+    <circle cx="60" cy="90" r="40" fill="#00A651" stroke="#006030" stroke-width="3"/>
+    <circle cx="60" cy="90" r="34" fill="#008040" stroke="#005828" stroke-width="1.5"/>
+    <ellipse cx="50" cy="78" rx="8" ry="5" fill="white" opacity="0.12" transform="rotate(-30,50,78)"/>
+    <rect x="92" y="85" width="14" height="10" rx="5" fill="#bbb" stroke="#888" stroke-width="0.8"/>
+    <rect x="4" y="122" width="28" height="8" rx="2" fill="#aaa"/>
+    <rect x="88" y="122" width="28" height="8" rx="2" fill="#aaa"/>
+  </g>
+
+  <!-- Sockelplatte -->
+  <rect x="80" y="362" width="520" height="6" rx="3" fill="#c8c0b0" opacity="0.6"/>
+
+  <!-- Text -->
+  <line x1="80" y1="385" x2="600" y2="385" stroke="#c8c0b0" stroke-width="0.6"/>
+  <text x="340" y="408" font-family="Georgia, serif" font-size="12" fill="#1c422b" text-anchor="middle" letter-spacing="5">TROMMELSCHIESSEN · HAMBURG</text>
+  <text x="340" y="428" font-family="Georgia, serif" font-size="10" fill="#888" text-anchor="middle" letter-spacing="3">ÉDITION JUBILAIRE · 2026</text>
+</svg>

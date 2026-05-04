@@ -10,13 +10,13 @@ const ARGUMENTE = [
   {
     nr: '02',
     titel: 'Klare Regeln, faire Chancen',
-    text: 'Trommelschießen hat ein präzises Regelwerk: 3,50 Meter Abstand, Elfmeter-Duell, Ball muss in der Trommel liegen bleiben. Keine Interpretation, kein Schiedsrichter-Ermessen. Die Sieger-Entscheidung ist glasklarer als beim Eiskunstlauf, beim Turnen – oder beim Breakdance, wo Kreativität und Persönlichkeit bewertet werden.',
+    text: 'Trommelschießen hat ein präzises Regelwerk: 3 Meter Abstand, Elfmeter-Duell, Ball muss in der Trommel liegen bleiben. Keine Interpretation, kein Schiedsrichter-Ermessen. Die Sieger-Entscheidung ist glasklarer als beim Eiskunstlauf, beim Turnen – oder beim Breakdance, wo Kreativität und Persönlichkeit bewertet werden.',
     emoji: '📐',
   },
   {
     nr: '03',
     titel: 'Minimaler Infrastrukturaufwand',
-    text: 'Olympia bedeutet Milliarden für Sportstätten. Trommelschießen braucht eine Waschmaschine, einen Fußball und 3,50 Meter freie Fläche. Die Arena lässt sich in jedem Hamburger Hinterhof aufbauen – klimaneutral, nachhaltig, ohne Betonsünden. Das IOC wäre begeistert. Der Zukunftsrat Hamburg auch.',
+    text: 'Olympia bedeutet Milliarden für Sportstätten. Trommelschießen braucht eine Waschmaschine, einen Fußball und 3 Meter freie Fläche. Die Arena lässt sich in jedem Hamburger Hinterhof aufbauen – klimaneutral, nachhaltig, ohne Betonsünden. Das IOC wäre begeistert. Der Zukunftsrat Hamburg auch.',
     emoji: '♻️',
   },
   {
@@ -28,13 +28,13 @@ const ARGUMENTE = [
   {
     nr: '05',
     titel: 'Zuschauer-Garantie',
-    text: 'Rudern um 7 Uhr morgens. Schießen mit Luftgewehr. Modernen Fünfkampf schaut niemand. Trommelschießen hingegen hat seit 2006 bewiesen: Es zieht Zuschauer an, es erzeugt Lacher, Spannung und echte Emotionen. Ein Trommelschießen-Finale im Volksparkstadion – ausverkauft, garantiert.',
+    text: 'Rudern um 7 Uhr morgens. Schießen mit Luftgewehr. Moderner Fünfkampf schaut niemand. Trommelschießen hingegen hat seit 2006 bewiesen: Es zieht Zuschauer an, es erzeugt Lacher, Spannung und echte Emotionen. Ein Trommelschießen-Finale im Volksparkstadion – ausverkauft, garantiert.',
     emoji: '🎪',
   },
   {
     nr: '06',
     titel: 'Technisch anspruchsvoll',
-    text: 'Wer noch nie versucht hat, einen Fußball aus 3,50 Metern in eine Waschmaschinentrommel zu schießen, unterschätzt die Herausforderung dramatisch. Die Öffnung hat etwa 23 cm Durchmesser. Ein Fußball misst 22 cm. Die Fehlertoleranz ist nahezu null. Das ist Präzisionssport auf Weltklasse-Niveau – vergleichbar mit dem Schießen, nur mit mehr Spaßfaktor.',
+    text: 'Wer noch nie versucht hat, einen Fußball aus 3 Metern in eine Waschmaschinentrommel zu schießen, unterschätzt die Herausforderung dramatisch. Die Öffnung hat etwa 23 cm Durchmesser. Ein Fußball misst 22 cm. Die Fehlertoleranz ist nahezu null. Das ist Präzisionssport auf Weltklasse-Niveau – vergleichbar mit dem Schießen, nur mit mehr Spaßfaktor.',
     emoji: '🎯',
   },
   {
@@ -48,7 +48,7 @@ const ARGUMENTE = [
 const VERGLEICHE = [
   { sport: 'Rhythmische Sportgymnastik', grund: 'Seit 1984 olympisch. Hauptsächlich in Osteuropa gespielt. Bewertet nach Ästhetik.', trommel: 'Trommelschießen: Klares Ergebnis. Ball drin oder nicht.' },
   { sport: 'Breakdance (Paris 2024)', grund: 'Einmalig olympisch auf Antrag des Gastgebers. Bewertung nach Kreativität, Persönlichkeit und Musikalität.', trommel: 'Trommelschießen: Auch Gastgeber-Antrag möglich. Bewertung: null oder eins.' },
-  { sport: 'Modernstes Fünfkampf', grund: 'Kombination aus Schwimmen, Fechten, Reiten, Laufen und Schießen. Pferdelose Länder strukturell benachteiligt.', trommel: 'Trommelschießen: Keine Pferde. Keine Benachteiligung. Waschmaschine reicht.' },
+  { sport: 'Moderner Fünfkampf', grund: 'Kombination aus Schwimmen, Fechten, Reiten, Laufen und Schießen. Pferdelose Länder strukturell benachteiligt.', trommel: 'Trommelschießen: Keine Pferde. Keine Benachteiligung. Waschmaschine reicht.' },
   { sport: 'Synchronschwimmen', grund: 'Olympisch seit 1984. Lange nur für Frauen. Bewertung subjektiv.', trommel: 'Trommelschießen: Offen für alle Geschlechter. Mixed-Event von Anfang an.' },
 ]
 
@@ -62,7 +62,7 @@ export default function Olympia() {
         <div className="container" style={{ position: 'relative' }}>
           <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)', marginBottom: 20 }}>Über das Trommelschießen</div>
           <h1 style={{ color: 'white', fontSize: 'clamp(28px, 5vw, 64px)', lineHeight: 1.05, marginBottom: 24, maxWidth: 820 }}>
-            Warum Trommelschießen olympisch sein sollte
+            Warum Trommelschiessen olympisch sein sollte
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 17, lineHeight: 1.8, maxWidth: 640, marginBottom: 32 }}>
             Ein ernsthafter Plädoyer für die Aufnahme der ältesten Norderstedter Mannschaftssportart ins olympische Programm –
@@ -133,6 +133,24 @@ export default function Olympia() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+
+      {/* Illustration */}
+      <section style={{ background: 'white', padding: '64px 0' }}>
+        <div className="container" style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 24 }}>
+            Visuelle Unterstützung für die IOC-Bewerbung
+          </div>
+          <img
+            src="/olympia-ringe.svg"
+            alt="Fünf Waschmaschinen, deren bunte Bullaugen die olympischen Ringe ergeben – Trommelschießen Hamburg"
+            style={{ maxWidth: 640, width: '100%', display: 'block', margin: '0 auto' }}
+          />
+          <p style={{ fontSize: 13, color: 'var(--text-light)', marginTop: 16, fontStyle: 'italic' }}>
+            Fünf Maschinen. Fünf Ringe. Eine Vision.
+          </p>
         </div>
       </section>
 
