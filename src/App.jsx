@@ -9,6 +9,7 @@ import Statistiken from './pages/Statistiken'
 import Wissenswertes from './pages/Wissenswertes'
 import Spielerprofile from './pages/Spielerprofile'
 import WM2026 from './pages/WM2026'
+import Olympia from './pages/Olympia'
 import Admin from './pages/Admin'
 import './index.css'
 
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/events" element={<Events />} />
           <Route path="/events/2026" element={<WM2026 />} />
+        <Route path="/wissenswertes/olympia" element={<Olympia />} />
           <Route path="/events/:jahr" element={<EventDetail />} />
           <Route path="/statistiken" element={<Navigate to="/statistiken/weltrangliste" replace />} />
           <Route path="/statistiken/:sub" element={<Statistiken />} />

@@ -45,6 +45,7 @@ const NAV_ITEMS = [
       { to: '/wissenswertes/historie', label: 'Historie' },
       { to: '/wissenswertes/regelwerk', label: 'Regelwerk' },
       { to: '/wissenswertes/presse', label: 'Presse' },
+      { to: '/wissenswertes/olympia', label: 'Warum olympisch?' },
     ]
   },
 ]
