@@ -65,7 +65,7 @@ export default function Olympia() {
             Warum Trommelschiessen olympisch sein sollte
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 17, lineHeight: 1.8, maxWidth: 640, marginBottom: 32 }}>
-            Ein ernsthafter Plädoyer für die Aufnahme der ältesten Norderstedter Mannschaftssportart ins olympische Programm –
+            Ein ernsthaftes Plädoyer für die Aufnahme der ältesten Norderstedter Mannschaftssportart ins olympische Programm –
             am besten 2036 in Hamburg.
           </p>
           <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
