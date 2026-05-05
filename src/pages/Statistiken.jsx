@@ -132,6 +132,7 @@ const ALLE_JAHRE = [2006,2008,2010,2012,2014,2016,2018,2022,2024]
 const DINOS_NAMES = ['Bastian Buse','Jenne Meyer','Sascha Wachtendorf']
 
 function Dinos() {
+  const wm = useWM()
   return (
     <div>
       <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Trommelschiessen-Dinos</h2>
@@ -229,7 +230,7 @@ function Toggle({ options, value, onChange }) {
 }
 
 // ── Berechne Statistiken aus Abschlusstabellen ────────────────────────────
-function calcStats() {
+function calcStats(wm) {
   const map = {}
   Object.values(wm.abschlusstabellen).forEach(tab => {
     tab.forEach(r => {
@@ -253,8 +254,9 @@ function calcStats() {
 }
 
 function Ballermann() {
+  const wm = useWM()
   const [mode, setMode] = React.useState('absolut')
-  const stats = calcStats()
+  const stats = calcStats(wm)
 
   const sorted = mode === 'absolut'
     ? [...stats].sort((a, b) => b.t - a.t)
@@ -328,8 +330,9 @@ function Ballermann() {
 }
 
 function Schiessbude() {
+  const wm = useWM()
   const [mode, setMode] = React.useState('absolut')
-  const stats = calcStats()
+  const stats = calcStats(wm)
 
   const sorted = mode === 'absolut'
     ? [...stats].sort((a, b) => b.gg - a.gg)
@@ -393,8 +396,9 @@ function Schiessbude() {
 }
 
 function Remiskoenige() {
+  const wm = useWM()
   const [mode, setMode] = React.useState('absolut')
-  const stats = calcStats()
+  const stats = calcStats(wm)
 
   const sorted = mode === 'absolut'
     ? [...stats].sort((a, b) => b.u - a.u)
@@ -461,6 +465,7 @@ function Remiskoenige() {
 
 
 function KnappsteRennen() {
+  const wm = useWM()
   const rennen = wm.weltmeister.map(e => {
     const tab = wm.abschlusstabellen[String(e.jahr)] || []
     const diff = tab.length >= 2 ? tab[0].pkt - tab[1].pkt : null

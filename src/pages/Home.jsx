@@ -40,7 +40,7 @@ function Countdown() {
 
 // Dinos: in allen 9 WMs dabei
 const ALLE_JAHRE = [2006,2008,2010,2012,2014,2016,2018,2022,2024]
-function getDinos() {
+function getDinos(wm) {
   const allNames = new Set()
   ALLE_JAHRE.forEach(j => {
     const t = wm.abschlusstabellen[String(j)] || []
@@ -64,7 +64,7 @@ export default function Home() {
   const top3Rangliste = wm.weltrangliste.slice(0, 3)
   const top5Tabelle = wm.ewige_tabelle.slice(0, 5)
   const letzteEvents = [...wm.weltmeister].reverse().slice(0, 3)
-  const dinos = getDinos()
+  const dinos = getDinos(wm)
 
   return (
     <div>
