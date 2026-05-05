@@ -546,7 +546,7 @@ function KnappsteRennen() {
 
 export default function Statistiken() {
   const { data: wm, loading } = useWMData()
-  if (loading) return <div style={{ paddingTop: 120, textAlign: 'center', color: 'var(--text-muted)' }}>Laden…</div>
+  if (loading || !wm?.weltmeister?.length) return <div style={{ paddingTop: 120, textAlign: 'center', color: 'var(--text-muted)' }}>Laden…</div>
   return (
     <WMContext.Provider value={wm}>
       <StatistikenInner />

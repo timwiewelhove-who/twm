@@ -3,7 +3,7 @@ import { useWMData } from '../useWMData'
 
 export default function Events() {
   const { data: wm, loading } = useWMData()
-  if (loading) return <div style={{ paddingTop: 120, textAlign: 'center', color: 'var(--text-muted)' }}>Laden…</div>
+  if (loading || !wm?.weltmeister?.length) return <div style={{ paddingTop: 120, textAlign: 'center', color: 'var(--text-muted)' }}>Laden…</div>
   const events = [...wm.weltmeister].reverse()
   return (
     <div style={{ paddingTop: 80 }}>

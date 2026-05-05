@@ -24,7 +24,7 @@ export default function Admin() {
     }
   }
 
-  if (loading) return <div style={{ paddingTop: 120, textAlign: 'center' }}>Laden…</div>
+  if (loading || !wm?.weltmeister?.length) return <div style={{ paddingTop: 120, textAlign: 'center' }}>Laden…</div>
   if (!auth) return (
     <div style={{ minHeight: '100vh', background: 'var(--gruen)', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 64 }}>
       <div style={{ width: 320, padding: 40, background: 'rgba(0,0,0,0.25)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.1)' }}>
