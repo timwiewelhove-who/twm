@@ -381,16 +381,8 @@ export default function Home() {
       {/* TEASER: Olympia */}
       <section style={{ background: 'var(--cream-dark, #ede6d8)', overflow: 'hidden' }}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', minHeight: 680 }}>
-          {/* Foto links */}
-          <div style={{ position: 'relative', minHeight: 340, overflow: 'hidden', order: 1 }}>
-            <img
-              src="/olympia-waschmaschinen.jpg"
-              alt="Fünf Waschmaschinen mit bunten Bullaugen als olympische Ringe"
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
-            />
-          </div>
-          {/* Text rechts */}
-          <div style={{ padding: 'clamp(40px, 5vw, 72px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', order: 2 }}>
+          {/* Text links */}
+          <div style={{ padding: 'clamp(40px, 5vw, 72px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', order: 1 }}>
             <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 16 }}>Über</div>
             <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 40px)', color: 'var(--gruen)', marginBottom: 16, lineHeight: 1.15 }}>
               Warum Trommelschiessen olympisch sein sollte
@@ -402,6 +394,14 @@ export default function Home() {
             <Link to="/wissenswertes/olympia" className="btn btn--primary" style={{ alignSelf: 'flex-start' }}>
               Das Plädoyer lesen →
             </Link>
+          </div>
+          {/* Foto rechts */}
+          <div style={{ position: 'relative', minHeight: 340, overflow: 'hidden', order: 2 }}>
+            <img
+              src="/olympia-waschmaschinen.jpg"
+              alt="Fünf Waschmaschinen mit bunten Bullaugen als olympische Ringe"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
+            />
           </div>
         </div>
       </section>
