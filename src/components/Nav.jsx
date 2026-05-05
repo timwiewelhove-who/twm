@@ -82,7 +82,8 @@ export default function Nav() {
   const [activeDropdown, setActiveDropdown] = useState(null)
   const loc = useLocation()
   const isHome = loc.pathname === '/'
-  const isDark = isHome && !scrolled
+  const isDarkPage = ['/', '/events/2026', '/wissenswertes/olympia'].includes(loc.pathname)
+  const isDark = isDarkPage && !scrolled
   const timeoutRef = useRef(null)
 
   useEffect(() => {

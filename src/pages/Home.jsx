@@ -102,7 +102,7 @@ export default function Home() {
           <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 20 }}>
             Kurz erklärt – in 30 Sekunden
           </div>
-          <h1 style={{ fontSize: 'clamp(28px, 4.5vw, 60px)', color: 'var(--gruen)', marginBottom: 32 }}>
+          <h1 style={{ fontSize: 'clamp(28px, 4.5vw, 60px)', color: 'white', marginBottom: 32 }}>
             Was ist Trommelschiessen?
           </h1>
           <p style={{ fontSize: 'clamp(16px, 1.8vw, 20px)', color: 'rgba(255,255,255,0.75)', lineHeight: 1.8, maxWidth: 680, margin: '0 auto 40px' }}>
@@ -205,7 +205,7 @@ export default function Home() {
         backgroundImage: 'url(/wm-2016-extra.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center 40%',
-        backgroundAttachment: 'fixed',
+        backgroundAttachment: 'local',
         position: 'relative',
       }}>
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.2)' }} />
@@ -250,7 +250,7 @@ export default function Home() {
 
       {/* MODUL 4: Edition Jubilaire – 2-spaltig */}
       <section style={{ background: '#0a1c12', overflow: 'hidden' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', minHeight: 520 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', minHeight: 680 }}>
           <div style={{ position: 'relative', minHeight: 300, overflow: 'hidden' }}>
             <video autoPlay muted loop playsInline
               style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}>
@@ -330,31 +330,22 @@ export default function Home() {
         <div className="container">
           <div className="eyebrow">Statistiken</div>
           <h2 style={{ fontSize: 'clamp(28px, 4vw, 48px)', color: 'var(--gruen)', marginBottom: 40 }}>Remiskönige</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 2 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10 }}>
             {(() => {
             const alleTrainer = [...new Set(Object.values(wm.abschlusstabellen).flat().map(x=>x.name))]
-            const mitRemis = alleTrainer.map(name => ({
+            return alleTrainer.map(name => ({
               name,
               remis: Object.values(wm.abschlusstabellen).flat().filter(x=>x.name===name).reduce((s,x)=>s+(x.u||0),0),
               sp: Object.values(wm.abschlusstabellen).flat().filter(x=>x.name===name).reduce((s,x)=>s+(x.sp||0),0),
-            })).sort((a,b)=>b.remis-a.remis).slice(0,5)
-            return mitRemis
-          })().map((r, i) => {
-              const remis = r.remis
-              const sp = r.sp
-              return (
-                <div key={r.name} style={{
-                  background: i === 0 ? 'var(--gruen)' : 'var(--cream)',
-                  padding: '28px 24px',
-                  borderRadius: i === 0 ? 'var(--radius-lg) 0 0 var(--radius-lg)' : i === 4 ? '0 var(--radius-lg) var(--radius-lg) 0' : 0,
-                }}>
-                  <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 48, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>{remis}</div>
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: i === 0 ? 'rgba(255,255,255,0.5)' : 'var(--text-muted)', margin: '6px 0 4px' }}>Remis</div>
+            })).sort((a,b)=>b.remis-a.remis).slice(0,4)
+          })().map((r, i) => (
+                <div key={r.name} className="card" style={{ padding: '20px 20px', background: i === 0 ? 'var(--gruen)' : 'var(--cream)' }}>
+                  <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 40, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>{r.remis}</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: i === 0 ? 'rgba(255,255,255,0.5)' : 'var(--text-muted)', margin: '4px 0 3px' }}>Remis</div>
                   <div style={{ fontWeight: 600, fontSize: 14, color: i === 0 ? 'white' : 'var(--gruen)' }}>{r.name}</div>
-                  <div style={{ fontSize: 12, color: i === 0 ? 'rgba(255,255,255,0.4)' : 'var(--text-light)', marginTop: 2 }}>{sp > 0 ? `${((remis/sp)*100).toFixed(0)}% aller Spiele` : ''}</div>
+                  <div style={{ fontSize: 12, color: i === 0 ? 'rgba(255,255,255,0.4)' : 'var(--text-light)', marginTop: 2 }}>{r.sp > 0 ? `${((r.remis/r.sp)*100).toFixed(0)}% aller Spiele` : ''}</div>
                 </div>
-              )
-            })}
+              ))}
           </div>
           <div style={{ marginTop: 24 }}>
             <Link to="/statistiken/remiskoenig" className="btn btn--outline">Alle Remiskönige →</Link>
@@ -366,34 +357,6 @@ export default function Home() {
 
 
 
-
-      {/* TEASER: Olympia */}
-      <section style={{ background: 'var(--cream)', overflow: 'hidden' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', minHeight: 420 }}>
-          {/* Text links */}
-          <div style={{ padding: 'clamp(40px, 5vw, 72px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'var(--cream)' }}>
-            <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 16 }}>Über</div>
-            <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 40px)', color: 'var(--gruen)', marginBottom: 16, lineHeight: 1.15 }}>
-              Warum Trommelschiessen olympisch sein sollte
-            </h2>
-            <p style={{ color: 'var(--text-muted)', fontSize: 15, lineHeight: 1.8, marginBottom: 24 }}>
-              Breakdance ist olympisch. Skateboarding auch. Die Gastgeberstadt darf eigene Sportarten vorschlagen.
-              Hamburg hat am 31. Mai 2026 die Wahl.
-            </p>
-            <Link to="/wissenswertes/olympia" className="btn btn--primary" style={{ alignSelf: 'flex-start' }}>
-              Das Plädoyer lesen →
-            </Link>
-          </div>
-          {/* Foto rechts – kein Overlay! */}
-          <div style={{ position: 'relative', minHeight: 300, overflow: 'hidden' }}>
-            <img
-              src="/olympia-waschmaschinen.jpg"
-              alt="Fünf Waschmaschinen mit bunten Bullaugen als olympische Ringe"
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
-            />
-          </div>
-        </div>
-      </section>
 
       {/* TEASER: Spielerprofile */}
       <section style={{ background: 'var(--gruen)', overflow: 'hidden' }}>
@@ -412,6 +375,34 @@ export default function Home() {
             <Link to="/spielerprofile" className="btn" style={{ background: 'var(--gold)', color: 'var(--gruen)', fontWeight: 700, border: 'none', alignSelf: 'flex-start' }}>
               Alle Profile ansehen →
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* TEASER: Olympia */}
+      <section style={{ background: 'var(--cream)', overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', minHeight: 420 }}>
+          {/* Text links */}
+          <div style={{ padding: 'clamp(40px, 5vw, 72px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'var(--cream)', order: 2 }}>
+            <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 16 }}>Über</div>
+            <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 40px)', color: 'var(--gruen)', marginBottom: 16, lineHeight: 1.15 }}>
+              Warum Trommelschiessen olympisch sein sollte
+            </h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: 15, lineHeight: 1.8, marginBottom: 24 }}>
+              Breakdance ist olympisch. Skateboarding auch. Die Gastgeberstadt darf eigene Sportarten vorschlagen.
+              Hamburg hat am 31. Mai 2026 die Wahl.
+            </p>
+            <Link to="/wissenswertes/olympia" className="btn btn--primary" style={{ alignSelf: 'flex-start' }}>
+              Das Plädoyer lesen →
+            </Link>
+          </div>
+          {/* Foto rechts – kein Overlay! */}
+          <div style={{ position: 'relative', minHeight: 300, overflow: 'hidden', order: 1 }}>
+            <img
+              src="/olympia-waschmaschinen.jpg"
+              alt="Fünf Waschmaschinen mit bunten Bullaugen als olympische Ringe"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
+            />
           </div>
         </div>
       </section>
