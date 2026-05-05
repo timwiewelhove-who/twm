@@ -325,7 +325,27 @@ export default function Home() {
         </div>
       </section>
 
-      {/* TEASER: Remiskönige – kompaktes Zahlen-Highlight */}
+      {/* DINOS */}
+      <section style={{
+        position: 'relative', overflow: 'hidden', padding: '80px 0', minHeight: 680, display: 'flex', alignItems: 'center', minHeight: 680, display: 'flex', alignItems: 'center',
+        backgroundImage: 'url(/dino-5.jpg)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center 30%',
+      }}>
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.85)' }} />
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)' }}>Treue Trommler</div>
+          <h2 style={{ fontSize: 'clamp(24px, 4vw, 48px)', color: 'white', marginBottom: 16, maxWidth: 600 }}>
+            Trommelschiessen-Dinos
+          </h2>
+          <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, lineHeight: 1.8, maxWidth: 540, marginBottom: 32 }}>
+            Jenne Meyer, Bastian Buse und Sascha Wachtendorf – drei Trommler, die bei keiner einzigen WM gefehlt haben.
+            Seit 2006, durch Hitze und Regen, durch Niedersachsen und Hamburg, immer dabei, immer an der Trommel.
+            Echte Dinos.
+          </p>
+          <Link to="/statistiken/dinos" className="btn btn--gold">Dino-Statistiken ansehen →</Link>
+        </div>
+      </section>      {/* TEASER: Remiskönige – kompaktes Zahlen-Highlight */}
       <section style={{ background: 'var(--white)', padding: '80px 0' }}>
         <div className="container">
           <div className="eyebrow">Statistiken</div>
@@ -361,37 +381,29 @@ export default function Home() {
       {/* TEASER: Spielerprofile */}
       <section style={{ background: 'var(--cream)', overflow: 'hidden' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', minHeight: 680 }}>
-          {/* Text links */}
           <div style={{ flex: '1 1 300px', padding: 'clamp(40px, 5vw, 72px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 16 }}>Spielerprofile</div>
             <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: 'var(--gruen)', marginBottom: 16 }}>56 Trommler. Alle Karrieredaten.</h2>
             <p style={{ color: 'var(--text-muted)', fontSize: 15, lineHeight: 1.8, marginBottom: 24 }}>
-              Vollständige Karrieredaten, Platzierungsverläufen und WM-Ergebnisse – für jeden der je an einer WM teilgenommen hat.
+              Vollständige Karrieredaten, Platzierungsverläufe und WM-Ergebnisse – für jeden der je an einer WM teilgenommen hat.
             </p>
             <Link to="/spielerprofile" className="btn btn--primary" style={{ alignSelf: 'flex-start' }}>
               Alle Profile ansehen →
             </Link>
           </div>
-          {/* Foto rechts */}
           <div style={{ flex: '1 1 300px', position: 'relative', minHeight: 340, overflow: 'hidden' }}>
             <img src="/spielerprofile-teaser.jpg" alt="Trommelschießen Spieler"
               style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 35%' }} />
           </div>
         </div>
       </section>
-
       {/* TEASER: Olympia */}
       <section style={{ background: 'var(--cream-dark, #ede6d8)', overflow: 'hidden' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', minHeight: 680 }}>
-          {/* Foto links */}
           <div style={{ flex: '1 1 300px', position: 'relative', minHeight: 340, overflow: 'hidden' }}>
-            <img
-              src="/olympia-waschmaschinen.jpg"
-              alt="Fünf Waschmaschinen mit bunten Bullaugen als olympische Ringe"
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
-            />
+            <img src="/olympia-waschmaschinen.jpg" alt="Fünf Waschmaschinen mit bunten Bullaugen als olympische Ringe"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }} />
           </div>
-          {/* Text rechts */}
           <div style={{ flex: '1 1 300px', padding: 'clamp(40px, 5vw, 72px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 16 }}>Über</div>
             <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 40px)', color: 'var(--gruen)', marginBottom: 16, lineHeight: 1.15 }}>
@@ -408,27 +420,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* DINOS */}
-      <section style={{
-        position: 'relative', overflow: 'hidden', padding: '80px 0', minHeight: 680, display: 'flex', alignItems: 'center',
-        backgroundImage: 'url(/dino-5.jpg)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center 30%',
-      }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.85)' }} />
-        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)' }}>Treue Trommler</div>
-          <h2 style={{ fontSize: 'clamp(24px, 4vw, 48px)', color: 'white', marginBottom: 16, maxWidth: 600 }}>
-            Trommelschiessen-Dinos
-          </h2>
-          <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 16, lineHeight: 1.8, maxWidth: 540, marginBottom: 32 }}>
-            Jenne Meyer, Bastian Buse und Sascha Wachtendorf – drei Trommler, die bei keiner einzigen WM gefehlt haben.
-            Seit 2006, durch Hitze und Regen, durch Niedersachsen und Hamburg, immer dabei, immer an der Trommel.
-            Echte Dinos.
-          </p>
-          <Link to="/statistiken/dinos" className="btn btn--gold">Dino-Statistiken ansehen →</Link>
-        </div>
-      </section>
     </div>
   )
 }
