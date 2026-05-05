@@ -1,11 +1,123 @@
 import { useState, useEffect } from 'react'
 import { supabase } from './supabase'
+import { gameId } from './logic'
 
-// Zentraler Hook – lädt alle WM-Daten aus Supabase
-// Gibt dasselbe Format zurück wie wm.json, damit alle Seiten
-// mit minimalem Aufwand umgestellt werden können
+let cache = null
+let liveCache = null
 
-let cache = null // In-Memory-Cache damit nicht jede Seite neu lädt
+async function loadLiveTournament() {
+  if (liveCache !== null) return liveCache
+  const { data: tData } = await supabase.from('tournament').select('*').order('created_at', { ascending: false }).limit(1)
+  if (!tData?.length || !tData[0].started) { liveCache = null; return null }
+  const t = tData[0]
+  const { data: rData } = await supabase.from('results').select('*')
+  const results = {}
+  rData?.forEach(r => { results[r.game_id] = { home: r.home_score, away: r.away_score } })
+  liveCache = { players: t.players, schedule: t.schedule, results }
+  return liveCache
+}
+
+function calcLiveAbschlusstabelle(players, schedule, results) {
+  const rows = players.map((name) => ({ pl: 0, name, sp: 0, s: 0, u: 0, n: 0, t: 0, gg: 0, diff: 0, pkt: 0 }))
+  schedule.forEach(st => st.forEach(m => {
+    const r = results[gameId(m.home, m.away)]
+    if (!r) return
+    rows[m.home].sp++; rows[m.home].t += r.home; rows[m.home].gg += r.away
+    rows[m.away].sp++; rows[m.away].t += r.away; rows[m.away].gg += r.home
+    if (r.home > r.away) { rows[m.home].s++; rows[m.home].pkt += 3; rows[m.away].n++ }
+    else if (r.home < r.away) { rows[m.away].s++; rows[m.away].pkt += 3; rows[m.home].n++ }
+    else { rows[m.home].u++; rows[m.home].pkt++; rows[m.away].u++; rows[m.away].pkt++ }
+  }))
+  rows.forEach(r => { r.diff = r.t - r.gg })
+  rows.sort((a, b) => b.pkt !== a.pkt ? b.pkt - a.pkt : b.diff !== a.diff ? b.diff - a.diff : b.t - a.t)
+  rows.forEach((r, i) => { r.pl = i + 1 })
+  return rows
+}
+
+function mergeIntoEwigeTabelle(basis, liveTabelle) {
+  if (!liveTabelle?.length) return basis
+  const merged = basis.map(r => ({ ...r }))
+  liveTabelle.forEach(live => {
+    const ex = merged.find(r => r.name === live.name)
+    if (ex) {
+      ex.sp += live.sp; ex.s += live.s; ex.u += live.u; ex.n += live.n
+      ex.t += live.t; ex.gg += live.gg; ex.diff = ex.t - ex.gg; ex.pkt += live.pkt
+    } else {
+      merged.push({ pl: 0, name: live.name, sp: live.sp, s: live.s, u: live.u, n: live.n, t: live.t, gg: live.gg, diff: live.diff, pkt: live.pkt })
+    }
+  })
+  merged.sort((a, b) => b.pkt !== a.pkt ? b.pkt - a.pkt : b.diff !== a.diff ? b.diff - a.diff : b.t - a.t)
+  merged.forEach((r, i) => { r.pl = i + 1 })
+  return merged
+}
+
+async function loadAll() {
+  const [
+    { data: events }, { data: abschluss }, { data: ewig }, { data: rangliste }
+  ] = await Promise.all([
+    supabase.from('wm_events').select('*').order('jahr', { ascending: true }),
+    supabase.from('abschlusstabellen').select('*').order('jahr').order('pl'),
+    supabase.from('ewige_tabelle').select('*').order('pl'),
+    supabase.from('weltrangliste').select('*').order('pl'),
+  ])
+
+  const abschlussByJahr = {}
+  abschluss?.forEach(r => {
+    const j = String(r.jahr)
+    if (!abschlussByJahr[j]) abschlussByJahr[j] = []
+    abschlussByJahr[j].push({ pl: r.pl, name: r.name, sp: r.sp, s: r.s, u: r.u, n: r.n, t: r.t, gg: r.gg, diff: r.diff, pkt: r.pkt })
+  })
+
+  const fotos = {}
+  events?.forEach(e => { if (e.foto_gruppe) fotos[String(e.jahr)] = { gruppe: e.foto_gruppe } })
+
+  const weltrangliste = rangliste?.map(r => ({ pl: r.pl, name: r.name, ...r.punkte, total: r.total })) || []
+  const weltmeister = events?.map(e => ({ jahr: e.jahr, sieger: e.sieger, titel: e.titel, ort: e.ort, datum: e.datum, teilnehmer: e.teilnehmer, torschuetzenkoenig: e.torschuetzenkoenig, tore: e.tore, punkte: e.punkte, spiele: e.spiele })) || []
+  const ewige_basis = ewig?.map(r => ({ pl: r.pl, name: r.name, sp: r.sp, s: r.s, u: r.u, n: r.n, t: r.t, gg: r.gg, diff: r.diff, pkt: r.pkt })) || []
+
+  // Live-Turnier einrechnen
+  const live = await loadLiveTournament()
+  let ewige_tabelle = ewige_basis
+  let liveTabelle = null
+
+  if (live) {
+    liveTabelle = calcLiveAbschlusstabelle(live.players, live.schedule, live.results)
+    abschlussByJahr['2026'] = liveTabelle
+    ewige_tabelle = mergeIntoEwigeTabelle(ewige_basis, liveTabelle)
+
+    // Torschützenkönig live
+    const torschuetzen = live.players.map((name, i) => {
+      let tore = 0
+      live.schedule.forEach(st => st.forEach(m => {
+        const r = live.results[gameId(m.home, m.away)]
+        if (!r) return
+        if (m.home === i) tore += r.home
+        if (m.away === i) tore += r.away
+      }))
+      return { name, tore }
+    }).sort((a, b) => b.tore - a.tore)
+
+    const gespielt = Object.keys(live.results).length
+    if (gespielt > 0 && !weltmeister.find(e => e.jahr === 2026)) {
+      weltmeister.push({
+        jahr: 2026,
+        sieger: liveTabelle[0]?.name || '–',
+        titel: 1, ort: 'läuft', datum: '06.06.2026',
+        teilnehmer: live.players.length,
+        torschuetzenkoenig: torschuetzen[0]?.name || '–',
+        tore: torschuetzen[0]?.tore || 0,
+        punkte: liveTabelle[0]?.pkt || 0,
+        spiele: gespielt, live: true,
+      })
+    }
+  }
+
+  return {
+    weltmeister, ewige_tabelle, weltrangliste,
+    abschlusstabellen: abschlussByJahr, fotos,
+    live: live ? { players: live.players, schedule: live.schedule, results: live.results, tabelle: liveTabelle } : null,
+  }
+}
 
 export function useWMData() {
   const [data, setData] = useState(cache)
@@ -14,112 +126,23 @@ export function useWMData() {
 
   useEffect(() => {
     if (cache) { setData(cache); setLoading(false); return }
-    loadAll()
+    loadAll().then(result => { cache = result; setData(result); setLoading(false) })
+      .catch(err => { setError(err); setLoading(false); console.error('Fehler:', err) })
   }, [])
 
-  async function loadAll() {
-    setLoading(true)
-    try {
-      const [
-        { data: events },
-        { data: abschluss },
-        { data: ewig },
-        { data: rangliste },
-      ] = await Promise.all([
-        supabase.from('wm_events').select('*').order('jahr', { ascending: true }),
-        supabase.from('abschlusstabellen').select('*').order('jahr').order('pl'),
-        supabase.from('ewige_tabelle').select('*').order('pl'),
-        supabase.from('weltrangliste').select('*').order('pl'),
-      ])
-
-      // Abschlusstabellen nach Jahr gruppieren
-      const abschlussByJahr = {}
-      abschluss?.forEach(r => {
-        const j = String(r.jahr)
-        if (!abschlussByJahr[j]) abschlussByJahr[j] = []
-        abschlussByJahr[j].push({ pl: r.pl, name: r.name, sp: r.sp, s: r.s, u: r.u, n: r.n, t: r.t, gg: r.gg, diff: r.diff, pkt: r.pkt })
+  useEffect(() => {
+    const sub = supabase.channel('wm-data-live')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'results' }, () => {
+        liveCache = null; cache = null
+        loadAll().then(result => { cache = result; setData(result) })
       })
-
-      // Fotos aus wm_events extrahieren
-      const fotos = {}
-      events?.forEach(e => {
-        if (e.foto_gruppe) fotos[String(e.jahr)] = { gruppe: e.foto_gruppe }
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'tournament' }, () => {
+        liveCache = null; cache = null
+        loadAll().then(result => { cache = result; setData(result) })
       })
-
-      // Weltrangliste: punkte ist JSONB {wm2006: x, wm2008: y, ...}
-      const weltrangliste = rangliste?.map(r => ({
-        pl: r.pl,
-        name: r.name,
-        ...r.punkte,
-        total: r.total,
-      })) || []
-
-      // weltmeister im gleichen Format wie wm.json
-      const weltmeister = events?.map(e => ({
-        jahr: e.jahr,
-        sieger: e.sieger,
-        titel: e.titel,
-        ort: e.ort,
-        datum: e.datum,
-        teilnehmer: e.teilnehmer,
-        torschuetzenkoenig: e.torschuetzenkoenig,
-        tore: e.tore,
-        punkte: e.punkte,
-        spiele: e.spiele,
-      })) || []
-
-      const ewige_tabelle = ewig?.map(r => ({
-        pl: r.pl, name: r.name, sp: r.sp, s: r.s, u: r.u,
-        n: r.n, t: r.t, gg: r.gg, diff: r.diff, pkt: r.pkt,
-      })) || []
-
-      const result = {
-        weltmeister,
-        ewige_tabelle,
-        weltrangliste,
-        abschlusstabellen: abschlussByJahr,
-        fotos,
-      }
-
-      cache = result
-      setData(result)
-    } catch (err) {
-      setError(err)
-      console.error('Fehler beim Laden der WM-Daten:', err)
-    }
-    setLoading(false)
-  }
+      .subscribe()
+    return () => supabase.removeChannel(sub)
+  }, [])
 
   return { data, loading, error }
-}
-
-// Singleton-Version für Seiten die keinen Hook verwenden können
-export async function getWMData() {
-  if (cache) return cache
-  const hook = { data: null, loading: true, error: null }
-  // Direkter Aufruf ohne Hook
-  const [
-    { data: events },
-    { data: abschluss },
-    { data: ewig },
-    { data: rangliste },
-  ] = await Promise.all([
-    supabase.from('wm_events').select('*').order('jahr', { ascending: true }),
-    supabase.from('abschlusstabellen').select('*').order('jahr').order('pl'),
-    supabase.from('ewige_tabelle').select('*').order('pl'),
-    supabase.from('weltrangliste').select('*').order('pl'),
-  ])
-  const abschlussByJahr = {}
-  abschluss?.forEach(r => {
-    const j = String(r.jahr)
-    if (!abschlussByJahr[j]) abschlussByJahr[j] = []
-    abschlussByJahr[j].push({ pl: r.pl, name: r.name, sp: r.sp, s: r.s, u: r.u, n: r.n, t: r.t, gg: r.gg, diff: r.diff, pkt: r.pkt })
-  })
-  const fotos = {}
-  events?.forEach(e => { if (e.foto_gruppe) fotos[String(e.jahr)] = { gruppe: e.foto_gruppe } })
-  const weltrangliste = rangliste?.map(r => ({ pl: r.pl, name: r.name, ...r.punkte, total: r.total })) || []
-  const weltmeister = events?.map(e => ({ jahr: e.jahr, sieger: e.sieger, titel: e.titel, ort: e.ort, datum: e.datum, teilnehmer: e.teilnehmer, torschuetzenkoenig: e.torschuetzenkoenig, tore: e.tore, punkte: e.punkte, spiele: e.spiele })) || []
-  const ewige_tabelle = ewig?.map(r => ({ pl: r.pl, name: r.name, sp: r.sp, s: r.s, u: r.u, n: r.n, t: r.t, gg: r.gg, diff: r.diff, pkt: r.pkt })) || []
-  cache = { weltmeister, ewige_tabelle, weltrangliste, abschlusstabellen: abschlussByJahr, fotos }
-  return cache
 }
