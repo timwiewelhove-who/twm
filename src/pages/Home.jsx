@@ -361,12 +361,7 @@ export default function Home() {
       {/* TEASER: Spielerprofile */}
       <section style={{ background: 'var(--cream)', overflow: 'hidden' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', minHeight: 680 }}>
-          {/* Foto links */}
-          <div style={{ flex: '1 1 300px', position: 'relative', minHeight: 340, overflow: 'hidden' }}>
-            <img src="/spielerprofile-teaser.jpg" alt="Trommelschießen Spieler"
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 35%' }} />
-          </div>
-          {/* Text rechts */}
+          {/* Text links */}
           <div style={{ flex: '1 1 300px', padding: 'clamp(40px, 5vw, 72px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 16 }}>Spielerprofile</div>
             <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: 'var(--gruen)', marginBottom: 16 }}>56 Trommler. Alle Karrieredaten.</h2>
@@ -376,6 +371,11 @@ export default function Home() {
             <Link to="/spielerprofile" className="btn btn--primary" style={{ alignSelf: 'flex-start' }}>
               Alle Profile ansehen →
             </Link>
+          </div>
+          {/* Foto rechts */}
+          <div style={{ flex: '1 1 300px', position: 'relative', minHeight: 340, overflow: 'hidden' }}>
+            <img src="/spielerprofile-teaser.jpg" alt="Trommelschießen Spieler"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 35%' }} />
           </div>
         </div>
       </section>
