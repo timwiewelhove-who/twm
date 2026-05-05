@@ -359,31 +359,38 @@ export default function Home() {
 
 
       {/* TEASER: Spielerprofile */}
-      <section style={{ background: 'var(--gruen)', overflow: 'hidden' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', minHeight: 440 }}>
-          <div style={{ position: 'relative', minHeight: 280, overflow: 'hidden' }}>
-            <img src="/spielerprofile-teaser.jpg" alt="Trommelschießen Spieler"
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 35%' }} />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, transparent 50%, var(--gruen))' }} />
-          </div>
-          <div style={{ padding: 'clamp(40px, 5vw, 72px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 16 }}>Neu</div>
-            <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: 'white', marginBottom: 16 }}>Spielerprofile</h2>
-            <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15, lineHeight: 1.8, marginBottom: 24 }}>
-              Alle 56 Trommler mit vollständigen Karrieredaten, Platzierungsverläufen und WM-Ergebnissen.
+      <section style={{ background: 'var(--cream)', overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', minHeight: 680 }}>
+          <div style={{ padding: 'clamp(40px, 5vw, 72px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', order: 2 }}>
+            <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 16 }}>Spielerprofile</div>
+            <h2 style={{ fontSize: 'clamp(28px, 4vw, 44px)', color: 'var(--gruen)', marginBottom: 16 }}>56 Trommler. Alle Karrieredaten.</h2>
+            <p style={{ color: 'var(--text-muted)', fontSize: 15, lineHeight: 1.8, marginBottom: 24 }}>
+              Vollständige Karrieredaten, Platzierungsverläufen und WM-Ergebnisse – für jeden der je an einer WM teilgenommen hat.
             </p>
-            <Link to="/spielerprofile" className="btn" style={{ background: 'var(--gold)', color: 'var(--gruen)', fontWeight: 700, border: 'none', alignSelf: 'flex-start' }}>
+            <Link to="/spielerprofile" className="btn btn--primary" style={{ alignSelf: 'flex-start' }}>
               Alle Profile ansehen →
             </Link>
+          </div>
+          <div style={{ position: 'relative', minHeight: 340, overflow: 'hidden', order: 1 }}>
+            <img src="/spielerprofile-teaser.jpg" alt="Trommelschießen Spieler"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 35%' }} />
           </div>
         </div>
       </section>
 
       {/* TEASER: Olympia */}
-      <section style={{ background: 'var(--cream)', overflow: 'hidden' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', minHeight: 420 }}>
-          {/* Text links */}
-          <div style={{ padding: 'clamp(40px, 5vw, 72px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'var(--cream)', order: 2 }}>
+      <section style={{ background: 'var(--cream-dark, #ede6d8)', overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', minHeight: 680 }}>
+          {/* Foto links */}
+          <div style={{ position: 'relative', minHeight: 340, overflow: 'hidden', order: 1 }}>
+            <img
+              src="/olympia-waschmaschinen.jpg"
+              alt="Fünf Waschmaschinen mit bunten Bullaugen als olympische Ringe"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
+            />
+          </div>
+          {/* Text rechts */}
+          <div style={{ padding: 'clamp(40px, 5vw, 72px)', display: 'flex', flexDirection: 'column', justifyContent: 'center', order: 2 }}>
             <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 16 }}>Über</div>
             <h2 style={{ fontSize: 'clamp(24px, 3.5vw, 40px)', color: 'var(--gruen)', marginBottom: 16, lineHeight: 1.15 }}>
               Warum Trommelschiessen olympisch sein sollte
@@ -396,20 +403,12 @@ export default function Home() {
               Das Plädoyer lesen →
             </Link>
           </div>
-          {/* Foto rechts – kein Overlay! */}
-          <div style={{ position: 'relative', minHeight: 300, overflow: 'hidden', order: 1 }}>
-            <img
-              src="/olympia-waschmaschinen.jpg"
-              alt="Fünf Waschmaschinen mit bunten Bullaugen als olympische Ringe"
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
-            />
-          </div>
         </div>
       </section>
 
       {/* DINOS */}
       <section style={{
-        position: 'relative', overflow: 'hidden', padding: '80px 0',
+        position: 'relative', overflow: 'hidden', padding: '80px 0', minHeight: 680, display: 'flex', alignItems: 'center',
         backgroundImage: 'url(/dino-5.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center 30%',
