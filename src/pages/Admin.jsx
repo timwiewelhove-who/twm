@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import wm from '../data/wm.json'
+import { useWMData } from '../useWMData'
 
 const PASSWORD = 'trommel2026'
 
 export default function Admin() {
+  const { data: wm, loading } = useWMData()
   const [auth, setAuth] = useState(false)
   const [pw, setPw] = useState('')
   const [err, setErr] = useState(false)
@@ -23,6 +24,7 @@ export default function Admin() {
     }
   }
 
+  if (loading) return <div style={{ paddingTop: 120, textAlign: 'center' }}>Laden…</div>
   if (!auth) return (
     <div style={{ minHeight: '100vh', background: 'var(--gruen)', display: 'flex', alignItems: 'center', justifyContent: 'center', paddingTop: 64 }}>
       <div style={{ width: 320, padding: 40, background: 'rgba(0,0,0,0.25)', borderRadius: 16, border: '1px solid rgba(255,255,255,0.1)' }}>

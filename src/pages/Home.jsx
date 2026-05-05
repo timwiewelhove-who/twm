@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import wm from '../data/wm.json'
+import { useWMData } from '../useWMData'
 
 function Countdown() {
   const target = new Date('2026-06-06T10:00:00')
@@ -58,6 +58,8 @@ function getDinos() {
 }
 
 export default function Home() {
+  const { data: wm, loading } = useWMData()
+  if (loading) return <div style={{ paddingTop: 120, textAlign: 'center', color: 'var(--text-muted)' }}>Laden…</div>
   const letzteWM = wm.weltmeister[wm.weltmeister.length - 1]
   const top3Rangliste = wm.weltrangliste.slice(0, 3)
   const top5Tabelle = wm.ewige_tabelle.slice(0, 5)

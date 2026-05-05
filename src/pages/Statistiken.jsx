@@ -1,8 +1,13 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import wm from '../data/wm.json'
+import { useWMData } from '../useWMData'
+
+const WMContext = React.createContext(null)
+const useWM = () => React.useContext(WMContext)
+
 
 function Weltrangliste() {
+  const wm = useWM()
   return (
     <div>
       <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Weltrangliste</h2>
@@ -50,6 +55,7 @@ function Weltrangliste() {
 }
 
 function EwigeTabelle() {
+  const wm = useWM()
   return (
     <div>
       <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Ewige Tabelle</h2>
@@ -95,6 +101,7 @@ function EwigeTabelle() {
 }
 
 function Champs() {
+  const wm = useWM()
   const events = [...wm.weltmeister].reverse()
   return (
     <div>
@@ -533,6 +540,16 @@ function KnappsteRennen() {
 }
 
 export default function Statistiken() {
+  const { data: wm, loading } = useWMData()
+  if (loading) return <div style={{ paddingTop: 120, textAlign: 'center', color: 'var(--text-muted)' }}>Laden…</div>
+  return (
+    <WMContext.Provider value={wm}>
+      <StatistikenInner />
+    </WMContext.Provider>
+  )
+}
+
+function StatistikenInner() {
   const loc = useLocation()
   const sub = loc.pathname.split('/').pop()
   const tabs = [

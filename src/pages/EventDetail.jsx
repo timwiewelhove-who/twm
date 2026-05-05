@@ -1,7 +1,10 @@
 import { useParams, Link } from 'react-router-dom'
-import wm from '../data/wm.json'
+import { useWMData } from '../useWMData'
 
 export default function EventDetail() {
+  const { data: wm, loading } = useWMData()
+  if (loading) return <div style={{ paddingTop: 120, textAlign: 'center', color: 'var(--text-muted)' }}>Laden…</div>
+
   const { jahr } = useParams()
   const event = wm.weltmeister.find(e => String(e.jahr) === jahr)
   const tabelle = wm.abschlusstabellen[jahr]
@@ -96,7 +99,6 @@ export default function EventDetail() {
           )}
         </div>
       </section>
-
 
       {/* Turnier-Statistiken */}
       {tabelle.length > 0 && (() => {
