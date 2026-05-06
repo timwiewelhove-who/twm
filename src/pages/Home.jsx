@@ -110,7 +110,8 @@ export default function Home() {
             das ist Trommelschießen. Seit 2006 treffen sich die besten Trommler Norddeutschlands,
             um den begehrten Titel des Trommelweltmeisters auszuspielen. Was als WG-Erfindung
             in Norderstedt begann, ist heute eine echte Weltmeisterschaft mit Tradition, Leidenschaft
-            und Trommel, Trommel, Mors, Mors.
+            und Trommel, Trommel, Mors, Mors. Die WM findet alle zwei Jahre statt –
+            immer eine Woche vor dem großen Fußball-Turnier des Sommers, abwechselnd vor der EM oder WM.
           </p>
           <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/events" className="btn btn--white">WM-Archiv ansehen</Link>

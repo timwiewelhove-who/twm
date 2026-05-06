@@ -228,18 +228,18 @@ function SpielerDetail({ spieler }) {
         </div>
       </div>
 
-      {/* Foto + Stats – klar unterhalb des Headers */}
+      {/* Foto + Stats */}
       <section style={{ background: 'var(--cream)', paddingBottom: 80 }}>
-        <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: hatFoto ? 'minmax(220px, 340px) 1fr' : '1fr', gap: 32, alignItems: 'start', padding: '40px 0' }}>
-            {hatFoto && (
-              <div>
-                <FotoGalerie name={spieler.name} onNoPhoto={() => setHatFoto(false)} />
-              </div>
-            )}
-            <div>
-              <h1 style={{ color: 'var(--gruen)', fontSize: 'clamp(26px, 3.5vw, 48px)', marginBottom: 12, lineHeight: 1.1 }}>{spieler.name}</h1>
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 24 }}>
+        <div className="container" style={{ padding: '40px 24px 0' }}>
+          {/* Name immer oben */}
+          <h1 style={{ color: 'var(--gruen)', fontSize: 'clamp(26px, 3.5vw, 48px)', marginBottom: 12, lineHeight: 1.1, paddingTop: 8 }}>{spieler.name}</h1>
+          {/* Foto – nur wenn vorhanden, zwischen Name und Facts */}
+          {hatFoto && (
+            <div style={{ marginBottom: 24, maxWidth: 340 }}>
+              <FotoGalerie name={spieler.name} onNoPhoto={() => setHatFoto(false)} />
+            </div>
+          )}
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 24 }}>
                 {spieler.titel > 0 && <span style={{ background: 'var(--gold)', color: 'var(--gruen)', fontSize: 12, fontWeight: 700, padding: '4px 12px', borderRadius: 20 }}>🏆 {spieler.titel}× Weltmeister</span>}
                 {spieler.tsk > 0 && <span style={{ background: 'rgba(28,66,43,0.1)', color: 'var(--gruen)', fontSize: 12, fontWeight: 700, padding: '4px 12px', borderRadius: 20 }}>👑 {spieler.tsk}× Torschützenkönig</span>}
                 <span style={{ background: 'rgba(28,66,43,0.07)', color: 'var(--text-muted)', fontSize: 12, padding: '4px 12px', borderRadius: 20 }}>{spieler.wms} WMs · {spieler.sp} Spiele</span>
@@ -261,8 +261,6 @@ function SpielerDetail({ spieler }) {
                 {s.sub && <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 3 }}>{s.sub}</div>}
               </div>
             ))}
-              </div>
-            </div>
           </div>
 
           {/* Karrierekurve */}

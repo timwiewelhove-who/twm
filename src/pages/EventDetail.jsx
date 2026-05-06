@@ -1,8 +1,23 @@
+import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useWMData } from '../useWMData'
 
+
+function getCountdown() {
+  const ziel = new Date('2026-06-06T10:00:00')
+  const diff = Math.max(0, ziel - new Date())
+  return {
+    tage: Math.floor(diff / 86400000),
+    std:  Math.floor((diff % 86400000) / 3600000),
+    min:  Math.floor((diff % 3600000) / 60000),
+    sek:  Math.floor((diff % 60000) / 1000),
+  }
+}
+
 export default function EventDetail() {
   const { data: wm, loading } = useWMData()
+  const [cd, setCd] = useState(getCountdown())
+  useEffect(() => { const t = setInterval(() => setCd(getCountdown()), 1000); return () => clearInterval(t) }, [])
   if (loading || !wm?.weltmeister?.length) return <div style={{ paddingTop: 120, textAlign: 'center', color: 'var(--text-muted)' }}>Laden…</div>
 
   const { jahr } = useParams()
@@ -36,7 +51,26 @@ export default function EventDetail() {
             ← Alle WMs
           </Link>
           <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)' }}>{event.datum} · {event.ort}</div>
-          <h1 style={{ fontSize: 'clamp(40px, 7vw, 80px)', color: 'var(--white)' }}>WM {event.jahr}</h1>
+          <h1 style={{ fontSize: 'clamp(40px, 7vw, 80px)', color: 'var(--white)' }}>
+            {String(event.jahr) === '2026' ? '10. TRMMLR-WM' : `WM ${event.jahr}`}
+          </h1>
+          {String(event.jahr) === '2026' && (
+            <div style={{ display: 'flex', gap: 16, marginTop: 24, marginBottom: 8, flexWrap: 'nowrap', overflowX: 'auto' }}>
+              {[
+                { val: cd.tage, label: 'Tage' },
+                { val: cd.std, label: 'Std' },
+                { val: cd.min, label: 'Min' },
+                { val: cd.sek, label: 'Sek' },
+              ].map(item => (
+                <div key={item.label} style={{ textAlign: 'center', minWidth: 64, flexShrink: 0 }}>
+                  <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(32px, 6vw, 56px)', color: 'var(--gold)', lineHeight: 1 }}>
+                    {String(item.val).padStart(2, '0')}
+                  </div>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>{item.label}</div>
+                </div>
+              ))}
+            </div>
+          )}
           <div style={{ display: 'flex', gap: 16, marginTop: 20, flexWrap: 'wrap' }}>
             {[
               { label: 'Weltmeister', value: `🏆 ${event.sieger}` },
