@@ -87,6 +87,25 @@ export default function EventDetail() {
         </div>
       </section>
 
+      {/* Gruppenfoto – über der Abschlusstabelle */}
+      {fotos?.gruppe && (
+        <section className="section--sm" style={{ background: 'var(--cream)' }}>
+          <div className="container">
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 16 }}>
+              Die Trommler · WM {event.jahr}
+            </div>
+            <div className="card" style={{ overflow: 'hidden' }}>
+              <img
+                src={fotos.gruppe}
+                alt={`Alle Teilnehmer WM ${event.jahr}`}
+                style={{ width: '100%', height: 'auto', display: 'block' }}
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Abschlusstabelle */}
       <section className="section">
         <div className="container">
@@ -199,25 +218,6 @@ export default function EventDetail() {
           </section>
         )
       })()}
-
-      {/* Gruppenfoto – nach der Tabelle, kein Crop */}
-      {fotos?.gruppe && (
-        <section className="section--sm" style={{ background: 'var(--cream)' }}>
-          <div className="container">
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 16 }}>
-              Die Trommler · WM {event.jahr}
-            </div>
-            <div className="card" style={{ overflow: 'hidden' }}>
-              <img
-                src={fotos.gruppe}
-                alt={`Alle Teilnehmer WM ${event.jahr}`}
-                style={{ width: '100%', height: 'auto', display: 'block' }}
-                loading="lazy"
-              />
-            </div>
-          </div>
-        </section>
-      )}
 
       {/* Extra-Fotos (z.B. WM 2016 mit Henning) */}
       {fotos?.extra && fotos.extra.length > 0 && (
