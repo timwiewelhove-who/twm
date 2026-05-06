@@ -84,8 +84,8 @@ export default function Home() {
       }}>
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.82)' }} />
         <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '0 24px', width: '100%', maxWidth: 700 }}>
-          <div style={{ width: '50%', maxWidth: 340, margin: '0 auto 28px' }}>
-            <img src="/TSLove.svg" alt="Trommelschießen" style={{ width: '100%', height: 'auto', display: 'block' }} />
+          <div style={{ width: '35%', maxWidth: 238, margin: '0 auto 28px' }}>
+            <img src="/TSLove.svg" alt="Trommelschießen" style={{ width: '100%', height: 'auto', display: 'block', filter: 'brightness(0) saturate(100%) invert(74%) sepia(55%) saturate(400%) hue-rotate(5deg) brightness(95%)' }} />
           </div>
           <p style={{ fontSize: 'clamp(14px, 1.5vw, 17px)', color: 'rgba(255,255,255,0.65)', marginBottom: 32, letterSpacing: '0.01em' }}>
             Die nächste Trommelschießen-WM kommt bald
