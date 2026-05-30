@@ -11,6 +11,7 @@ import Spielerprofile from './pages/Spielerprofile'
 import WM2026 from './pages/WM2026'
 import Olympia from './pages/Olympia'
 import Admin from './pages/Admin'
+import Rechtliches from './pages/Rechtliches'
 import './index.css'
 
 export default function App() {
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="/admin" element={<Admin />} />
           <Route path="/spielerprofile" element={<Spielerprofile />} />
           <Route path="/spielerprofile/:name" element={<Spielerprofile />} />
+          <Route path="/rechtliches" element={<Rechtliches />} />
         </Routes>
       </main>
       <Footer />

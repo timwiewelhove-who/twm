@@ -27,7 +27,9 @@ export default function Footer() {
         </div>
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 24, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, fontSize: 13 }}>
           <span>© {new Date().getFullYear()} Trommelschießen-WM · Trommel, Trommel, Mors, Mors!</span>
-          <span style={{ color: 'rgba(255,255,255,0.4)' }}>trommelschiessen.de</span>
+          <Link to="/rechtliches" style={{ color: 'rgba(255,255,255,0.4)', transition: 'color 0.15s' }}
+            onMouseEnter={e => e.target.style.color = 'var(--gold)'}
+            onMouseLeave={e => e.target.style.color = 'rgba(255,255,255,0.4)'}>Impressum & Datenschutz</Link>
         </div>
       </div>
     </footer>
