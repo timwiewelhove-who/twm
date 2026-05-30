@@ -44,8 +44,12 @@ export default function Rechtliches() {
               Unser Angebot enthält Links zu externen Webseiten Dritter. Für deren Inhalte sind stets die jeweiligen Anbieter verantwortlich. Bei Bekanntwerden von Rechtsverletzungen werden wir entsprechende Links umgehend entfernen.
             </p>
             <h3 style={{ fontSize: 18, color: 'var(--gruen)', marginBottom: 12 }}>Urheberrecht</h3>
-            <p style={{ lineHeight: 1.8, color: 'var(--text-muted)' }}>
+            <p style={{ lineHeight: 1.8, color: 'var(--text-muted)', marginBottom: 16 }}>
               Die durch uns erstellten Inhalte und Werke unterliegen dem deutschen Urheberrecht. Vervielfältigung, Bearbeitung und Verbreitung außerhalb der Grenzen des Urheberrechts bedürfen der schriftlichen Zustimmung. Downloads sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.
+            </p>
+            <h3 style={{ fontSize: 18, color: 'var(--gruen)', marginBottom: 12 }}>Hinweis zu Medieninhalten</h3>
+            <p style={{ lineHeight: 1.8, color: 'var(--text-muted)' }}>
+              Diese Website kann Bilder, Musikausschnitte oder Videoclips enthalten, die im Rahmen von Trommelschießen-Events entstanden sind. Wir bemühen uns, ausschließlich Inhalte zu verwenden, für die wir die erforderlichen Rechte besitzen oder die zur freien Nutzung freigegeben sind. Sollten Sie der Ansicht sein, dass ein auf dieser Website verwendeter Inhalt Ihre Urheberrechte verletzt, bitten wir Sie, uns umgehend unter <a href="mailto:moin@trommelschiessen.com" style={{ color: 'var(--gruen)' }}>moin@trommelschiessen.com</a> zu kontaktieren. Wir werden den betreffenden Inhalt nach Prüfung unverzüglich entfernen.
             </p>
           </div>
 
