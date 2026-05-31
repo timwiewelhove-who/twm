@@ -79,6 +79,7 @@ async function loadAll() {
   const live = await loadLiveTournament()
   let ewige_tabelle = ewige_basis
   let liveTabelle = null
+  let liveWeltrangliste = weltrangliste_basis
 
   if (live) {
     liveTabelle = calcLiveAbschlusstabelle(live.players, live.schedule, live.results)
