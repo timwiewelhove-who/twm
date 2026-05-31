@@ -71,7 +71,7 @@ async function loadAll() {
   const fotos = {}
   events?.forEach(e => { if (e.foto_gruppe) fotos[String(e.jahr)] = { gruppe: e.foto_gruppe } })
 
-  const weltrangliste = rangliste?.map(r => ({ pl: r.pl, name: r.name, ...r.punkte, total: r.total })) || []
+  const weltrangliste_basis = rangliste?.map(r => ({ pl: r.pl, name: r.name, ...r.punkte, total: r.total })) || []
   const weltmeister = events?.map(e => ({ jahr: e.jahr, sieger: e.sieger, titel: e.titel, ort: e.ort, datum: e.datum, teilnehmer: e.teilnehmer, torschuetzenkoenig: e.torschuetzenkoenig, tore: e.tore, punkte: e.punkte, spiele: e.spiele })) || []
   const ewige_basis = ewig?.map(r => ({ pl: r.pl, name: r.name, sp: r.sp, s: r.s, u: r.u, n: r.n, t: r.t, gg: r.gg, diff: r.diff, pkt: r.pkt })) || []
 
@@ -97,6 +97,24 @@ async function loadAll() {
       return { name, tore }
     }).sort((a, b) => b.tore - a.tore)
 
+    // Weltrangliste live berechnen basierend auf aktuellem Tabellenstand
+    const punkteSchema = { 1: 100, 2: 80, 3: 70, 4: 60, 5: 50, 6: 40, 7: 35, 8: 30, 9: 25, 10: 20 }
+    const liveWeltrangliste = weltrangliste_basis.map(r => ({ ...r }))
+    liveTabelle.forEach((row, idx) => {
+      const punkte = punkteSchema[idx + 1] ?? Math.max(1, 15 - idx)
+      const existing = liveWeltrangliste.find(r => r.name === row.name)
+      if (existing) {
+        existing.wm2026 = punkte
+        existing.total = Object.entries(existing)
+          .filter(([k]) => k.startsWith('wm'))
+          .reduce((s, [, v]) => s + v, 0)
+      } else {
+        liveWeltrangliste.push({ pl: 0, name: row.name, wm2026: punkte, total: punkte })
+      }
+    })
+    liveWeltrangliste.sort((a, b) => b.total - a.total)
+    liveWeltrangliste.forEach((r, i) => { r.pl = i + 1 })
+
     const gespielt = Object.keys(live.results).length
     if (gespielt > 0 && !weltmeister.find(e => e.jahr === 2026)) {
       weltmeister.push({
@@ -113,7 +131,8 @@ async function loadAll() {
   }
 
   return {
-    weltmeister, ewige_tabelle, weltrangliste,
+    weltmeister, ewige_tabelle,
+    weltrangliste: live ? liveWeltrangliste : weltrangliste_basis,
     abschlusstabellen: abschlussByJahr, fotos,
     live: live ? { players: live.players, schedule: live.schedule, results: live.results, tabelle: liveTabelle } : null,
   }
