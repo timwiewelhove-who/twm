@@ -100,7 +100,7 @@ async function loadAll() {
 
     // Weltrangliste live berechnen basierend auf aktuellem Tabellenstand
     const punkteSchema = { 1: 100, 2: 80, 3: 70, 4: 60, 5: 50, 6: 40, 7: 35, 8: 30, 9: 25, 10: 20 }
-    const liveWeltrangliste = weltrangliste_basis.map(r => ({ ...r }))
+    liveWeltrangliste = weltrangliste_basis.map(r => ({ ...r }))
     liveTabelle.forEach((row, idx) => {
       const punkte = punkteSchema[idx + 1] ?? Math.max(1, 15 - idx)
       const existing = liveWeltrangliste.find(r => r.name === row.name)
