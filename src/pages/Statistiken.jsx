@@ -29,6 +29,7 @@ function Weltrangliste() {
               <th className="num rangliste-year" style={{ fontSize: 10 }}>2018</th>
               <th className="num rangliste-year" style={{ fontSize: 10 }}>2022</th>
               <th className="num rangliste-year" style={{ fontSize: 10 }}>2024</th>
+              <th className="num rangliste-year" style={{ fontSize: 10, color: 'var(--gold)' }}>2026</th>
               <th className="num" style={{ fontWeight: 700 }}>Total</th>
             </tr>
           </thead>
@@ -39,7 +40,7 @@ function Weltrangliste() {
                 <td style={{ fontWeight: i < 3 ? 700 : 400 }}>
                   {i === 0 ? '🥇 ' : i === 1 ? '🥈 ' : i === 2 ? '🥉 ' : ''}{r.name}
                 </td>
-                {[r.wm2006, r.wm2008, r.wm2010, r.wm2012, r.wm2014, r.wm2016, r.wm2018, r.wm2022, r.wm2024].map((v, j) => (
+                {[r.wm2006, r.wm2008, r.wm2010, r.wm2012, r.wm2014, r.wm2016, r.wm2018, r.wm2022, r.wm2024, r.wm2026].map((v, j) => (
                   <td key={j} className="num rangliste-year" style={{ color: v === 100 ? 'var(--gold)' : v >= 50 ? 'var(--gruen)' : v > 0 ? 'var(--text-muted)' : 'var(--border)', fontSize: v === 0 ? 12 : 14 }}>
                     {v || '–'}
                   </td>
