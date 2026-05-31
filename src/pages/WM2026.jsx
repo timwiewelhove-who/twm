@@ -306,7 +306,7 @@ export default function WM2026() {
               {[
                 { label: 'Edition', value: '10.', sub: 'Jubiläums-WM' },
                 { label: 'Datum', value: '06.06.', sub: 'Juni 2026' },
-                { label: 'Ort', value: 'Loony Park', sub: 'Bettingbühren' },
+                { label: 'Ort', value: 'Loony Park', sub: 'Berne' },
                 { label: 'Bisherige WMs', value: '9', sub: 'seit 2006' },
                 { label: 'Trommler', value: '56', sub: 'in der ewigen Tabelle' },
               ].map(s => (
