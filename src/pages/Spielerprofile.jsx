@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import wm from '../data/wm.json'
+import { supabase } from '../supabase'
 import { Chart, registerables } from 'chart.js'
 Chart.register(...registerables)
 
@@ -214,6 +215,33 @@ function KarriereChart({ spieler }) {
 
 function SpielerDetail({ spieler }) {
   const [hatFoto, setHatFoto] = React.useState(true)
+  const [h2hData, setH2hData] = React.useState([])
+
+  React.useEffect(() => {
+    supabase.from('matches_archive')
+      .select('home,away,home_tore,away_tore,jahr')
+      .or(`home.eq.${spieler.name},away.eq.${spieler.name}`)
+      .then(({ data }) => {
+        if (!data) return
+        // Gruppiere nach Gegner
+        const map = {}
+        data.forEach(m => {
+          const isHome = m.home === spieler.name
+          const opp = isHome ? m.away : m.home
+          const myTore = isHome ? m.home_tore : m.away_tore
+          const oppTore = isHome ? m.away_tore : m.home_tore
+          if (!map[opp]) map[opp] = { name: opp, s: 0, u: 0, n: 0, tore: 0, gegen: 0, spiele: 0 }
+          map[opp].spiele++
+          map[opp].tore += myTore
+          map[opp].gegen += oppTore
+          if (myTore > oppTore) map[opp].s++
+          else if (myTore < oppTore) map[opp].n++
+          else map[opp].u++
+        })
+        const sorted = Object.values(map).sort((a, b) => b.spiele - a.spiele)
+        setH2hData(sorted)
+      })
+  }, [spieler.name])
   const siegQ = spieler.sp ? (spieler.s / spieler.sp * 100).toFixed(1) : 0
   const torQ  = spieler.sp ? (spieler.t / spieler.sp).toFixed(3) : 0
   const ggQ   = spieler.sp ? (spieler.gg / spieler.sp).toFixed(3) : 0
@@ -267,6 +295,47 @@ function SpielerDetail({ spieler }) {
 
             </div>
           </div>
+
+          {/* Direktvergleiche */}
+          {h2hData.length > 0 && (
+            <>
+              <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 8, marginTop: 48 }}>Direktvergleiche</h2>
+              <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16 }}>Basierend auf verfügbaren Daten ab WM 2014</p>
+              <div className="card" style={{ overflow: 'auto', marginBottom: 0 }}>
+                <table className="data-table">
+                  <thead>
+                    <tr>
+                      <th>Gegner</th>
+                      <th className="num">Sp</th>
+                      <th className="num">S</th>
+                      <th className="num">U</th>
+                      <th className="num">N</th>
+                      <th className="num">T</th>
+                      <th className="num">GT</th>
+                      <th className="num">Diff</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {h2hData.map(r => {
+                      const diff = r.tore - r.gegen
+                      return (
+                        <tr key={r.name}>
+                          <td><Link to={`/spielerprofile/${encodeURIComponent(r.name)}`} style={{ color: 'var(--gruen)', fontWeight: 500 }}>{r.name}</Link></td>
+                          <td className="num">{r.spiele}</td>
+                          <td className="num" style={{ color: r.s > r.n ? 'var(--gruen)' : 'inherit', fontWeight: r.s > r.n ? 700 : 400 }}>{r.s}</td>
+                          <td className="num">{r.u}</td>
+                          <td className="num" style={{ color: r.n > r.s ? '#dc2626' : 'inherit' }}>{r.n}</td>
+                          <td className="num">{r.tore}</td>
+                          <td className="num">{r.gegen}</td>
+                          <td className="num" style={{ color: diff > 0 ? 'var(--gruen)' : diff < 0 ? '#dc2626' : 'inherit', fontWeight: 600 }}>{diff > 0 ? '+' : ''}{diff}</td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
 
           {/* Karrierekurve */}
           <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 24, marginTop: 48 }}>Karriereverlauf</h2>
