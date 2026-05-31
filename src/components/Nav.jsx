@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 const NAV_ITEMS = [
   {
     to: '/events',
-    label: 'WM-Events',
+    label: 'Turniere',
     children: [
       { to: '/events/2026', label: '🔜 WM 2026 · Édition Jubilaire' },
       { to: '/events/2024', label: 'WM 2024 · Jaderberg' },
@@ -23,14 +23,14 @@ const NAV_ITEMS = [
     to: '/statistiken',
     label: 'Statistiken',
     children: [
-      { to: '/statistiken/weltrangliste', label: 'Weltrangliste' },
-      { to: '/statistiken/ewige-tabelle', label: 'Ewige Tabelle' },
-      { to: '/statistiken/champs', label: 'Alle Weltmeister' },
-      { to: '/statistiken/ballermann', label: 'Ballermänner' },
-      { to: '/statistiken/schiessbude', label: 'Schiessbuden' },
-      { to: '/statistiken/dinos', label: 'Dinos' },
-      { to: '/statistiken/remiskoenig', label: 'Remiskönige' },
-      { to: '/statistiken/knappste', label: 'Knappste Rennen' },
+      { to: '/statistiken/weltrangliste', label: '🌍 Weltrangliste' },
+      { to: '/statistiken/ewige-tabelle', label: '📊 Ewige Tabelle' },
+      { to: '/statistiken/champs', label: '🏆 Alle Weltmeister' },
+      { to: '/statistiken/ballermann', label: '⚽ Ballermänner', divider: true },
+      { to: '/statistiken/schiessbude', label: '🎯 Schiessbuden' },
+      { to: '/statistiken/dinos', label: '🦕 Dinos' },
+      { to: '/statistiken/remiskoenig', label: '🤝 Remiskönige' },
+      { to: '/statistiken/knappste', label: '⚖️ Knappste Rennen' },
     ]
   },
   {
