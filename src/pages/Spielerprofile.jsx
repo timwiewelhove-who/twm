@@ -216,10 +216,12 @@ function KarriereChart({ spieler }) {
 function SpielerDetail({ spieler }) {
   const [hatFoto, setHatFoto] = React.useState(true)
   const [h2hData, setH2hData] = React.useState([])
+  const [allMatches, setAllMatches] = React.useState([])
+  const [matchFilter, setMatchFilter] = React.useState('')
 
   React.useEffect(() => {
     supabase.from('matches_archive')
-      .select('home,away,home_tore,away_tore,jahr')
+      .select('home,away,home_tore,away_tore,jahr,spieltag').order('jahr', { ascending: true }).order('spieltag', { ascending: true })
       .or(`home.eq.${spieler.name},away.eq.${spieler.name}`)
       .then(({ data }) => {
         if (!data) return
@@ -238,6 +240,14 @@ function SpielerDetail({ spieler }) {
           else map[opp].u++
         })
         setH2hData(Object.values(map).sort((a, b) => b.spiele - a.spiele))
+        setAllMatches(data.map(m => {
+          const isHome = m.home === spieler.name
+          const opp = isHome ? m.away : m.home
+          const myTore = isHome ? m.home_tore : m.away_tore
+          const oppTore = isHome ? m.away_tore : m.home_tore
+          const result = myTore > oppTore ? 'S' : myTore < oppTore ? 'N' : 'U'
+          return { jahr: m.jahr, spieltag: m.spieltag, opp, myTore, oppTore, result }
+        }))
       })
   }, [spieler.name])
   const siegQ = spieler.sp ? (spieler.s / spieler.sp * 100).toFixed(1) : 0
@@ -387,6 +397,47 @@ function SpielerDetail({ spieler }) {
                         </tr>
                       )
                     })}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
+
+          {/* Alle Spiele */}
+          {allMatches.length > 0 && (
+            <>
+              <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 8, marginTop: 40 }}>Alle Spiele</h2>
+              <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16 }}>Basierend auf verfügbaren Daten ab WM 2006</p>
+              <input
+                type="text"
+                placeholder="Nach Gegner oder Jahr filtern…"
+                value={matchFilter}
+                onChange={e => setMatchFilter(e.target.value)}
+                style={{ width: '100%', padding: '8px 12px', marginBottom: 12, border: '1px solid var(--border)', borderRadius: 8, fontSize: 14, boxSizing: 'border-box', background: 'white' }}
+              />
+              <div className="card" style={{ overflow: 'auto' }}>
+                <table className="data-table">
+                  <thead>
+                    <tr>
+                      <th>WM</th>
+                      <th className="num">ST</th>
+                      <th>Gegner</th>
+                      <th className="num">Erg.</th>
+                      <th className="num">–</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {allMatches
+                      .filter(m => !matchFilter || m.opp.toLowerCase().includes(matchFilter.toLowerCase()) || String(m.jahr).includes(matchFilter))
+                      .map((m, i) => (
+                        <tr key={i}>
+                          <td>{m.jahr}</td>
+                          <td className="num" style={{ color: 'var(--text-muted)' }}>{m.spieltag}</td>
+                          <td><Link to={`/spielerprofile/${encodeURIComponent(m.opp)}`} style={{ color: 'var(--gruen)', fontWeight: 500 }}>{m.opp}</Link></td>
+                          <td className="num">{m.myTore}:{m.oppTore}</td>
+                          <td className="num" style={{ fontWeight: 700, color: m.result === 'S' ? 'var(--gruen)' : m.result === 'N' ? '#dc2626' : 'var(--text-muted)' }}>{m.result}</td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>
