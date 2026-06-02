@@ -756,7 +756,11 @@ function StatistikenInner() {
     { id: 'weltrangliste', label: 'WELTRANGLISTE' },
     { id: 'ewige-tabelle', label: 'EWIGE TABELLE' },
     { id: 'champs', label: 'ALLE WELTMEISTER' },
-    { id: 'bestenlisten', label: 'BESTENLISTEN' },
+    { id: 'ballermann', label: 'BALLERMÄNNER & SCHIESSBUDEN' },
+    { id: 'schiessbude', label: 'SCHIESSBUDEN', hidden: true },
+    { id: 'bestenlisten', label: 'BESTENLISTEN', hidden: true },
+    { id: 'dinos', label: 'DINOS' },
+    { id: 'remiskoenig', label: 'REMISKÖNIGE' },
     { id: 'knappste', label: 'KNAPPSTE RENNEN' },
     { id: 'rekorde', label: 'REKORDE' },
   ]
@@ -769,7 +773,7 @@ function StatistikenInner() {
           <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)' }}>Zahlen & Daten</div>
           <h1 style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: 'var(--white)', marginBottom: 32 }}>Statistiken</h1>
           <div className="stats-tabs" style={{ display: 'flex', gap: 0, borderBottom: '1px solid rgba(255,255,255,0.1)', overflowX: 'auto' }}>
-            {tabs.map(t => (
+            {tabs.filter(t => !t.hidden).map(t => (
               <Link key={t.id} to={`/statistiken/${t.id}`} style={{
                 padding: '14px 24px',
                 fontSize: 15,
@@ -778,6 +782,7 @@ function StatistikenInner() {
                 borderBottom: active === t.id ? '2px solid var(--gold)' : '2px solid transparent',
                 marginBottom: -1,
                 transition: 'color 0.15s',
+                whiteSpace: 'nowrap',
               }}>{t.label}</Link>
             ))}
           </div>
@@ -789,7 +794,9 @@ function StatistikenInner() {
           {active === 'weltrangliste' && <Weltrangliste />}
           {active === 'ewige-tabelle' && <EwigeTabelle />}
           {active === 'champs' && <Champs />}
-          {active === 'bestenlisten' && <Bestenlisten />}
+          {(active === 'ballermann' || active === 'schiessbude' || active === 'bestenlisten') && <Bestenlisten />}
+          {active === 'dinos' && <Dinos />}
+          {active === 'remiskoenig' && <Remiskoenige />}
           {active === 'knappste' && <KnappsteRennen />}
           {active === 'rekorde' && <Rekorde />}
         </div>

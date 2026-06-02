@@ -21,8 +21,8 @@ const ARGUMENTE = [
   },
   {
     nr: '04',
-    titel: 'Hamburger DNA',
-    text: 'Trommelschießen wurde in einer Norderstedter WG erfunden – wenige Kilometer von der geplanten Olympia-Arena in Altona entfernt. Kein Sport ist so hamburgisch. Wenn Hamburg schon Olympia ausrichten darf, dann verdient Hamburg auch eine Heimsportart. Tischtennis kommt aus dem britischen Wohnzimmer. Trommelschießen kommt aus dem norddeutschen Waschkeller.',
+    titel: 'Hamburg hat Nein gesagt. Der Sport sagt Ja.',
+    text: 'Hamburg hat 2015 gegen Olympia gestimmt – doch das ändert nichts an der Sache selbst. Trommelschießen braucht keine Stadt, die Olympia ausrichtet. Es braucht ein IOC, das mutig genug ist, einen Sport aufzunehmen, der wirklich aus dem Volk kommt. Nicht aus dem Wohnzimmer eines britischen Kolonialherrn wie Tischtennis – sondern aus einem norddeutschen Waschkeller.',
     emoji: '⚓',
   },
   {
@@ -52,9 +52,18 @@ const VERGLEICHE = [
   { sport: 'Synchronschwimmen', grund: 'Olympisch seit 1984. Lange nur für Frauen. Bewertung subjektiv.', trommel: 'Trommelschießen: Offen für alle Geschlechter. Mixed-Event von Anfang an.' },
 ]
 
+const HAMBURG_BANNER = {
+  text: 'Hamburg hat 2015 mit 51,6 % gegen eine Olympia-Bewerbung gestimmt. Trommelschießen bewirbt sich trotzdem – und zwar nicht für Hamburg, sondern für die Welt.',
+  cta: 'Brisbane 2032 · Los Angeles 2028 · wo auch immer',
+}
+
 export default function Olympia() {
   return (
     <div>
+      {/* Hamburg-Banner */}
+      <div style={{ background: '#1a1a2e', color: 'rgba(255,255,255,0.7)', padding: '12px 24px', textAlign: 'center', fontSize: 13, letterSpacing: '0.02em' }}>
+        🗳️ {HAMBURG_BANNER.text} · <span style={{ color: 'var(--gold)', fontWeight: 600 }}>{HAMBURG_BANNER.cta}</span>
+      </div>
       {/* Hero */}
       <div style={{ background: 'var(--gruen)', padding: '100px 0 72px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: -80, right: -80, width: 500, height: 500, borderRadius: '50%', border: '1px solid rgba(176,137,45,0.12)', pointerEvents: 'none' }} />

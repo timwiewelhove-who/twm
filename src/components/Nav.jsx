@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 const NAV_ITEMS = [
   {
     to: '/events',
-    label: 'Turniere',
+    label: 'Alle WMs',
     children: [
       { to: '/events/2026', label: '🔜 WM 2026 · Édition Jubilaire' },
       { to: '/events/2024', label: 'WM 2024 · Jaderberg' },
@@ -16,25 +16,38 @@ const NAV_ITEMS = [
       { to: '/events/2010', label: 'WM 2010 · Berne' },
       { to: '/events/2008', label: 'WM 2008 · Berne' },
       { to: '/events/2006', label: 'WM 2006 · Hamburg' },
-      { to: '/events', label: '→ Alle WMs', divider: true },
+      { to: '/statistiken/champs', label: '🏆 Alle Weltmeister', divider: true },
     ]
   },
   {
-    to: '/statistiken',
-    label: 'Statistiken',
+    to: '/statistiken/weltrangliste',
+    label: 'Ranglisten',
     children: [
       { to: '/statistiken/weltrangliste', label: '🌍 Weltrangliste' },
       { to: '/statistiken/ewige-tabelle', label: '📊 Ewige Tabelle' },
-      { to: '/statistiken/champs', label: '🏆 Alle Weltmeister' },
-      { to: '/statistiken/bestenlisten', label: '📋 Bestenlisten', divider: true },
-      { to: '/statistiken/knappste', label: '⚖️ Knappste Rennen' },
-      { to: '/statistiken/rekorde', label: '🏅 Rekorde' },
+    ]
+  },
+  {
+    to: '/statistiken/bestenlisten',
+    label: 'Bestenlisten',
+    children: [
+      { to: '/statistiken/ballermann', label: '⚽ Ballermänner & Schiessbuden' },
+      { to: '/statistiken/dinos', label: '🦕 Dinos' },
+      { to: '/statistiken/remiskoenig', label: '🤝 Remiskönige' },
     ]
   },
   {
     to: '/spielerprofile',
     label: 'Spielerprofile',
     children: []
+  },
+  {
+    to: '/statistiken/rekorde',
+    label: 'Kurioses',
+    children: [
+      { to: '/statistiken/rekorde', label: '🏅 Rekorde' },
+      { to: '/statistiken/knappste', label: '⚖️ Knappste Rennen' },
+    ]
   },
   {
     to: '/wissenswertes',
@@ -80,7 +93,7 @@ export default function Nav() {
   const [activeDropdown, setActiveDropdown] = useState(null)
   const loc = useLocation()
   const isHome = loc.pathname === '/'
-  const isDarkPage = loc.pathname === '/' || loc.pathname === '/events/2026' || loc.pathname === '/wissenswertes/olympia' || loc.pathname.startsWith('/spielerprofile')
+  const isDarkPage = loc.pathname === '/' || loc.pathname === '/events/2026' || loc.pathname === '/wissenswertes/olympia' || loc.pathname.startsWith('/spielerprofile') || loc.pathname.startsWith('/statistiken')
   const isDark = isDarkPage && !scrolled
   const timeoutRef = useRef(null)
 
