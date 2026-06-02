@@ -523,6 +523,14 @@ function HoechsteSiege() {
 
   return (
     <div>
+      <div style={{ marginBottom: 56 }}>
+        <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', color: 'var(--gruen)', marginBottom: 16, lineHeight: 1.2 }}>
+          Wenn der Gegner aufgehört hat zu zählen, hat der Sieger weitergemacht.
+        </h2>
+        <p style={{ fontSize: 16, lineHeight: 1.9, color: 'var(--text-muted)', maxWidth: 720 }}>
+          Nicht jedes Spiel endet knapp. Manche Partien in der WM-Geschichte haben eine Deutlichkeit erreicht, die man entweder als Demonstration handwerklicher Überlegenheit bezeichnen kann — oder als stillose Übertreibung, je nach Perspektive. Die höchsten Siege aller Zeiten zeigen, wie weit der Abstand zwischen zwei Spielern an einem einzigen Tag werden kann. Der Verlierer dieser Partien war meistens trotzdem wieder beim nächsten Turnier. Das ist der Geist dieser WM.
+        </p>
+      </div>
       {highlights.length > 0 && (
         <div style={{ marginBottom: 48 }}>
           <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 20 }}>
@@ -662,7 +670,7 @@ const SECTION_TITLES = {
   'remiskoenig':        { h2: 'Remiskönige',             sub: 'Unentschieden ist auch ein Ergebnis.' },
   'knappste-rennen':    { h2: 'Knappste Rennen',         sub: 'Ein Punkt Unterschied. Manchmal keiner.' },
   'knappste':           { h2: 'Knappste Rennen',         sub: 'Ein Punkt Unterschied. Manchmal keiner.' },
-  'hoechste-siege':     { h2: 'Höchste Siege', sub: 'Wenn der Gegner aufgehört hat zu zählen, hat der Sieger weitergemacht.' },
+  'hoechste-siege':     { h2: 'Höchste Siege', sub: '' },
   'torreichste-spiele': { h2: 'Torreichste Spiele',      sub: 'Verteidigung war keine Option.' },
   'engste-duelle':      { h2: 'Engste Duelle',           sub: 'Nahkampf auf der Trommel.' },
   'siegesserien':       { h2: 'Längste Siegesserien',    sub: 'Wer aufgehört hat zu verlieren.' },
