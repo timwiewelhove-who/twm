@@ -8,6 +8,8 @@ const useWM = () => React.useContext(WMContext)
 
 function Weltrangliste() {
   const wm = useWM()
+  const hat2026 = wm.weltrangliste.some(r => r.wm2026 > 0)
+  const jahre = [2006, 2008, 2010, 2012, 2014, 2016, 2018, 2022, 2024, ...(hat2026 ? [2026] : [])]
   return (
     <div>
       <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Weltrangliste</h2>
@@ -20,15 +22,9 @@ function Weltrangliste() {
             <tr>
               <th style={{ width: 48 }}>Pl.</th>
               <th>Trommler</th>
-              <th className="num rangliste-year" style={{ fontSize: 10 }}>2006</th>
-              <th className="num rangliste-year" style={{ fontSize: 10 }}>2008</th>
-              <th className="num rangliste-year" style={{ fontSize: 10 }}>2010</th>
-              <th className="num rangliste-year" style={{ fontSize: 10 }}>2012</th>
-              <th className="num rangliste-year" style={{ fontSize: 10 }}>2014</th>
-              <th className="num rangliste-year" style={{ fontSize: 10 }}>2016</th>
-              <th className="num rangliste-year" style={{ fontSize: 10 }}>2018</th>
-              <th className="num rangliste-year" style={{ fontSize: 10 }}>2022</th>
-              <th className="num rangliste-year" style={{ fontSize: 10 }}>2024</th>
+              {jahre.map(j => (
+                <th key={j} className="num rangliste-year" style={{ fontSize: 10, color: j === 2026 ? 'var(--gold)' : 'inherit' }}>{j}</th>
+              ))}
               <th className="num" style={{ fontWeight: 700 }}>Total</th>
             </tr>
           </thead>
@@ -39,11 +35,14 @@ function Weltrangliste() {
                 <td style={{ fontWeight: i < 3 ? 700 : 400 }}>
                   {i === 0 ? '🥇 ' : i === 1 ? '🥈 ' : i === 2 ? '🥉 ' : ''}{r.name}
                 </td>
-                {[r.wm2006, r.wm2008, r.wm2010, r.wm2012, r.wm2014, r.wm2016, r.wm2018, r.wm2022, r.wm2024].map((v, j) => (
-                  <td key={j} className="num rangliste-year" style={{ color: v === 100 ? 'var(--gold)' : v >= 50 ? 'var(--gruen)' : v > 0 ? 'var(--text-muted)' : 'var(--border)', fontSize: v === 0 ? 12 : 14 }}>
-                    {v || '–'}
-                  </td>
-                ))}
+                {jahre.map(j => {
+                  const v = r[`wm${j}`] ?? 0
+                  return (
+                    <td key={j} className="num rangliste-year" style={{ color: v === 100 ? 'var(--gold)' : v >= 50 ? 'var(--gruen)' : v > 0 ? 'var(--text-muted)' : 'var(--border)', fontSize: v === 0 ? 12 : 14 }}>
+                      {v || '–'}
+                    </td>
+                  )
+                })}
                 <td className="num pts">{r.total}</td>
               </tr>
             ))}
@@ -562,19 +561,15 @@ function Bestenlisten() {
   const sorted_t   = [...ALLE].filter(r => r.sp > 0).sort((a, b) => (b.t / b.sp) - (a.t / a.sp))
   const sorted_gg  = [...ALLE].filter(r => r.sp > 0).sort((a, b) => (a.gg / a.sp) - (b.gg / b.sp))
   const sorted_u   = [...ALLE].filter(r => r.sp > 0).sort((a, b) => (b.u / b.sp) - (a.u / a.sp))
-  const [wmTeilnahmen, setWmTeilnahmen] = React.useState([])
-  React.useEffect(() => {
-    fetch('https://pltaiozpoofchprydxuz.supabase.co/rest/v1/rpc/wm_teilnahmen', {
-      method: 'POST',
-      headers: { 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsdGFpb3pwb29mY2hwcnlkeHV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzg0MTksImV4cCI6MjA5MTkxNDQxOX0.nkV0AclS8hziq-HCk1kltp9T59u0tKqmcywLhprJ1HY', 'Content-Type': 'application/json' },
-      body: '{}'
-    }).then(r => r.json()).then(d => { if (Array.isArray(d)) setWmTeilnahmen(d) })
-  }, [])
-  const dinos_min = 9
-  const dinos = wmTeilnahmen.filter(r => r.wm_count >= dinos_min).map(r => ({
-    ...r,
-    total: WRL.find(w => w.name === r.name)?.total ?? 0
-  }))
+  const dinos_min  = 6
+  const dinos      = WRL.filter(r => {
+    const wmCount = Object.keys(r).filter(k => k.startsWith('wm')).length
+    return wmCount >= dinos_min
+  }).sort((a, b) => {
+    const wa = Object.keys(a).filter(k => k.startsWith('wm')).length
+    const wb = Object.keys(b).filter(k => k.startsWith('wm')).length
+    return wb - wa || b.total - a.total
+  })
 
   function BestenCard({ title, emoji, rows, col, label, format }) {
     return (
