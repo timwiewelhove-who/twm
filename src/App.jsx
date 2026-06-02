@@ -22,17 +22,38 @@ export default function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
+
+          {/* Turniere */}
           <Route path="/events" element={<Events />} />
           <Route path="/events/2026" element={<WM2026 />} />
-        <Route path="/wissenswertes/olympia" element={<Olympia />} />
           <Route path="/events/:jahr" element={<EventDetail />} />
-          <Route path="/statistiken" element={<Navigate to="/statistiken/weltrangliste" replace />} />
+
+          {/* Ranglisten — neue URLs, alte als Redirect */}
+          <Route path="/ranglisten" element={<Navigate to="/ranglisten/weltrangliste" replace />} />
+          <Route path="/ranglisten/:sub" element={<Statistiken />} />
+          <Route path="/statistiken/weltrangliste" element={<Navigate to="/ranglisten/weltrangliste" replace />} />
+          <Route path="/statistiken/ewige-tabelle" element={<Navigate to="/ranglisten/ewige-tabelle" replace />} />
+          <Route path="/statistiken/champs" element={<Navigate to="/ranglisten/weltmeister" replace />} />
+
+          {/* Stats — neue URLs, alte als Redirect */}
+          <Route path="/stats" element={<Navigate to="/stats/ballermann" replace />} />
+          <Route path="/stats/:sub" element={<Statistiken />} />
           <Route path="/statistiken/:sub" element={<Statistiken />} />
-          <Route path="/wissenswertes" element={<Navigate to="/wissenswertes/historie" replace />} />
+
+          {/* Info — neue URLs, alte Wissenswertes-Pfade als Redirect */}
+          <Route path="/info" element={<Navigate to="/info/historie" replace />} />
+          <Route path="/info/olympia" element={<Olympia />} />
+          <Route path="/info/:sub" element={<Wissenswertes />} />
+          <Route path="/wissenswertes/olympia" element={<Navigate to="/info/olympia" replace />} />
+          <Route path="/wissenswertes" element={<Navigate to="/info/historie" replace />} />
           <Route path="/wissenswertes/:sub" element={<Wissenswertes />} />
-          <Route path="/admin" element={<Admin />} />
+
+          {/* Spielerprofile */}
           <Route path="/spielerprofile" element={<Spielerprofile />} />
           <Route path="/spielerprofile/:name" element={<Spielerprofile />} />
+
+          {/* Sonstiges */}
+          <Route path="/admin" element={<Admin />} />
           <Route path="/rechtliches" element={<Rechtliches />} />
         </Routes>
       </main>

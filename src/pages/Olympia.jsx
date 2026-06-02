@@ -4,7 +4,7 @@ const ARGUMENTE = [
   {
     nr: '01',
     titel: 'Das IOC öffnet sich',
-    text: 'Breakdance, Skateboarding, Klettern, Surfen – das IOC hat in den letzten Jahren konsequent neue Sportarten aufgenommen, um jüngere und urbanere Zielgruppen zu erreichen. Paris durfte Breakdance selbst vorschlagen. Hamburg hätte dasselbe Recht. Und was wäre urbaner, norddeutscher und origineller als Trommelschießen?',
+    text: 'Breakdance, Skateboarding, Klettern, Surfen – das IOC hat in den letzten Jahren konsequent neue Sportarten aufgenommen, um jüngere und urbanere Zielgruppen zu erreichen. Paris durfte Breakdance selbst vorschlagen. Und was wäre urbaner, norddeutscher und origineller als Trommelschießen?',
     emoji: '🏛️',
   },
   {
@@ -16,25 +16,25 @@ const ARGUMENTE = [
   {
     nr: '03',
     titel: 'Minimaler Infrastrukturaufwand',
-    text: 'Olympia bedeutet Milliarden für Sportstätten. Trommelschießen braucht eine Waschmaschine, einen Fußball und 3 Meter freie Fläche. Die Arena lässt sich in jedem Hamburger Hinterhof aufbauen – klimaneutral, nachhaltig, ohne Betonsünden. Das IOC wäre begeistert. Der Zukunftsrat Hamburg auch.',
+    text: 'Olympia bedeutet Milliarden für Sportstätten. Trommelschießen braucht eine Waschmaschine, einen Fußball und 3 Meter freie Fläche. Die Arena lässt sich in jedem Hinterhof aufbauen – klimaneutral, nachhaltig, ohne Betonsünden. Das IOC wäre begeistert. Der Zukunftsrat auch.',
     emoji: '♻️',
   },
   {
     nr: '04',
-    titel: 'Hamburg hat Nein gesagt. Der Sport sagt Ja.',
-    text: 'Hamburg hat 2015 gegen Olympia gestimmt – doch das ändert nichts an der Sache selbst. Trommelschießen braucht keine Stadt, die Olympia ausrichtet. Es braucht ein IOC, das mutig genug ist, einen Sport aufzunehmen, der wirklich aus dem Volk kommt. Nicht aus dem Wohnzimmer eines britischen Kolonialherrn wie Tischtennis – sondern aus einem norddeutschen Waschkeller.',
+    titel: 'Ein Sport aus dem Volk',
+    text: 'Trommelschießen wurde nicht in einem Sportverband erdacht. Es entstand spontan, in einer WG, weil ein Softball und eine Waschmaschine zur gleichen Zeit am gleichen Ort waren. Das ist die Geschichte, die Olympia seit Jahren sucht. Nicht Kader, nicht Fördergelder, nicht Verbandspolitik. Einfach Sport.',
     emoji: '⚓',
   },
   {
     nr: '05',
     titel: 'Zuschauer-Garantie',
-    text: 'Rudern um 7 Uhr morgens. Schießen mit Luftgewehr. Moderner Fünfkampf schaut niemand. Trommelschießen hingegen hat seit 2006 bewiesen: Es zieht Zuschauer an, es erzeugt Lacher, Spannung und echte Emotionen. Ein Trommelschießen-Finale im Volksparkstadion – ausverkauft, garantiert.',
+    text: 'Rudern um 7 Uhr morgens. Schießen mit Luftgewehr. Moderner Fünfkampf schaut niemand. Trommelschießen hingegen hat seit 2006 bewiesen: Es zieht Zuschauer an, es erzeugt Lacher, Spannung und echte Emotionen. Ein Trommelschießen-Finale in einem ausverkauften Stadion – keine Utopie.',
     emoji: '🎪',
   },
   {
     nr: '06',
     titel: 'Technisch anspruchsvoll',
-    text: 'Wer noch nie versucht hat, einen Fußball aus 3 Metern in eine Waschmaschinentrommel zu schießen, unterschätzt die Herausforderung dramatisch. Die Öffnung hat etwa 23 cm Durchmesser. Ein Fußball misst 22 cm. Die Fehlertoleranz ist nahezu null. Das ist Präzisionssport auf Weltklasse-Niveau – vergleichbar mit dem Schießen, nur mit mehr Spaßfaktor.',
+    text: 'Wer noch nie versucht hat, einen Fußball aus 3 Metern in eine Waschmaschinentrommel zu schießen, unterschätzt die Herausforderung dramatisch. Die Öffnung hat etwa 23 cm Durchmesser. Ein Fußball misst 22 cm. Die Fehlertoleranz ist nahezu null. Das ist Präzisionssport auf Weltklasse-Niveau.',
     emoji: '🎯',
   },
   {
@@ -52,39 +52,22 @@ const VERGLEICHE = [
   { sport: 'Synchronschwimmen', grund: 'Olympisch seit 1984. Lange nur für Frauen. Bewertung subjektiv.', trommel: 'Trommelschießen: Offen für alle Geschlechter. Mixed-Event von Anfang an.' },
 ]
 
-const HAMBURG_BANNER = {
-  text: 'Hamburg hat 2015 mit 51,6 % gegen eine Olympia-Bewerbung gestimmt. Trommelschießen bewirbt sich trotzdem – und zwar nicht für Hamburg, sondern für die Welt.',
-  cta: 'Brisbane 2032 · Los Angeles 2028 · wo auch immer',
-}
-
 export default function Olympia() {
   return (
     <div>
-      {/* Hamburg-Banner */}
-      <div style={{ background: '#1a1a2e', color: 'rgba(255,255,255,0.7)', padding: '12px 24px', textAlign: 'center', fontSize: 13, letterSpacing: '0.02em' }}>
-        🗳️ {HAMBURG_BANNER.text} · <span style={{ color: 'var(--gold)', fontWeight: 600 }}>{HAMBURG_BANNER.cta}</span>
-      </div>
       {/* Hero */}
       <div style={{ background: 'var(--gruen)', padding: '100px 0 72px', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: -80, right: -80, width: 500, height: 500, borderRadius: '50%', border: '1px solid rgba(176,137,45,0.12)', pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', top: 60, right: 80, width: 240, height: 240, borderRadius: '50%', border: '1px solid rgba(176,137,45,0.08)', pointerEvents: 'none' }} />
         <div className="container" style={{ position: 'relative' }}>
-          <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)', marginBottom: 20 }}>Über das Trommelschießen</div>
+          <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)', marginBottom: 20 }}>Info</div>
           <h1 style={{ color: 'white', fontSize: 'clamp(28px, 5vw, 64px)', lineHeight: 1.05, marginBottom: 24, maxWidth: 820 }}>
-            Warum Trommelschiessen olympisch sein sollte
+            Warum Trommelschießen olympisch sein sollte
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 17, lineHeight: 1.8, maxWidth: 640, marginBottom: 32 }}>
-            Ein ernsthaftes Plädoyer für die Aufnahme der ältesten Norderstedter Mannschaftssportart ins olympische Programm –
-            am besten 2036 in Hamburg.
+            Ein ernsthaftes Plädoyer für die Aufnahme der ältesten Norderstedter Mannschaftssportart ins olympische Programm.
+            Mit sieben Argumenten, die sich gewaschen haben.
           </p>
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
-            <span style={{ background: 'var(--gold)', color: 'var(--gruen)', fontSize: 12, fontWeight: 700, padding: '6px 14px', borderRadius: 20 }}>
-              🗳️ Hamburg-Referendum 31. Mai 2026
-            </span>
-            <span style={{ color: 'rgba(255,255,255,0.4)', fontSize: 13 }}>
-              Die Trommler: geschlossen pro Olympia Hamburg
-            </span>
-          </div>
         </div>
       </div>
 
@@ -110,7 +93,7 @@ export default function Olympia() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 48, alignItems: 'start' }}>
             <div>
               <h2 style={{ fontSize: 'clamp(24px, 3vw, 38px)', color: 'var(--gruen)', marginBottom: 20, lineHeight: 1.2 }}>
-                Das IOC hat Breakdance aufgenommen.<br />Warum nicht Trommelschiesssen?
+                Das IOC hat Breakdance aufgenommen.<br />Warum nicht Trommelschießen?
               </h2>
             </div>
             <div>
@@ -118,7 +101,7 @@ export default function Olympia() {
                 Paris 2024 hat bewiesen: Gastgeberstädte dürfen eigene Sportarten vorschlagen. Das Internationale Olympische Komitee hat Breakdance, Skateboarding, Sportklettern und Surfen ins Programm aufgenommen – allesamt Sportarten, die außerhalb ihrer Communities kaum jemand kannte. Trommelschießen ist älter, präziser und deutlich norddeutschaffener.
               </p>
               <p style={{ fontSize: 16, lineHeight: 1.9, color: 'var(--text)', marginBottom: 20 }}>
-                Am 31. Mai 2026 stimmen die Hamburgerinnen und Hamburger darüber ab, ob sich die Stadt für die Olympischen Spiele 2036, 2040 oder 2044 bewirbt. Die Trommelschießen-WM-Gemeinschaft ist geschlossen dafür. Nicht zuletzt in der stillen Hoffnung, dass eine der ikonischsten Norderstedter Erfindungen endlich die Bühne bekommt, die sie verdient.
+                Was 2006 in einem Waschraum in Norderstedt begann, hat sich zu einem Sport mit Weltrangliste, zehn Weltmeisterschaften und über 2.500 dokumentierten Spielen entwickelt. Die Strukturen stehen. Die Leidenschaft ist da. Fehlt nur noch ein mutiges IOC.
               </p>
               <p style={{ fontSize: 16, lineHeight: 1.9, color: 'var(--text)' }}>
                 Hier sind sieben sorgfältig recherchierte, vollkommen ernstzunehmende Argumente.
@@ -161,16 +144,15 @@ export default function Olympia() {
         </div>
       </section>
 
-
       {/* Vergleichstabelle */}
       <section style={{ background: 'var(--gruen)', padding: '80px 0' }}>
         <div className="container">
           <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(176,137,45,0.7)', marginBottom: 16 }}>Sportartenvergleich</div>
           <h2 style={{ fontSize: 'clamp(24px, 3vw, 40px)', color: 'white', marginBottom: 12 }}>
-            Trommelschiesssen vs. bereits olympische Sportarten
+            Trommelschießen vs. bereits olympische Sportarten
           </h2>
           <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: 15, marginBottom: 40, maxWidth: 560 }}>
-            Die folgende Übersicht basiert auf öffentlich zugänglichen Fakten. Die Schlussfolgerungen sind die unserer eigenen.
+            Die folgende Übersicht basiert auf öffentlich zugänglichen Fakten. Die Schlussfolgerungen sind die unseren.
           </p>
           <div style={{ display: 'grid', gap: 12 }}>
             {VERGLEICHE.map((v, i) => (
@@ -197,31 +179,28 @@ export default function Olympia() {
         </div>
       </section>
 
-      {/* Hamburg-Kontext */}
+      {/* Fakten */}
       <section style={{ background: 'white', padding: '80px 0' }}>
         <div className="container">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 40, alignItems: 'center' }}>
             <div>
-              <div className="eyebrow">Hamburg 2036 / 2040 / 2044</div>
+              <div className="eyebrow">Der Sport in Zahlen</div>
               <h2 style={{ fontSize: 'clamp(24px, 3vw, 38px)', color: 'var(--gruen)', marginBottom: 20 }}>
-                Die Heimsportart wartet auf ihre Bühne
+                Zwanzig Jahre. Zehn Weltmeisterschaften. Keine Ausreden.
               </h2>
               <p style={{ fontSize: 15, lineHeight: 1.9, color: 'var(--text)', marginBottom: 16 }}>
-                Hamburg bewirbt sich um die Ausrichtung der Olympischen und Paralympischen Spiele. Das Konzept „Hamburg+" setzt auf bestehende Sportstätten, kurze Wege und Nachhaltigkeit. Die Science City Bahrenfeld als Olympisches Dorf. Das Volksparkstadion als Herzstück.
-              </p>
-              <p style={{ fontSize: 15, lineHeight: 1.9, color: 'var(--text)', marginBottom: 16 }}>
-                Und irgendwo in Norderstedt wartet eine Waschmaschine auf ihren großen Auftritt.
+                Was 2006 als spontaner Einfall in einer Norderstedter WG begann, ist heute ein organisierter Sport mit Weltrangliste, Ewiger Tabelle und mehr als 2.500 dokumentierten Spielen. Die Infrastruktur steht. Die Leidenschaft ist real. Die Trophäe hängt in Wohnzimmern in Hamburg und Niedersachsen.
               </p>
               <p style={{ fontSize: 15, lineHeight: 1.9, color: 'var(--text)' }}>
-                Frankreich hat Breakdance olympisch gemacht, weil es eine urbane Kulturbewegung des Gastgeberlandes war. Trommelschießen ist die urbane Kulturbewegung Norddeutschlands. Der Hamburger Senat sollte die Zeichen der Zeit erkennen. Das Referendum findet am 31. Mai 2026 statt. Die Trommler sind bereit.
+                Frankreich hat Breakdance olympisch gemacht, weil es eine urbane Kulturbewegung des Gastgeberlandes war. Trommelschießen ist die urbane Kulturbewegung Norddeutschlands. Irgendwo in Norderstedt wartet eine Waschmaschine auf ihren großen Auftritt.
               </p>
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
               {[
                 { value: '2006', label: 'Gründungsjahr', sub: 'in Norderstedt' },
-                { value: '56', label: 'Weltmeister', sub: 'in der ewigen Tabelle' },
-                { value: '9', label: 'WMs', sub: 'in Norddeutschland' },
-                { value: '1', label: 'Sportart', sub: 'die Hamburg verdient' },
+                { value: '10', label: 'Weltmeisterschaften', sub: 'seit der Premiere' },
+                { value: '2.500+', label: 'Spiele', sub: 'vollständig dokumentiert' },
+                { value: '1', label: 'Sportart', sub: 'die Olympia verdient' },
               ].map(s => (
                 <div key={s.label} className="card" style={{ padding: '20px' }}>
                   <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 44, color: 'var(--gruen)', lineHeight: 1 }}>{s.value}</div>
@@ -242,13 +221,12 @@ export default function Olympia() {
               TROMMEL. TROMMEL.<br />MORS. MORS. OLYMPIA.
             </div>
             <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--text-muted)', marginBottom: 32 }}>
-              Die Trommelschießen-WM-Gemeinschaft spricht sich geschlossen für Olympia in Hamburg aus.
               Nicht weil wir naiv sind. Sondern weil wir wissen, dass große Ideen immer klein anfangen –
               in einer Norderstedter WG, mit einem Ball, einer Maschine und einem Traum.
             </p>
             <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link to="/wissenswertes/historie" className="btn btn--primary">Die Geschichte des Trommelschießens</Link>
-              <Link to="/statistiken/weltrangliste" className="btn btn--outline">Weltrangliste ansehen</Link>
+              <Link to="/info/historie" className="btn btn--primary">Die Geschichte des Trommelschießens</Link>
+              <Link to="/ranglisten/weltrangliste" className="btn btn--outline">Weltrangliste ansehen</Link>
             </div>
           </div>
         </div>

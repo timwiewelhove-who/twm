@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom'
 const NAV_ITEMS = [
   {
     to: '/events',
-    label: 'Alle WMs',
+    label: 'Turniere',
     children: [
       { to: '/events/2026', label: '🔜 WM 2026 · Édition Jubilaire' },
       { to: '/events/2024', label: 'WM 2024 · Jaderberg' },
@@ -16,24 +16,32 @@ const NAV_ITEMS = [
       { to: '/events/2010', label: 'WM 2010 · Berne' },
       { to: '/events/2008', label: 'WM 2008 · Berne' },
       { to: '/events/2006', label: 'WM 2006 · Hamburg' },
-      { to: '/statistiken/champs', label: '🏆 Alle Weltmeister', divider: true },
     ]
   },
   {
-    to: '/statistiken/weltrangliste',
+    to: '/ranglisten',
     label: 'Ranglisten',
     children: [
-      { to: '/statistiken/weltrangliste', label: '🌍 Weltrangliste' },
-      { to: '/statistiken/ewige-tabelle', label: '📊 Ewige Tabelle' },
+      { to: '/ranglisten/weltrangliste', label: '🌍 Weltrangliste' },
+      { to: '/ranglisten/ewige-tabelle', label: '📊 Ewige Tabelle' },
+      { to: '/ranglisten/weltmeister', label: '🏆 Alle Weltmeister' },
     ]
   },
   {
-    to: '/statistiken/bestenlisten',
-    label: 'Bestenlisten',
+    to: '/stats',
+    label: 'Stats',
     children: [
-      { to: '/statistiken/ballermann', label: '⚽ Ballermänner & Schiessbuden' },
-      { to: '/statistiken/dinos', label: '🦕 Dinos' },
-      { to: '/statistiken/remiskoenig', label: '🤝 Remiskönige' },
+      { to: '/stats/ballermann', label: 'Ballermänner' },
+      { to: '/stats/schiessbuden', label: 'Schießbuden' },
+      { to: '/stats/dinos', label: 'Trommel-Dinos' },
+      { to: '/stats/remiskoenige', label: 'Remiskönige' },
+      { to: '/stats/knappste-rennen', label: 'Knappste Rennen' },
+      { to: '/stats/hoechste-siege', label: 'Höchste Siege' },
+      { to: '/stats/torreichste-spiele', label: 'Torreichste Spiele' },
+      { to: '/stats/engste-duelle', label: 'Engste Duelle' },
+      { to: '/stats/siegesserien', label: 'Längste Siegesserien' },
+      { to: '/stats/niederlagenserien', label: 'Längste Niederlagenserien' },
+      { to: '/stats/vergleich', label: 'Turniere im Vergleich' },
     ]
   },
   {
@@ -42,21 +50,13 @@ const NAV_ITEMS = [
     children: []
   },
   {
-    to: '/statistiken/rekorde',
-    label: 'Kurioses',
+    to: '/info',
+    label: 'Info',
     children: [
-      { to: '/statistiken/rekorde', label: '🏅 Rekorde' },
-      { to: '/statistiken/knappste', label: '⚖️ Knappste Rennen' },
-    ]
-  },
-  {
-    to: '/wissenswertes',
-    label: 'Über',
-    children: [
-      { to: '/wissenswertes/historie', label: 'Historie' },
-      { to: '/wissenswertes/regelwerk', label: 'Regelwerk' },
-      { to: '/wissenswertes/presse', label: 'Presse' },
-      { to: '/wissenswertes/olympia', label: 'Warum olympisch?' },
+      { to: '/info/historie', label: 'Historie' },
+      { to: '/info/regelwerk', label: 'Regelwerk' },
+      { to: '/info/presse', label: 'Presse' },
+      { to: '/info/olympia', label: 'Warum olympisch?' },
     ]
   },
 ]
@@ -93,7 +93,7 @@ export default function Nav() {
   const [activeDropdown, setActiveDropdown] = useState(null)
   const loc = useLocation()
   const isHome = loc.pathname === '/'
-  const isDarkPage = loc.pathname === '/' || loc.pathname === '/events/2026' || loc.pathname === '/wissenswertes/olympia' || loc.pathname.startsWith('/spielerprofile') || false
+  const isDarkPage = loc.pathname === '/' || loc.pathname === '/events/2026' || loc.pathname === '/info/olympia' || loc.pathname.startsWith('/spielerprofile')
   const isDark = isDarkPage && !scrolled
   const timeoutRef = useRef(null)
 
@@ -112,6 +112,9 @@ export default function Nav() {
   const handleMouseLeave = () => {
     timeoutRef.current = setTimeout(() => setActiveDropdown(null), 120)
   }
+
+  // Stats hat viele Einträge → Mega-Menü (2 Spalten)
+  const isMega = (item) => item.label === 'Stats'
 
   return (
     <nav style={{
@@ -133,6 +136,7 @@ export default function Nav() {
           {NAV_ITEMS.map(item => {
             const isActive = loc.pathname.startsWith(item.to)
             const showDrop = activeDropdown === item.label
+            const mega = isMega(item)
             return (
               <div key={item.to} style={{ position: 'relative' }}
                 onMouseEnter={() => handleMouseEnter(item.label)}
@@ -148,18 +152,23 @@ export default function Nav() {
                   {item.label}
                   {item.children?.length > 0 && <span style={{ fontSize: 10, opacity: 0.6, marginTop: 1 }}>▾</span>}
                 </Link>
-                {/* Dropdown */}
+                {/* Dropdown / Mega-Menü */}
                 {showDrop && item.children?.length > 0 && (
                   <div style={{
-                    position: 'absolute', top: '100%', left: 0,
+                    position: 'absolute', top: '100%', left: mega ? -60 : 0,
                     background: 'white',
                     borderRadius: 10,
                     boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
                     border: '1px solid var(--border)',
                     overflow: 'hidden',
-                    minWidth: 200,
+                    minWidth: mega ? 440 : 200,
                     paddingTop: 6, paddingBottom: 6,
                     zIndex: 200,
+                    ...(mega ? {
+                      display: 'grid',
+                      gridTemplateColumns: '1fr 1fr',
+                      columnGap: 0,
+                    } : {})
                   }}
                     onMouseEnter={() => handleMouseEnter(item.label)}
                     onMouseLeave={handleMouseLeave}>
