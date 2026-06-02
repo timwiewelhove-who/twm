@@ -132,9 +132,11 @@ async function loadAll() {
     }
   }
 
+  const gespielt = live ? Object.keys(live.results).length : 0
+
   return {
     weltmeister, ewige_tabelle,
-    weltrangliste: live ? liveWeltrangliste : weltrangliste_basis,
+    weltrangliste: (live && gespielt > 0) ? liveWeltrangliste : weltrangliste_basis,
     abschlusstabellen: abschlussByJahr, fotos,
     live: live ? { players: live.players, schedule: live.schedule, results: live.results, tabelle: liveTabelle } : null,
   }
