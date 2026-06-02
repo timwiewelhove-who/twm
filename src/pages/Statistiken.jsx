@@ -502,103 +502,84 @@ async function rpc(fn) {
   return res.json()
 }
 
-// ── Rekorde (Supabase) ────────────────────────────────────────────────────
-function Rekorde() {
+
+// ── Höchste Siege ─────────────────────────────────────────────────────────
+function HoechsteSiege() {
   const [loading, setLoading] = React.useState(true)
-  const [hoechsteSiege, setHoechsteSiege] = React.useState([])
-  const [meisteTore, setMeisteTore] = React.useState([])
-  const [engsteDuelle, setEngsteDuelle] = React.useState([])
-  const [wmVergleich, setWmVergleich] = React.useState([])
+  const [data, setData] = React.useState([])
 
   React.useEffect(() => {
-    async function load() {
-      const [r1, r2, r3, r4] = await Promise.all([
-        rpc('rekorde_hoechste_siege'), rpc('rekorde_meiste_tore'),
-        rpc('rekorde_engste_duelle'), rpc('rekorde_wm_vergleich'),
-      ])
-      if (Array.isArray(r1)) setHoechsteSiege(r1)
-      if (Array.isArray(r2)) setMeisteTore(r2)
-      if (Array.isArray(r3)) setEngsteDuelle(r3)
-      if (Array.isArray(r4)) setWmVergleich(r4)
+    rpc('rekorde_hoechste_siege').then(r => {
+      if (Array.isArray(r)) setData(r)
       setLoading(false)
-    }
-    load()
+    })
   }, [])
 
   if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
 
+  const gefiltert = data.filter(r => r.differenz >= 3)
+  const highlights = gefiltert.filter(r => r.differenz >= 4)
+  const normal = gefiltert.filter(r => r.differenz === 3)
+
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(480px, 1fr))', gap: 32, marginTop: 8 }}>
-      <div className="card" style={{ padding: '28px 28px 24px' }}>
-        <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>🏅 Höchste Siege</h2>
-        <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Größte Tordifferenz in einem Spiel</p>
-        <table className="data-table">
-          <thead><tr><th>SIEGER</th><th>VERLIERER</th><th className="num">ERG.</th><th className="num">DIFF</th><th className="num">WM</th></tr></thead>
-          <tbody>
-            {hoechsteSiege.slice(0, 10).map((r, i) => (
-              <tr key={i}>
-                <td style={{ fontWeight: 600, color: 'var(--gruen)' }}>{r.sieger}</td>
-                <td style={{ color: 'var(--text-muted)' }}>{r.verlierer}</td>
-                <td className="num">{r.tore_s}:{r.tore_n}</td>
-                <td className="num" style={{ fontWeight: 700 }}>+{r.differenz}</td>
-                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.jahr}</td>
-              </tr>
+    <div>
+      {highlights.length > 0 && (
+        <div style={{ marginBottom: 48 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 20 }}>
+            Absolute Ausreißer — 4+ Tore Abstand
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {highlights.map((r, i) => {
+              const siegerImg = `/spieler/${r.sieger.replace(/ /g, '_')}.jpg`
+              return (
+                <div key={i} style={{
+                  background: 'var(--gruen)', borderRadius: 16, padding: '28px 32px',
+                  display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: 24, alignItems: 'center',
+                }}>
+                  <div style={{ width: 64, height: 64, borderRadius: '50%', overflow: 'hidden', background: 'rgba(255,255,255,0.1)', flexShrink: 0 }}>
+                    <img src={siegerImg} alt={r.sieger} style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                      onError={e => { e.target.style.display = 'none' }} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(176,137,45,0.7)', marginBottom: 6 }}>WM {r.jahr}</div>
+                    <div style={{ fontWeight: 700, fontSize: 20, color: 'white', marginBottom: 4 }}>{r.sieger}</div>
+                    <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)' }}>besiegte {r.verlierer}</div>
+                  </div>
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 48, color: 'var(--gold)', lineHeight: 1 }}>{r.tore_s}:{r.tore_n}</div>
+                    <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>+{r.differenz} Tore</div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+      {normal.length > 0 && (
+        <div>
+          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 20 }}>
+            3 Tore Abstand
+          </div>
+          <div className="card" style={{ overflow: 'hidden' }}>
+            {normal.map((r, i) => (
+              <div key={i} style={{
+                display: 'grid', gridTemplateColumns: '1fr auto auto', gap: 24, alignItems: 'center',
+                padding: '16px 24px', borderBottom: i < normal.length - 1 ? '1px solid var(--border)' : 'none',
+              }}>
+                <div>
+                  <div style={{ fontWeight: 700, color: 'var(--gruen)', fontSize: 15 }}>{r.sieger}</div>
+                  <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 2 }}>vs. {r.verlierer} · WM {r.jahr}</div>
+                </div>
+                <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 28, color: 'var(--gruen)' }}>{r.tore_s}:{r.tore_n}</div>
+                <div style={{ background: 'rgba(28,66,43,0.08)', borderRadius: 8, padding: '4px 12px', fontSize: 13, fontWeight: 700, color: 'var(--gruen)' }}>+{r.differenz}</div>
+              </div>
             ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="card" style={{ padding: '28px 28px 24px' }}>
-        <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>⚽ Torreichste Spiele</h2>
-        <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Meiste Tore in einem einzelnen Spiel</p>
-        <table className="data-table">
-          <thead><tr><th>HEIM</th><th>GAST</th><th className="num">ERG.</th><th className="num">∑</th><th className="num">WM</th></tr></thead>
-          <tbody>
-            {meisteTore.slice(0, 10).map((r, i) => (
-              <tr key={i}>
-                <td style={{ fontWeight: 600 }}>{r.home}</td>
-                <td style={{ color: 'var(--text-muted)' }}>{r.away}</td>
-                <td className="num">{r.home_tore}:{r.away_tore}</td>
-                <td className="num" style={{ fontWeight: 700 }}>{r.gesamt}</td>
-                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.jahr}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="card" style={{ padding: '28px 28px 24px' }}>
-        <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>🤝 Engste Duelle</h2>
-        <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Meiste Unentschieden zwischen zwei Spielern</p>
-        <table className="data-table">
-          <thead><tr><th>SPIELER 1</th><th>SPIELER 2</th><th className="num">REMIS</th><th className="num">SP</th></tr></thead>
-          <tbody>
-            {engsteDuelle.slice(0, 10).map((r, i) => (
-              <tr key={i}>
-                <td style={{ fontWeight: 600, color: 'var(--gruen)' }}>{r.spieler1}</td>
-                <td style={{ color: 'var(--text-muted)' }}>{r.spieler2}</td>
-                <td className="num" style={{ fontWeight: 700 }}>{r.remis}</td>
-                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.spiele}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="card" style={{ padding: '28px 28px 24px' }}>
-        <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>📊 WM im Vergleich</h2>
-        <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Torreichste und torloseste WMs</p>
-        <table className="data-table">
-          <thead><tr><th className="num">WM</th><th className="num">SPIELE</th><th className="num">TORE</th><th className="num">∅/SP</th></tr></thead>
-          <tbody>
-            {wmVergleich.map((r, i) => (
-              <tr key={i} style={{ background: i === 0 ? 'rgba(176,137,45,0.05)' : i === wmVergleich.length - 1 ? 'rgba(220,38,38,0.04)' : 'transparent' }}>
-                <td className="num" style={{ fontWeight: 700 }}>{r.jahr}{i === 0 ? ' 🔥' : i === wmVergleich.length - 1 ? ' 🥶' : ''}</td>
-                <td className="num">{r.spiele}</td>
-                <td className="num">{r.tore_gesamt}</td>
-                <td className="num" style={{ fontWeight: i === 0 || i === wmVergleich.length - 1 ? 700 : 400, color: i === 0 ? 'var(--gold)' : i === wmVergleich.length - 1 ? '#dc2626' : 'inherit' }}>{r.tore_pro_spiel}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          </div>
+        </div>
+      )}
+      {gefiltert.length === 0 && (
+        <div style={{ textAlign: 'center', padding: '60px 24px', color: 'var(--text-muted)' }}>Noch keine Daten verfügbar.</div>
+      )}
     </div>
   )
 }
@@ -681,7 +662,7 @@ const SECTION_TITLES = {
   'remiskoenig':        { h2: 'Remiskönige',             sub: 'Unentschieden ist auch ein Ergebnis.' },
   'knappste-rennen':    { h2: 'Knappste Rennen',         sub: 'Ein Punkt Unterschied. Manchmal keiner.' },
   'knappste':           { h2: 'Knappste Rennen',         sub: 'Ein Punkt Unterschied. Manchmal keiner.' },
-  'hoechste-siege':     { h2: 'Höchste Siege',           sub: 'Wenn der Gegner aufgehört hat zu zählen.' },
+  'hoechste-siege':     { h2: 'Höchste Siege', sub: 'Wenn der Gegner aufgehört hat zu zählen, hat der Sieger weitergemacht.' },
   'torreichste-spiele': { h2: 'Torreichste Spiele',      sub: 'Verteidigung war keine Option.' },
   'engste-duelle':      { h2: 'Engste Duelle',           sub: 'Nahkampf auf der Trommel.' },
   'siegesserien':       { h2: 'Längste Siegesserien',    sub: 'Wer aufgehört hat zu verlieren.' },
@@ -754,10 +735,10 @@ function StatistikenInner() {
           {component === 'dinos'              && <Dinos />}
           {component === 'remiskoenige'       && <Remiskoenige />}
           {component === 'knappste'           && <KnappsteRennen />}
-          {component === 'hoechste-siege'     && <Rekorde />}
-          {component === 'torreichste-spiele' && <Rekorde />}
-          {component === 'engste-duelle'      && <Rekorde />}
-          {component === 'vergleich'          && <Rekorde />}
+          {component === 'hoechste-siege'     && <HoechsteSiege />}
+          {component === 'torreichste-spiele' && <ComingSoon titel="Torreichste Spiele" text="Verteidigung war keine Option. Diese Statistik folgt in Kürze." />}
+          {component === 'engste-duelle'      && <ComingSoon titel="Engste Duelle" text="Nahkampf auf der Trommel. Diese Statistik folgt in Kürze." />}
+          {component === 'vergleich'          && <ComingSoon titel="Turniere im Vergleich" text="Welches Turnier war das beste? Die Zahlen haben eine Meinung. Folgt in Kürze." />}
           {component === 'siegesserien'       && <ComingSoon titel="Längste Siegesserien" text="Wer aufgehört hat zu verlieren, hat angefangen zu dominieren. Diese Statistik folgt in Kürze." />}
           {component === 'niederlagenserien'  && <ComingSoon titel="Längste Niederlagenserien" text="Charakter zeigt sich nicht im Sieg. Er zeigt sich darin, wieder anzutreten. Diese Statistik folgt in Kürze." />}
         </div>
