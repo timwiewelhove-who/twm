@@ -1,4 +1,4 @@
-import { supabase } from '../supabase'
+// fixed
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useWMData } from '../useWMData'
@@ -629,26 +629,37 @@ function Bestenlisten() {
   )
 }
 
+const SUPABASE_URL = 'https://pltaiozpoofchprydxuz.supabase.co'
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsdGFpb3pwb29mY2hwcnlkeHV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzg0MTksImV4cCI6MjA5MTkxNDQxOX0.nkV0AclS8hziq-HCk1kltp9T59u0tKqmcywLhprJ1HY'
+
+async function rpc(fn) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fn}`, {
+    method: 'POST',
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
+    body: '{}'
+  })
+  return res.json()
+}
+
 function Rekorde() {
   const [loading, setLoading] = React.useState(true)
   const [hoechsteSiege, setHoechsteSiege] = React.useState([])
   const [meisteTore, setMeisteTore] = React.useState([])
   const [engsteDuelle, setEngsteDuelle] = React.useState([])
   const [wmVergleich, setWmVergleich] = React.useState([])
-  const [siegSerien, setSiegSerien] = React.useState([])
 
   React.useEffect(() => {
     async function load() {
       const [r1, r2, r3, r4] = await Promise.all([
-        supabase.rpc('rekorde_hoechste_siege'),
-        supabase.rpc('rekorde_meiste_tore'),
-        supabase.rpc('rekorde_engste_duelle'),
-        supabase.rpc('rekorde_wm_vergleich'),
+        rpc('rekorde_hoechste_siege'),
+        rpc('rekorde_meiste_tore'),
+        rpc('rekorde_engste_duelle'),
+        rpc('rekorde_wm_vergleich'),
       ])
-      if (r1.data) setHoechsteSiege(r1.data)
-      if (r2.data) setMeisteTore(r2.data)
-      if (r3.data) setEngsteDuelle(r3.data)
-      if (r4.data) setWmVergleich(r4.data)
+      if (Array.isArray(r1)) setHoechsteSiege(r1)
+      if (Array.isArray(r2)) setMeisteTore(r2)
+      if (Array.isArray(r3)) setEngsteDuelle(r3)
+      if (Array.isArray(r4)) setWmVergleich(r4)
       setLoading(false)
     }
     load()
