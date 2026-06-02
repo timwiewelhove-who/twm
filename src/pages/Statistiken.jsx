@@ -8,7 +8,8 @@ const useWM = () => React.useContext(WMContext)
 // ── Weltrangliste ─────────────────────────────────────────────────────────
 function Weltrangliste() {
   const wm = useWM()
-  const hat2026 = wm.weltrangliste.some(r => r.wm2026 > 0)
+  const rangliste = wm.weltrangliste.filter(r => r.total > 0)
+  const hat2026 = rangliste.some(r => r.wm2026 > 0)
   const jahre = [2006, 2008, 2010, 2012, 2014, 2016, 2018, 2022, 2024, ...(hat2026 ? [2026] : [])]
   return (
     <div>
@@ -28,7 +29,7 @@ function Weltrangliste() {
             </tr>
           </thead>
           <tbody>
-            {wm.weltrangliste.map((r, i) => (
+            {rangliste.map((r, i) => (
               <tr key={r.name}>
                 <td className="rank">{i + 1}</td>
                 <td style={{ fontWeight: i < 3 ? 700 : 400 }}>
@@ -77,7 +78,7 @@ function EwigeTabelle() {
             </tr>
           </thead>
           <tbody>
-            {wm.ewige_tabelle.map((r, i) => (
+            {wm.ewige_tabelle.filter(r => r.sp > 0).map((r, i) => (
               <tr key={r.name} style={{ background: i === 0 ? 'rgba(176,137,45,0.05)' : 'transparent' }}>
                 <td className="rank">{i < 3 ? ['🥇','🥈','🥉'][i] : r.pl}</td>
                 <td style={{ fontWeight: i < 5 ? 600 : 400 }}>{r.name}</td>
