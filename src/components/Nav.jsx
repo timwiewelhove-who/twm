@@ -116,9 +116,9 @@ export default function Nav() {
   return (
     <nav style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
-      background: scrolled ? 'rgba(245,240,232,0.96)' : 'transparent',
-      backdropFilter: scrolled ? 'blur(12px)' : 'none',
-      borderBottom: scrolled ? '1px solid rgba(28,66,43,0.1)' : 'none',
+      background: (scrolled || !isDarkPage) ? 'rgba(245,240,232,0.96)' : 'transparent',
+      backdropFilter: (scrolled || !isDarkPage) ? 'blur(12px)' : 'none',
+      borderBottom: (scrolled || !isDarkPage) ? '1px solid rgba(28,66,43,0.1)' : 'none',
       transition: 'all 0.3s',
     }}>
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
@@ -141,7 +141,7 @@ export default function Nav() {
                   display: 'flex', alignItems: 'center', gap: 4,
                   padding: '8px 14px',
                   fontSize: 15, fontWeight: 600,
-                  color: isActive ? 'var(--gold)' : isDark ? 'rgba(255,255,255,0.85)' : 'var(--gruen)',
+                  color: isActive ? 'var(--gold)' : (isDark && !scrolled) ? 'rgba(255,255,255,0.85)' : 'var(--gruen)',
                   borderBottom: isActive ? '2px solid var(--gold)' : '2px solid transparent',
                   paddingBottom: 6, transition: 'color 0.15s',
                 }}>

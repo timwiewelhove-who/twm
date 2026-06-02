@@ -574,7 +574,7 @@ function Bestenlisten() {
 
   function BestenCard({ title, emoji, rows, col, label, format }) {
     return (
-      <div className="card" style={{ marginBottom: 40 }}>
+      <div className="card" style={{ marginBottom: 40, padding: '28px 28px 24px' }}>
         <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>{emoji} {title}</h2>
         <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>{label}</p>
         <table className="data-table">
@@ -604,7 +604,7 @@ function Bestenlisten() {
       <BestenCard title="Ballermänner" emoji="⚽" rows={sorted_t} col="t" label="Meiste Tore pro Spiel (mind. 10 Spiele)" format={r => r.t} />
       <BestenCard title="Schiessbuden" emoji="🎯" rows={sorted_gg} col="gg" label="Wenigste Gegentore pro Spiel (mind. 10 Spiele)" format={r => r.gg} />
       <BestenCard title="Remiskönige" emoji="🤝" rows={sorted_u} col="u" label="Meiste Unentschieden pro Spiel (mind. 10 Spiele)" format={r => r.u} />
-      <div className="card" style={{ marginBottom: 40 }}>
+      <div className="card" style={{ marginBottom: 40, padding: '28px 28px 24px' }}>
         <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>🦕 Dinos</h2>
         <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Trommler mit mindestens {dinos_min} WM-Teilnahmen</p>
         <table className="data-table">
@@ -669,7 +669,7 @@ function Rekorde() {
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(480px, 1fr))', gap: 32, marginTop: 8 }}>
       {/* Höchste Siege */}
-      <div className="card">
+      <div className="card" style={{ padding: '28px 28px 24px' }}>
         <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>🏅 Höchste Siege</h2>
         <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Größte Tordifferenz in einem Spiel</p>
         <table className="data-table">
@@ -689,7 +689,7 @@ function Rekorde() {
       </div>
 
       {/* Torreichste Spiele */}
-      <div className="card">
+      <div className="card" style={{ padding: '28px 28px 24px' }}>
         <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>⚽ Torreichste Spiele</h2>
         <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Meiste Tore in einem einzelnen Spiel</p>
         <table className="data-table">
@@ -709,7 +709,7 @@ function Rekorde() {
       </div>
 
       {/* Engste Duelle */}
-      <div className="card">
+      <div className="card" style={{ padding: '28px 28px 24px' }}>
         <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>🤝 Engste Duelle</h2>
         <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Meiste Unentschieden zwischen zwei Spielern</p>
         <table className="data-table">
@@ -728,7 +728,7 @@ function Rekorde() {
       </div>
 
       {/* WM Vergleich */}
-      <div className="card">
+      <div className="card" style={{ padding: '28px 28px 24px' }}>
         <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>📊 WM im Vergleich</h2>
         <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Torreichste und torloseste WMs</p>
         <table className="data-table">
