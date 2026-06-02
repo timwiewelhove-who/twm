@@ -1,3 +1,4 @@
+import { supabase } from '../supabase'
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useWMData } from '../useWMData'
@@ -29,7 +30,6 @@ function Weltrangliste() {
               <th className="num rangliste-year" style={{ fontSize: 10 }}>2018</th>
               <th className="num rangliste-year" style={{ fontSize: 10 }}>2022</th>
               <th className="num rangliste-year" style={{ fontSize: 10 }}>2024</th>
-              <th className="num rangliste-year" style={{ fontSize: 10, color: 'var(--gold)' }}>2026</th>
               <th className="num" style={{ fontWeight: 700 }}>Total</th>
             </tr>
           </thead>
@@ -40,7 +40,7 @@ function Weltrangliste() {
                 <td style={{ fontWeight: i < 3 ? 700 : 400 }}>
                   {i === 0 ? '🥇 ' : i === 1 ? '🥈 ' : i === 2 ? '🥉 ' : ''}{r.name}
                 </td>
-                {[r.wm2006, r.wm2008, r.wm2010, r.wm2012, r.wm2014, r.wm2016, r.wm2018, r.wm2022, r.wm2024, r.wm2026].map((v, j) => (
+                {[r.wm2006, r.wm2008, r.wm2010, r.wm2012, r.wm2014, r.wm2016, r.wm2018, r.wm2022, r.wm2024].map((v, j) => (
                   <td key={j} className="num rangliste-year" style={{ color: v === 100 ? 'var(--gold)' : v >= 50 ? 'var(--gruen)' : v > 0 ? 'var(--text-muted)' : 'var(--border)', fontSize: v === 0 ? 12 : 14 }}>
                     {v || '–'}
                   </td>
@@ -555,6 +555,189 @@ export default function Statistiken() {
   )
 }
 
+function Bestenlisten() {
+  const { data: wm } = useWMData()
+  if (!wm) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
+  const ALLE = wm.ewige_tabelle || []
+  const sorted_t   = [...ALLE].filter(r => r.sp > 0).sort((a, b) => (b.t / b.sp) - (a.t / a.sp))
+  const sorted_gg  = [...ALLE].filter(r => r.sp > 0).sort((a, b) => (a.gg / a.sp) - (b.gg / b.sp))
+  const sorted_u   = [...ALLE].filter(r => r.sp > 0).sort((a, b) => (b.u / b.sp) - (a.u / a.sp))
+  const dinos_min  = 6
+  const dinos      = ALLE.filter(r => {
+    const wmCount = Object.keys(r).filter(k => k.startsWith('wm')).length
+    return wmCount >= dinos_min
+  }).sort((a, b) => {
+    const wa = Object.keys(a).filter(k => k.startsWith('wm')).length
+    const wb = Object.keys(b).filter(k => k.startsWith('wm')).length
+    return wb - wa || b.total - a.total
+  })
+
+  function BestenCard({ title, emoji, rows, col, label, format }) {
+    return (
+      <div className="card" style={{ marginBottom: 40 }}>
+        <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>{emoji} {title}</h2>
+        <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>{label}</p>
+        <table className="data-table">
+          <thead><tr><th className="num">PL.</th><th>TROMMLER</th><th className="num">SP</th><th className="num">{col.toUpperCase()}</th><th className="num">QUOTE</th></tr></thead>
+          <tbody>
+            {rows.slice(0, 10).map((r, i) => {
+              const val = format(r)
+              const quote = col === 't' ? (r.t / r.sp).toFixed(3) : col === 'gg' ? (r.gg / r.sp).toFixed(3) : (r.u / r.sp).toFixed(3)
+              return (
+                <tr key={r.name}>
+                  <td className="num" style={{ color: 'var(--text-muted)' }}>{i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}.`}</td>
+                  <td><Link to={`/spielerprofile/${encodeURIComponent(r.name)}`} style={{ color: 'var(--gruen)', fontWeight: 600 }}>{r.name}</Link></td>
+                  <td className="num">{r.sp}</td>
+                  <td className="num" style={{ fontWeight: 700 }}>{val}</td>
+                  <td className="num" style={{ color: 'var(--text-muted)' }}>{quote}</td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
+    )
+  }
+
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(480px, 1fr))', gap: 32, marginTop: 8 }}>
+      <BestenCard title="Ballermänner" emoji="⚽" rows={sorted_t} col="t" label="Meiste Tore pro Spiel (mind. 10 Spiele)" format={r => r.t} />
+      <BestenCard title="Schiessbuden" emoji="🎯" rows={sorted_gg} col="gg" label="Wenigste Gegentore pro Spiel (mind. 10 Spiele)" format={r => r.gg} />
+      <BestenCard title="Remiskönige" emoji="🤝" rows={sorted_u} col="u" label="Meiste Unentschieden pro Spiel (mind. 10 Spiele)" format={r => r.u} />
+      <div className="card" style={{ marginBottom: 40 }}>
+        <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>🦕 Dinos</h2>
+        <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Trommler mit mindestens {dinos_min} WM-Teilnahmen</p>
+        <table className="data-table">
+          <thead><tr><th className="num">PL.</th><th>TROMMLER</th><th className="num">WMs</th><th className="num">WRL PKT.</th></tr></thead>
+          <tbody>
+            {dinos.map((r, i) => {
+              const wmCount = Object.keys(r).filter(k => k.startsWith('wm')).length
+              return (
+                <tr key={r.name}>
+                  <td className="num" style={{ color: 'var(--text-muted)' }}>{i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}.`}</td>
+                  <td><Link to={`/spielerprofile/${encodeURIComponent(r.name)}`} style={{ color: 'var(--gruen)', fontWeight: 600 }}>{r.name}</Link></td>
+                  <td className="num" style={{ fontWeight: 700 }}>{wmCount}</td>
+                  <td className="num">{r.total}</td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}
+
+function Rekorde() {
+  const [loading, setLoading] = React.useState(true)
+  const [hoechsteSiege, setHoechsteSiege] = React.useState([])
+  const [meisteTore, setMeisteTore] = React.useState([])
+  const [engsteDuelle, setEngsteDuelle] = React.useState([])
+  const [wmVergleich, setWmVergleich] = React.useState([])
+  const [siegSerien, setSiegSerien] = React.useState([])
+
+  React.useEffect(() => {
+    async function load() {
+      const [r1, r2, r3, r4] = await Promise.all([
+        supabase.rpc('rekorde_hoechste_siege'),
+        supabase.rpc('rekorde_meiste_tore'),
+        supabase.rpc('rekorde_engste_duelle'),
+        supabase.rpc('rekorde_wm_vergleich'),
+      ])
+      if (r1.data) setHoechsteSiege(r1.data)
+      if (r2.data) setMeisteTore(r2.data)
+      if (r3.data) setEngsteDuelle(r3.data)
+      if (r4.data) setWmVergleich(r4.data)
+      setLoading(false)
+    }
+    load()
+  }, [])
+
+  if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
+
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(480px, 1fr))', gap: 32, marginTop: 8 }}>
+      {/* Höchste Siege */}
+      <div className="card">
+        <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>🏅 Höchste Siege</h2>
+        <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Größte Tordifferenz in einem Spiel</p>
+        <table className="data-table">
+          <thead><tr><th>SIEGER</th><th>VERLIERER</th><th className="num">ERG.</th><th className="num">DIFF</th><th className="num">WM</th></tr></thead>
+          <tbody>
+            {hoechsteSiege.slice(0, 10).map((r, i) => (
+              <tr key={i}>
+                <td style={{ fontWeight: 600, color: 'var(--gruen)' }}>{r.sieger}</td>
+                <td style={{ color: 'var(--text-muted)' }}>{r.verlierer}</td>
+                <td className="num">{r.tore_s}:{r.tore_n}</td>
+                <td className="num" style={{ fontWeight: 700 }}>+{r.differenz}</td>
+                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.jahr}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Torreichste Spiele */}
+      <div className="card">
+        <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>⚽ Torreichste Spiele</h2>
+        <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Meiste Tore in einem einzelnen Spiel</p>
+        <table className="data-table">
+          <thead><tr><th>HEIM</th><th>GAST</th><th className="num">ERG.</th><th className="num">∑</th><th className="num">WM</th></tr></thead>
+          <tbody>
+            {meisteTore.slice(0, 10).map((r, i) => (
+              <tr key={i}>
+                <td style={{ fontWeight: 600 }}>{r.home}</td>
+                <td style={{ color: 'var(--text-muted)' }}>{r.away}</td>
+                <td className="num">{r.home_tore}:{r.away_tore}</td>
+                <td className="num" style={{ fontWeight: 700 }}>{r.gesamt}</td>
+                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.jahr}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Engste Duelle */}
+      <div className="card">
+        <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>🤝 Engste Duelle</h2>
+        <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Meiste Unentschieden zwischen zwei Spielern</p>
+        <table className="data-table">
+          <thead><tr><th>SPIELER 1</th><th>SPIELER 2</th><th className="num">REMIS</th><th className="num">SP</th></tr></thead>
+          <tbody>
+            {engsteDuelle.slice(0, 10).map((r, i) => (
+              <tr key={i}>
+                <td style={{ fontWeight: 600, color: 'var(--gruen)' }}>{r.spieler1}</td>
+                <td style={{ color: 'var(--text-muted)' }}>{r.spieler2}</td>
+                <td className="num" style={{ fontWeight: 700 }}>{r.remis}</td>
+                <td className="num" style={{ color: 'var(--text-muted)' }}>{r.spiele}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* WM Vergleich */}
+      <div className="card">
+        <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>📊 WM im Vergleich</h2>
+        <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Torreichste und torloseste WMs</p>
+        <table className="data-table">
+          <thead><tr><th className="num">WM</th><th className="num">SPIELE</th><th className="num">TORE</th><th className="num">∅ / SPIEL</th></tr></thead>
+          <tbody>
+            {wmVergleich.map((r, i) => (
+              <tr key={i} style={{ background: i === 0 ? 'rgba(176,137,45,0.05)' : i === wmVergleich.length - 1 ? 'rgba(220,38,38,0.04)' : 'transparent' }}>
+                <td className="num" style={{ fontWeight: 700 }}>{r.jahr}{i === 0 ? ' 🔥' : i === wmVergleich.length - 1 ? ' 🥶' : ''}</td>
+                <td className="num">{r.spiele}</td>
+                <td className="num">{r.tore_gesamt}</td>
+                <td className="num" style={{ fontWeight: i === 0 || i === wmVergleich.length - 1 ? 700 : 400, color: i === 0 ? 'var(--gold)' : i === wmVergleich.length - 1 ? '#dc2626' : 'inherit' }}>{r.tore_pro_spiel}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  )
+}
+
 function StatistikenInner() {
   const loc = useLocation()
   const sub = loc.pathname.split('/').pop()
@@ -562,11 +745,9 @@ function StatistikenInner() {
     { id: 'weltrangliste', label: 'WELTRANGLISTE' },
     { id: 'ewige-tabelle', label: 'EWIGE TABELLE' },
     { id: 'champs', label: 'ALLE WELTMEISTER' },
-    { id: 'dinos', label: 'DINOS' },
-    { id: 'ballermann', label: 'BALLERMÄNNER' },
-    { id: 'schiessbude', label: 'SCHIESSBUDEN' },
-    { id: 'remiskoenig', label: 'REMISKÖNIGE' },
-    { id: 'knappste', label: 'KNAPPSTES RENNEN' },
+    { id: 'bestenlisten', label: 'BESTENLISTEN' },
+    { id: 'knappste', label: 'KNAPPSTE RENNEN' },
+    { id: 'rekorde', label: 'REKORDE' },
   ]
   const active = tabs.find(t => t.id === sub) ? sub : 'weltrangliste'
 
@@ -597,11 +778,9 @@ function StatistikenInner() {
           {active === 'weltrangliste' && <Weltrangliste />}
           {active === 'ewige-tabelle' && <EwigeTabelle />}
           {active === 'champs' && <Champs />}
-          {active === 'dinos' && <Dinos />}
-          {active === 'ballermann' && <Ballermann />}
-          {active === 'schiessbude' && <Schiessbude />}
-          {active === 'remiskoenig' && <Remiskoenige />}
+          {active === 'bestenlisten' && <Bestenlisten />}
           {active === 'knappste' && <KnappsteRennen />}
+          {active === 'rekorde' && <Rekorde />}
         </div>
       </section>
     </div>

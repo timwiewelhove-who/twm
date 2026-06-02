@@ -26,11 +26,9 @@ const NAV_ITEMS = [
       { to: '/statistiken/weltrangliste', label: '🌍 Weltrangliste' },
       { to: '/statistiken/ewige-tabelle', label: '📊 Ewige Tabelle' },
       { to: '/statistiken/champs', label: '🏆 Alle Weltmeister' },
-      { to: '/statistiken/ballermann', label: '⚽ Ballermänner', divider: true },
-      { to: '/statistiken/schiessbude', label: '🎯 Schiessbuden' },
-      { to: '/statistiken/dinos', label: '🦕 Dinos' },
-      { to: '/statistiken/remiskoenig', label: '🤝 Remiskönige' },
+      { to: '/statistiken/bestenlisten', label: '📋 Bestenlisten', divider: true },
       { to: '/statistiken/knappste', label: '⚖️ Knappste Rennen' },
+      { to: '/statistiken/rekorde', label: '🏅 Rekorde' },
     ]
   },
   {
