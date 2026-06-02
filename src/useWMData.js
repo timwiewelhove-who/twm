@@ -98,25 +98,26 @@ async function loadAll() {
       return { name, tore }
     }).sort((a, b) => b.tore - a.tore)
 
-    // Weltrangliste live berechnen basierend auf aktuellem Tabellenstand
-    const punkteSchema = { 1: 100, 2: 80, 3: 70, 4: 60, 5: 50, 6: 40, 7: 35, 8: 30, 9: 25, 10: 20 }
-    liveWeltrangliste = weltrangliste_basis.map(r => ({ ...r }))
-    liveTabelle.forEach((row, idx) => {
-      const punkte = punkteSchema[idx + 1] ?? Math.max(1, 15 - idx)
-      const existing = liveWeltrangliste.find(r => r.name === row.name)
-      if (existing) {
-        existing.wm2026 = punkte
-        existing.total = Object.entries(existing)
-          .filter(([k]) => k.startsWith('wm'))
-          .reduce((s, [, v]) => s + v, 0)
-      } else {
-        liveWeltrangliste.push({ pl: 0, name: row.name, wm2026: punkte, total: punkte })
-      }
-    })
-    liveWeltrangliste.sort((a, b) => b.total - a.total)
-    liveWeltrangliste.forEach((r, i) => { r.pl = i + 1 })
-
+    // Weltrangliste live – erst nach erstem Spiel
     const gespielt = Object.keys(live.results).length
+    const punkteSchema = { 1: 100, 2: 80, 3: 70, 4: 60, 5: 50, 6: 40, 7: 35, 8: 30, 9: 25, 10: 20 }
+    if (gespielt > 0) {
+      liveWeltrangliste = weltrangliste_basis.map(r => ({ ...r }))
+      liveTabelle.forEach((row, idx) => {
+        const punkte = punkteSchema[idx + 1] ?? Math.max(1, 15 - idx)
+        const existing = liveWeltrangliste.find(r => r.name === row.name)
+        if (existing) {
+          existing.wm2026 = punkte
+          existing.total = Object.entries(existing)
+            .filter(([k]) => k.startsWith('wm'))
+            .reduce((s, [, v]) => s + v, 0)
+        } else {
+          liveWeltrangliste.push({ pl: 0, name: row.name, wm2026: punkte, total: punkte })
+        }
+      })
+      liveWeltrangliste.sort((a, b) => b.total - a.total)
+      liveWeltrangliste.forEach((r, i) => { r.pl = i + 1 })
+    }
     if (gespielt > 0 && !weltmeister.find(e => e.jahr === 2026)) {
       weltmeister.push({
         jahr: 2026,
@@ -151,10 +152,7 @@ export function useWMData() {
   }, [])
 
   useEffect(() => {
-    // Entferne bestehenden Channel falls vorhanden
-    const existing = supabase.getChannels().find(c => c.topic === 'realtime:wm-data-live')
-    if (existing) supabase.removeChannel(existing)
-
+    supabase.removeAllChannels()
     const sub = supabase.channel('wm-data-live')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'results' }, () => {
         liveCache = null; cache = null
