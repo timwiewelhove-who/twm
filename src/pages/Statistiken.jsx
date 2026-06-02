@@ -562,15 +562,19 @@ function Bestenlisten() {
   const sorted_t   = [...ALLE].filter(r => r.sp > 0).sort((a, b) => (b.t / b.sp) - (a.t / a.sp))
   const sorted_gg  = [...ALLE].filter(r => r.sp > 0).sort((a, b) => (a.gg / a.sp) - (b.gg / b.sp))
   const sorted_u   = [...ALLE].filter(r => r.sp > 0).sort((a, b) => (b.u / b.sp) - (a.u / a.sp))
-  const dinos_min  = 6
-  const dinos      = WRL.filter(r => {
-    const wmCount = Object.keys(r).filter(k => k.startsWith('wm')).length
-    return wmCount >= dinos_min
-  }).sort((a, b) => {
-    const wa = Object.keys(a).filter(k => k.startsWith('wm')).length
-    const wb = Object.keys(b).filter(k => k.startsWith('wm')).length
-    return wb - wa || b.total - a.total
-  })
+  const [wmTeilnahmen, setWmTeilnahmen] = React.useState([])
+  React.useEffect(() => {
+    fetch('https://pltaiozpoofchprydxuz.supabase.co/rest/v1/rpc/wm_teilnahmen', {
+      method: 'POST',
+      headers: { 'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsdGFpb3pwb29mY2hwcnlkeHV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzg0MTksImV4cCI6MjA5MTkxNDQxOX0.nkV0AclS8hziq-HCk1kltp9T59u0tKqmcywLhprJ1HY', 'Content-Type': 'application/json' },
+      body: '{}'
+    }).then(r => r.json()).then(d => { if (Array.isArray(d)) setWmTeilnahmen(d) })
+  }, [])
+  const dinos_min = 9
+  const dinos = wmTeilnahmen.filter(r => r.wm_count >= dinos_min).map(r => ({
+    ...r,
+    total: WRL.find(w => w.name === r.name)?.total ?? 0
+  }))
 
   function BestenCard({ title, emoji, rows, col, label, format }) {
     return (
