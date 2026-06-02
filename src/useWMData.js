@@ -99,9 +99,7 @@ async function loadAll() {
     }).sort((a, b) => b.tore - a.tore)
 
     // Weltrangliste live berechnen basierend auf aktuellem Tabellenstand
-    const gespielt = Object.keys(live.results).length
     const punkteSchema = { 1: 100, 2: 80, 3: 70, 4: 60, 5: 50, 6: 40, 7: 35, 8: 30, 9: 25, 10: 20 }
-    if (gespielt > 0) {
     liveWeltrangliste = weltrangliste_basis.map(r => ({ ...r }))
     liveTabelle.forEach((row, idx) => {
       const punkte = punkteSchema[idx + 1] ?? Math.max(1, 15 - idx)
@@ -117,8 +115,8 @@ async function loadAll() {
     })
     liveWeltrangliste.sort((a, b) => b.total - a.total)
     liveWeltrangliste.forEach((r, i) => { r.pl = i + 1 })
-    } // end if gespielt > 0
 
+    const gespielt = Object.keys(live.results).length
     if (gespielt > 0 && !weltmeister.find(e => e.jahr === 2026)) {
       weltmeister.push({
         jahr: 2026,
@@ -153,6 +151,7 @@ export function useWMData() {
   }, [])
 
   useEffect(() => {
+    supabase.removeAllChannels()
     const sub = supabase.channel('wm-data-live')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'results' }, () => {
         liveCache = null; cache = null
