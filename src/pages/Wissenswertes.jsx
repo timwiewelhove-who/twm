@@ -9,40 +9,80 @@ Die Regularien waren auch schnell formuliert: Ab da, wo sich der hellblaue Teppi
 
 Die Wäscheständerzone wurde schnell zum VIP-Bereich mit der besten Sicht auf Krones Präzision, Jennes Gefühl oder Vossis unvergessener Außenristtechnik. Den Rest der Geschichte könnt ihr alle selbst schreiben. Also: Ran an die Trommel!`
 
-const REGELWERK = [
-  { title: 'Die Trommeltrombosse', text: 'Stephan Krontal und Holger Müller. Alle nicht in Absprache ausgetragenen Veranstaltungen sind Untrommelkonform – aber ausdrücklich zur Nachahmung erwünscht. Ohne Trommeltrombosse kein offizieller Trommel-Slam.' },
-  { title: 'Trommler-Anmeldung', text: 'Jeder Trommler, der sich anmeldet, verpflichtet sich zu trommeln. Erscheint er nicht, wird der Obolus einbehalten. Bei Sonderfällen (Krankheit o. ä.) entscheiden die Oberhäupter.' },
-  { title: 'Obolus', text: 'Der Unkostenbeitrag wird vom Ausrichter angeschlagen und soll 50,00 € / Person nicht überschreiten.' },
-  { title: 'Oberhäupter', text: '4 Oberhäupter werden nach normaler Auszählung gewählt. Beschlüsse werden mit einfacher Mehrheit beschlossen. Sie koordinieren Events, entscheiden über Teilnehmerzahl und mögliche Relegationen.' },
-  { title: 'Trommelspiel', text: 'Die Entfernung darf zwischen 3–5 Metern liegen, muss aber vor dem Turnier festgesetzt werden. Das Schuhwerk darf selbst gewählt werden. Springt die Trommille wieder aus der Trommel, ist dies kein gültiger Treffer.' },
-  { title: 'Die Trommel', text: 'Nicht größer als 80 cm breit und 100 cm hoch. Durchmesser: 25–35 cm. Keine Top-Lader erlaubt.' },
-  { title: 'Die Trommille (Trommelpille)', text: 'Nicht größer als 41,5 cm Umfang und nicht schwerer als 500 Gramm.' },
-  { title: 'Trommelzeit', text: 'April–Mai: Schongang (Liga) · Juli–August: Trommelfelle (WM) · Oktober–November: Schleudergang (Knockout) · Januar–Februar: Trommelwirbel (Play-Offs)' },
+const REGELWERK_SECTIONS = [
+  {
+    title: 'Das Spiel',
+    text: 'Trommelschießen ist einfach. Das ist eine seiner größten Stärken — und einer der Hauptgründe, warum es seit 2006 ohne nennenswerte Regelreformen ausgekommen ist. Zwei Spieler, eine Trommel, fünf Schüsse pro Seite, abwechselnd. Wer mehr trifft, gewinnt. Wer gleich oft trifft, teilt. Wer weniger trifft, verliert. Das war\'s. Alles andere ist Ausführungsbestimmung.',
+  },
+  {
+    title: 'Das Spielgerät',
+    items: [
+      { label: 'Die Trommel', text: 'Maximal 80 cm breit, maximal 100 cm hoch, Trommeldurchmesser zwischen 25 und 35 cm. Top-Lader sind nicht erlaubt.' },
+      { label: 'Die Trommille', text: 'Das offizielle Schussgerät — maximal 41,5 cm Umfang und maximal 500 Gramm. Nach dem Schuss muss sie in der Trommel verbleiben. Springt sie wieder heraus, zählt der Treffer nicht. Diese Regel klingt trivial. Sie ist es nicht.' },
+      { label: 'Das Schuhwerk', text: 'Darf frei gewählt werden. Das ist eine der wenigen Entscheidungen im Trommelschießen, die vollständig beim Spieler liegen.' },
+      { label: 'Die Schussdistanz', text: 'Beträgt 3 Meter. Sie gilt für das gesamte Turnier und für alle Spieler gleich.' },
+    ],
+  },
+  {
+    title: 'Das Turnierformat',
+    text: 'Gespielt wird im Doppel-Round-Robin: jeder gegen jeden, Hin- und Rückrunde. In der Rückrunde werden Heim- und Gastrecht automatisch getauscht. Bei gerader Teilnehmerzahl hat jeder Spieler pro Spieltag genau eine Partie. Bei ungerader Teilnehmerzahl rotiert das Freilos automatisch — mit einer Ausnahme: Der amtierende Weltmeister ist im ersten Spieltag vom Freilos ausgenommen. Er eröffnet das Turnier als Heimspieler.',
+  },
+  {
+    title: 'Tabellenberechnung',
+    items: [
+      { label: 'Sieg', text: '3 Punkte' },
+      { label: 'Unentschieden', text: '1 Punkt' },
+      { label: 'Niederlage', text: '0 Punkte' },
+    ],
+    tiebreaker: 'Bei Punktgleichstand entscheiden in dieser Reihenfolge: Tordifferenz · Erzielte Tore · Direktvergleich · Los (wird in der Abschlusstabelle als „(Los)" gekennzeichnet)',
+  },
+  {
+    title: 'Weltrangliste',
+    text: 'Punkte werden nach Endplatzierung vergeben: Platz 1 = 100, Platz 2 = 80, Platz 3 = 70, Platz 4 = 60, Platz 5 = 50, Platz 6 = 40, Platz 7 = 35, Platz 8 = 30, Platz 9 = 25, Platz 10 = 20, ab Platz 11 absteigend bis mindestens 1 Punkt. Bei Losverfahren teilen sich die betroffenen Spieler die Weltranglistenpunkte der entsprechenden Plätze gleichmäßig — so bleibt das Zufallselement aus der Weltrangliste heraus.',
+  },
+  {
+    title: 'Die Institution',
+    items: [
+      { label: 'Die Trommeltrombosse', text: 'Stephan Krontal und Holger Müller. Alle nicht in Absprache ausgetragenen Veranstaltungen sind untrommelkonform — aber ausdrücklich zur Nachahmung erwünscht. Ohne Trommeltrombosse kein offizieller Trommel-Slam, kein Weltranglisteneintrag.' },
+      { label: 'Die Oberhäupter', text: 'Vier an der Zahl, demokratisch gewählt. Sie koordinieren die Trommelevents, entscheiden über Ort und Zeit und regeln Sonderfälle. Beschlüsse werden mit einfacher Mehrheit gefasst. Amtszeit: ein Jahr.' },
+      { label: 'Der Trommelausrichter', text: 'Trägt die Verantwortung für einen Slam: Einladungen, Trommelwerkzeug, Verpflegung. Der Obolus (Unkostenbeitrag) wird vom Ausrichter festgelegt und soll 50 € pro Person nicht überschreiten.' },
+      { label: 'Die Trommler-Anmeldung', text: 'Ist verbindlich. Wer sich anmeldet, verpflichtet sich zur Teilnahme. Wer nicht erscheint, zahlt den Obolus trotzdem. Bei Sonderfällen entscheiden die Oberhäupter.' },
+    ],
+  },
 ]
 
 export default function Wissenswertes() {
   const loc = useLocation()
   const sub = loc.pathname.split('/').pop()
   const tabs = [
-    { id: 'historie', label: 'HISTORIE' },
+    { id: 'historie',  label: 'HISTORIE' },
     { id: 'regelwerk', label: 'REGELWERK' },
-    { id: 'presse', label: 'PRESSE' },
+    { id: 'presse',    label: 'PRESSE' },
+    { id: 'olympia',   label: 'WARUM OLYMPISCH?' },
   ]
   const active = tabs.find(t => t.id === sub) ? sub : 'historie'
+
+  const SECTION_TITLES = {
+    'historie':  { h1: 'Wie alles anfing.' },
+    'regelwerk': { h1: 'Einfacher als Fußball.' },
+    'presse':    { h1: 'Die Welt schaut hin.' },
+    'olympia':   { h1: 'Warum olympisch?' },
+  }
+  const title = SECTION_TITLES[active] || SECTION_TITLES['historie']
 
   return (
     <div style={{ paddingTop: 80 }}>
       <section style={{ background: 'var(--gruen)', padding: '60px 0 0' }}>
         <div className="container">
-          <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', color: 'rgba(176,137,45,0.8)', marginBottom: 12 }}>ÜBER DAS SPIEL</div>
-          <h1 style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: 'var(--white)', marginBottom: 32 }}>Wissenswertes</h1>
-          <div style={{ display: 'flex', gap: 0, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+          <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)', marginBottom: 12 }}>Info</div>
+          <h1 style={{ fontSize: 'clamp(32px, 5vw, 64px)', color: 'var(--white)', marginBottom: 32 }}>{title.h1}</h1>
+          <div style={{ display: 'flex', gap: 0, borderBottom: '1px solid rgba(255,255,255,0.1)', overflowX: 'auto' }}>
             {tabs.map(t => (
-              <Link key={t.id} to={`/wissenswertes/${t.id}`} style={{
-                padding: '14px 24px', fontSize: 15, fontWeight: 600,
+              <Link key={t.id} to={`/info/${t.id}`} style={{
+                padding: '14px 20px', fontSize: 14, fontWeight: 600,
                 color: active === t.id ? 'var(--gold)' : 'rgba(255,255,255,0.6)',
                 borderBottom: active === t.id ? '2px solid var(--gold)' : '2px solid transparent',
-                marginBottom: -1, transition: 'color 0.15s',
+                marginBottom: -1, transition: 'color 0.15s', whiteSpace: 'nowrap',
               }}>{t.label}</Link>
             ))}
           </div>
@@ -53,30 +93,22 @@ export default function Wissenswertes() {
         <div className="container--narrow">
           {active === 'historie' && (
             <div>
-              <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 32 }}>Die Geschichte des Trommelschiessens</h2>
               {HISTORIE.split('\n\n').map((p, i) => (
                 <p key={i} style={{ fontSize: 17, lineHeight: 1.8, color: 'var(--text)', marginBottom: 24 }}>{p}</p>
               ))}
-              {/* Greetings from Maschine – Video */}
               <div style={{ margin: '48px 0' }}>
                 <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 12 }}>
                   Grüße aus Maschine · Ocean Breeze
                 </div>
                 <div style={{ borderRadius: 16, overflow: 'hidden', background: '#0a1c12', boxShadow: '0 8px 32px rgba(0,0,0,0.12)' }}>
-                  <video
-                    controls playsInline
-                    style={{ width: '100%', display: 'block', maxHeight: 500, objectFit: 'contain', background: '#0a1c12' }}
-                  >
+                  <video controls playsInline style={{ width: '100%', display: 'block', maxHeight: 500, objectFit: 'contain', background: '#0a1c12' }}>
                     <source src="/greetings-maschine.mp4" type="video/mp4" />
                   </video>
                 </div>
               </div>
-
               <div style={{ marginTop: 40, padding: '24px', background: 'var(--gruen)', borderRadius: 'var(--radius-lg)', textAlign: 'center' }}>
                 <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 28, color: 'var(--gold)' }}>Trommel, Trommel … mors, mors!!!</div>
               </div>
-
-              {/* Mood-Galerie */}
               <div style={{ marginTop: 48 }}>
                 <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 16 }}>Impressionen · WM 2016 Hamburg</div>
                 <div style={{ columns: '2 260px', columnGap: 12 }}>
@@ -90,21 +122,46 @@ export default function Wissenswertes() {
             </div>
           )}
 
-          {active === 'presse' && <Presse />}
           {active === 'regelwerk' && (
             <div>
-              <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 32 }}>Regelwerk</h2>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                {REGELWERK.map(r => (
-                  <div key={r.title} className="card" style={{ padding: '24px' }}>
-                    <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 16, fontWeight: 700, color: 'var(--gruen)', marginBottom: 8, letterSpacing: 0 }}>{r.title}</h3>
-                    <p style={{ fontSize: 15, color: 'var(--text-muted)', lineHeight: 1.7 }}>{r.text}</p>
+              <p style={{ fontSize: 16, lineHeight: 1.8, color: 'var(--text-muted)', marginBottom: 40 }}>
+                Trommelschießen hat seit 2006 ein Regelwerk, das auf einer Seite Platz hat. Das soll so bleiben.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                {REGELWERK_SECTIONS.map(s => (
+                  <div key={s.title} className="card" style={{ padding: '28px' }}>
+                    <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 18, fontWeight: 700, color: 'var(--gruen)', marginBottom: 12, letterSpacing: 0 }}>{s.title}</h3>
+                    {s.text && <p style={{ fontSize: 15, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: s.items || s.tiebreaker ? 16 : 0 }}>{s.text}</p>}
+                    {s.items && (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                        {s.items.map(item => (
+                          <div key={item.label} style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: 12, alignItems: 'start' }}>
+                            <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--gruen)', paddingTop: 2 }}>{item.label}</div>
+                            <div style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.6 }}>{item.text}</div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {s.tiebreaker && (
+                      <div style={{ marginTop: 12, padding: '12px 16px', background: 'var(--cream)', borderRadius: 8, fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.6 }}>
+                        <strong style={{ color: 'var(--gruen)' }}>Tiebreaker: </strong>{s.tiebreaker}
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
               <div style={{ marginTop: 32, padding: '24px', background: 'var(--gruen)', borderRadius: 'var(--radius-lg)', textAlign: 'center' }}>
                 <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 28, color: 'var(--gold)' }}>Trommel, Trommel … mors, mors!!!</div>
               </div>
+            </div>
+          )}
+
+          {active === 'presse' && <Presse />}
+
+          {active === 'olympia' && (
+            <div style={{ textAlign: 'center', padding: '40px 0' }}>
+              <p style={{ color: 'var(--text-muted)', marginBottom: 24 }}>Weiterleiten…</p>
+              {/* Redirect happens via App.jsx route */}
             </div>
           )}
         </div>

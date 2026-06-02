@@ -3,28 +3,28 @@ import { Link, useLocation } from 'react-router-dom'
 
 const NAV_ITEMS = [
   {
-    to: '/events',
+    to: '/turniere',
     label: 'Turniere',
     children: [
-      { to: '/events/2026', label: '🔜 WM 2026 · Édition Jubilaire' },
-      { to: '/events/2024', label: 'WM 2024 · Jaderberg' },
-      { to: '/events/2022', label: 'WM 2022 · Oldenburg' },
-      { to: '/events/2018', label: 'WM 2018 · Berne' },
-      { to: '/events/2016', label: 'WM 2016 · Hamburg' },
-      { to: '/events/2014', label: 'WM 2014 · Hamburg' },
-      { to: '/events/2012', label: 'WM 2012 · Berne' },
-      { to: '/events/2010', label: 'WM 2010 · Berne' },
-      { to: '/events/2008', label: 'WM 2008 · Berne' },
-      { to: '/events/2006', label: 'WM 2006 · Hamburg' },
+      { to: '/turniere/2026', label: '🔜 WM 2026 · Édition Jubilaire' },
+      { to: '/turniere/2024', label: 'WM 2024 · Jaderberg' },
+      { to: '/turniere/2022', label: 'WM 2022 · Oldenburg' },
+      { to: '/turniere/2018', label: 'WM 2018 · Berne' },
+      { to: '/turniere/2016', label: 'WM 2016 · Hamburg' },
+      { to: '/turniere/2014', label: 'WM 2014 · Hamburg' },
+      { to: '/turniere/2012', label: 'WM 2012 · Berne' },
+      { to: '/turniere/2010', label: 'WM 2010 · Berne' },
+      { to: '/turniere/2008', label: 'WM 2008 · Berne' },
+      { to: '/turniere/2006', label: 'WM 2006 · Hamburg' },
     ]
   },
   {
     to: '/ranglisten',
     label: 'Ranglisten',
     children: [
-      { to: '/ranglisten/weltrangliste', label: '🌍 Weltrangliste' },
-      { to: '/ranglisten/ewige-tabelle', label: '📊 Ewige Tabelle' },
-      { to: '/ranglisten/weltmeister', label: '🏆 Alle Weltmeister' },
+      { to: '/ranglisten/weltrangliste', label: 'Weltrangliste' },
+      { to: '/ranglisten/ewige-tabelle', label: 'Ewige Tabelle' },
+      { to: '/ranglisten/weltmeister', label: 'Alle Weltmeister' },
     ]
   },
   {
@@ -61,7 +61,7 @@ const NAV_ITEMS = [
   },
 ]
 
-function DropdownItem({ item, isDark, onClose }) {
+function DropdownItem({ item, onClose }) {
   const loc = useLocation()
   const active = loc.pathname === item.to
   return (
@@ -70,12 +70,10 @@ function DropdownItem({ item, isDark, onClose }) {
       onClick={onClose}
       style={{
         display: 'block',
-        padding: item.divider ? '10px 20px 12px' : '9px 20px',
+        padding: '9px 20px',
         fontSize: 14,
         fontWeight: active ? 700 : 400,
         color: active ? 'var(--gold)' : 'var(--gruen)',
-        borderTop: item.divider ? '1px solid var(--border)' : 'none',
-        marginTop: item.divider ? 4 : 0,
         transition: 'background 0.1s',
         whiteSpace: 'nowrap',
       }}
@@ -92,8 +90,7 @@ export default function Nav() {
   const [open, setOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState(null)
   const loc = useLocation()
-  const isHome = loc.pathname === '/'
-  const isDarkPage = loc.pathname === '/' || loc.pathname === '/events/2026' || loc.pathname === '/info/olympia' || loc.pathname.startsWith('/spielerprofile')
+  const isDarkPage = loc.pathname === '/' || loc.pathname === '/turniere/2026' || loc.pathname === '/info/olympia' || loc.pathname.startsWith('/spielerprofile')
   const isDark = isDarkPage && !scrolled
   const timeoutRef = useRef(null)
 
@@ -113,9 +110,6 @@ export default function Nav() {
     timeoutRef.current = setTimeout(() => setActiveDropdown(null), 120)
   }
 
-  // Stats hat viele Einträge → Mega-Menü (2 Spalten)
-  const isMega = (item) => item.label === 'Stats'
-
   return (
     <nav style={{
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
@@ -125,18 +119,16 @@ export default function Nav() {
       transition: 'all 0.3s',
     }}>
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
-        {/* Logo */}
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <img src="/trommel.svg" alt="" style={{ height: 36, filter: isDark ? 'brightness(0) invert(1)' : 'none', transition: 'filter 0.3s' }} />
           <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 22, color: isDark ? 'white' : 'var(--gruen)', letterSpacing: '0.05em', transition: 'color 0.3s' }}>TRMMLR</span>
         </Link>
 
-        {/* Desktop Nav */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 4 }} className="nav-links">
           {NAV_ITEMS.map(item => {
             const isActive = loc.pathname.startsWith(item.to)
             const showDrop = activeDropdown === item.label
-            const mega = isMega(item)
+            const isMega = item.label === 'Stats'
             return (
               <div key={item.to} style={{ position: 'relative' }}
                 onMouseEnter={() => handleMouseEnter(item.label)}
@@ -145,35 +137,33 @@ export default function Nav() {
                   display: 'flex', alignItems: 'center', gap: 4,
                   padding: '8px 14px',
                   fontSize: 15, fontWeight: 600,
-                  color: isActive ? 'var(--gold)' : (isDark && !scrolled) ? 'rgba(255,255,255,0.85)' : 'var(--gruen)',
+                  color: isActive ? 'var(--gold)' : isDark ? 'rgba(255,255,255,0.85)' : 'var(--gruen)',
                   borderBottom: isActive ? '2px solid var(--gold)' : '2px solid transparent',
                   paddingBottom: 6, transition: 'color 0.15s',
                 }}>
                   {item.label}
                   {item.children?.length > 0 && <span style={{ fontSize: 10, opacity: 0.6, marginTop: 1 }}>▾</span>}
                 </Link>
-                {/* Dropdown / Mega-Menü */}
                 {showDrop && item.children?.length > 0 && (
                   <div style={{
-                    position: 'absolute', top: '100%', left: mega ? -60 : 0,
+                    position: 'absolute', top: '100%', left: isMega ? -40 : 0,
                     background: 'white',
                     borderRadius: 10,
                     boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
                     border: '1px solid var(--border)',
                     overflow: 'hidden',
-                    minWidth: mega ? 440 : 200,
                     paddingTop: 6, paddingBottom: 6,
                     zIndex: 200,
-                    ...(mega ? {
+                    ...(isMega ? {
                       display: 'grid',
                       gridTemplateColumns: '1fr 1fr',
-                      columnGap: 0,
-                    } : {})
+                      minWidth: 420,
+                    } : { minWidth: 220 })
                   }}
                     onMouseEnter={() => handleMouseEnter(item.label)}
                     onMouseLeave={handleMouseLeave}>
                     {item.children.map(child => (
-                      <DropdownItem key={child.to} item={child} isDark={false} onClose={() => setActiveDropdown(null)} />
+                      <DropdownItem key={child.to} item={child} onClose={() => setActiveDropdown(null)} />
                     ))}
                   </div>
                 )}
@@ -185,14 +175,12 @@ export default function Nav() {
           </a>
         </div>
 
-        {/* Mobile burger */}
         <button onClick={() => setOpen(o => !o)} className="nav-burger"
           style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 24, color: isDark ? 'white' : 'var(--gruen)', display: 'none' }}>
           {open ? '✕' : '☰'}
         </button>
       </div>
 
-      {/* Mobile Menu */}
       {open && (
         <div style={{ background: 'var(--cream)', borderTop: '1px solid var(--border)', maxHeight: '80vh', overflowY: 'auto' }}>
           {NAV_ITEMS.map(item => (
@@ -201,11 +189,9 @@ export default function Nav() {
                 {item.label}
               </Link>
               {item.children.map(child => (
-                !child.divider && (
-                  <Link key={child.to} to={child.to} style={{ display: 'block', padding: '10px 24px 10px 36px', fontSize: 14, color: 'var(--text-muted)', borderBottom: '1px solid rgba(28,66,43,0.06)' }}>
-                    {child.label}
-                  </Link>
-                )
+                <Link key={child.to} to={child.to} style={{ display: 'block', padding: '10px 24px 10px 36px', fontSize: 14, color: 'var(--text-muted)', borderBottom: '1px solid rgba(28,66,43,0.06)' }}>
+                  {child.label}
+                </Link>
               ))}
             </div>
           ))}

@@ -5,16 +5,15 @@ import { useWMData } from '../useWMData'
 const WMContext = React.createContext(null)
 const useWM = () => React.useContext(WMContext)
 
-
+// ── Weltrangliste ─────────────────────────────────────────────────────────
 function Weltrangliste() {
   const wm = useWM()
   const hat2026 = wm.weltrangliste.some(r => r.wm2026 > 0)
   const jahre = [2006, 2008, 2010, 2012, 2014, 2016, 2018, 2022, 2024, ...(hat2026 ? [2026] : [])]
   return (
     <div>
-      <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Weltrangliste</h2>
-      <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: 15 }}>
-        Punkte werden für WM-Platzierungen vergeben. Gewinner: 100 Pkt, Finalist: 75, Halbfinale: 50 etc.
+      <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: 15, lineHeight: 1.7 }}>
+        Die Weltrangliste berechnet den aktuellen Leistungsstand aller Trommelschützen auf Basis der WM-Ergebnisse. Sie ist kein Gefühl, kein Bauchgefühl und kein Trost. Sie ist das Ergebnis. Wer oben steht, hat es sich verdient. Wer in der Mitte steht, lügt sich meistens ein bisschen an.
       </p>
       <div className="card" style={{ overflow: 'auto' }}>
         <table className="data-table">
@@ -53,13 +52,13 @@ function Weltrangliste() {
   )
 }
 
+// ── Ewige Tabelle ─────────────────────────────────────────────────────────
 function EwigeTabelle() {
   const wm = useWM()
   return (
     <div>
-      <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Ewige Tabelle</h2>
-      <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: 15 }}>
-        Sieg: 3 Punkte · Unentschieden: 1 Punkt. Alle WMs seit 2006.
+      <p style={{ color: 'var(--text-muted)', marginBottom: 24, fontSize: 15, lineHeight: 1.7 }}>
+        Die Ewige Tabelle ist das Gedächtnis des Sports. Hier zählt nicht das letzte Turnier, nicht der eine großartige Tag. Hier zählt alles — jedes Spiel, jeder Punkt, jede WM seit 2006. Wer hier oben steht, hat über Jahre konstant geliefert. Wer hier unten steht, hat zumindest immer mitgemacht. Das ist auch etwas wert.
       </p>
       <div className="card" style={{ overflow: 'auto' }}>
         <table className="data-table">
@@ -99,15 +98,18 @@ function EwigeTabelle() {
   )
 }
 
+// ── Alle Weltmeister ──────────────────────────────────────────────────────
 function Champs() {
   const wm = useWM()
   const events = [...wm.weltmeister].reverse()
   return (
     <div>
-      <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 32 }}>Alle Weltmeister</h2>
+      <p style={{ color: 'var(--text-muted)', marginBottom: 32, fontSize: 15, lineHeight: 1.7 }}>
+        Weltmeister wird man nicht durch Anwesenheit. Auch nicht durch Enthusiasmus oder die richtige Trommel. Weltmeister wird man, indem man an einem langen, heißen Turniertag besser ist als alle anderen. Diese Liste führt alle auf, die das geschafft haben. Manche einmal, einer zweimal. Alle zu Recht.
+      </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {events.map(e => (
-          <Link key={e.jahr} to={`/events/${e.jahr}`} className="card card--hover" style={{ padding: '20px 24px', display: 'grid', gridTemplateColumns: '80px 1fr auto', alignItems: 'center', gap: 20 }}>
+          <Link key={e.jahr} to={`/turniere/${e.jahr}`} className="card card--hover" style={{ padding: '20px 24px', display: 'grid', gridTemplateColumns: '80px 1fr auto', alignItems: 'center', gap: 20 }}>
             <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 36, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
             <div>
               <div style={{ fontWeight: 700, fontSize: 18, color: 'var(--gruen)' }}>🏆 {e.sieger}</div>
@@ -126,7 +128,7 @@ function Champs() {
   )
 }
 
-
+// ── Dinos ─────────────────────────────────────────────────────────────────
 const ALLE_JAHRE = [2006,2008,2010,2012,2014,2016,2018,2022,2024]
 const DINOS_NAMES = ['Bastian Buse','Jenne Meyer','Sascha Wachtendorf']
 
@@ -134,9 +136,8 @@ function Dinos() {
   const wm = useWM()
   return (
     <div>
-      <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Trommelschiessen-Dinos</h2>
       <p style={{ color: 'var(--text-muted)', marginBottom: 32, fontSize: 15, lineHeight: 1.7 }}>
-        Nur drei Trommler waren bei allen {ALLE_JAHRE.length} WMs dabei – von der Premiere 2006 in Hamburg bis 2024 in Jaderberg.
+        Nur drei Spieler haben an jeder einzelnen WM teilgenommen — von der allerersten 2006 in Hamburg bis zur Jubiläums-WM 2026. Nicht zweimal ausgesetzt, nicht einmal gefehlt, nicht einmal einen Urlaub vorgezogen. Basti, Sascha und Jenne sind die Trommel-Dinos: eine aussterbende Spezies mit bemerkenswert hoher Ausdauer und einem offensichtlichen Problem, an Wochenenden Nein zu sagen.
       </p>
       {DINOS_NAMES.map(name => {
         const ewige = wm.ewige_tabelle.find(r => r.name === name)
@@ -178,7 +179,7 @@ function Dinos() {
             </div>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {ergebnisse.map(e => (
-                <Link key={e.jahr} to={`/events/${e.jahr}`} style={{
+                <Link key={e.jahr} to={`/turniere/${e.jahr}`} style={{
                   padding: '6px 14px', borderRadius: 8, fontSize: 13, fontWeight: 600,
                   background: e.pl === 1 ? 'rgba(176,137,45,0.15)' : e.pl <= 3 ? 'rgba(28,66,43,0.08)' : 'rgba(0,0,0,0.04)',
                   color: e.pl === 1 ? 'var(--gold)' : e.pl <= 3 ? 'var(--gruen)' : 'var(--text-muted)',
@@ -191,18 +192,12 @@ function Dinos() {
           </div>
         )
       })}
-      {/* Foto-Mosaik – Masonry via CSS columns */}
       <div style={{ marginTop: 48 }}>
         <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 16 }}>WM 2024 · Jaderberg</div>
         <div style={{ columns: '2 300px', columnGap: 12 }}>
           {['/dino-2.jpg', '/dino-1.jpg', '/dino-5.jpg'].map((src, i) => (
             <div key={i} style={{ breakInside: 'avoid', marginBottom: 12 }}>
-              <img
-                src={src}
-                alt="Trommelschießen-Dinos WM 2024"
-                style={{ width: '100%', height: 'auto', display: 'block', borderRadius: 12 }}
-                loading="lazy"
-              />
+              <img src={src} alt="Trommelschießen-Dinos WM 2024" style={{ width: '100%', height: 'auto', display: 'block', borderRadius: 12 }} loading="lazy" />
             </div>
           ))}
         </div>
@@ -211,8 +206,7 @@ function Dinos() {
   )
 }
 
-
-// ── Toggle Button Helper ──────────────────────────────────────────────────
+// ── Toggle ────────────────────────────────────────────────────────────────
 function Toggle({ options, value, onChange }) {
   return (
     <div style={{ display: 'inline-flex', background: 'var(--cream)', borderRadius: 10, padding: 4, gap: 2, marginBottom: 32 }}>
@@ -228,7 +222,6 @@ function Toggle({ options, value, onChange }) {
   )
 }
 
-// ── Berechne Statistiken aus Abschlusstabellen ────────────────────────────
 function calcStats(wm) {
   const map = {}
   Object.values(wm.abschlusstabellen).forEach(tab => {
@@ -252,16 +245,14 @@ function calcStats(wm) {
   }))
 }
 
+// ── Ballermänner ──────────────────────────────────────────────────────────
 function Ballermann() {
   const wm = useWM()
   const [mode, setMode] = React.useState('absolut')
   const stats = calcStats(wm)
-
   const sorted = mode === 'absolut'
     ? [...stats].sort((a, b) => b.t - a.t)
     : [...stats].sort((a, b) => parseFloat(b.tQuote) - parseFloat(a.tQuote))
-
-  // Torschützenkönige
   const koenige = {}
   wm.weltmeister.forEach(e => {
     e.torschuetzenkoenig.split(' & ').forEach(name => {
@@ -272,11 +263,9 @@ function Ballermann() {
 
   return (
     <div>
-      <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Ballermänner</h2>
-      <p style={{ color: 'var(--text-muted)', marginBottom: 32, fontSize: 15 }}>
-        Die treffsichersten Trommler aller Zeiten.
+      <p style={{ color: 'var(--text-muted)', marginBottom: 32, fontSize: 15, lineHeight: 1.7 }}>
+        Tore schießen ist im Trommelschießen kein Zufall — es ist Handwerk, Wiederholung und ein gesundes Verhältnis zur eigenen Treffsicherheit. Wer hier oben steht, hat nicht einmal gut gezielt. Er hat einfach immer wieder gezielt. Und meistens getroffen.
       </p>
-
       <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 18, fontWeight: 700, color: 'var(--gruen)', marginBottom: 16 }}>👑 Torschützenkönige</h3>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 40 }}>
         {topKoenige.map(([name, anzahl], i) => (
@@ -291,22 +280,15 @@ function Ballermann() {
           </div>
         ))}
       </div>
-
-      <Toggle
-        options={[{ id: 'absolut', label: 'Meiste Treffer' }, { id: 'quote', label: 'Beste Quote' }]}
-        value={mode} onChange={setMode}
-      />
+      <Toggle options={[{ id: 'absolut', label: 'Meiste Treffer' }, { id: 'quote', label: 'Beste Quote' }]} value={mode} onChange={setMode} />
       <div className="card" style={{ overflow: 'auto' }}>
         <table className="data-table">
           <thead>
             <tr>
-              <th style={{ width: 48 }}>Pl.</th>
-              <th>Trommler</th>
+              <th style={{ width: 48 }}>Pl.</th><th>Trommler</th>
               <th className="num">{mode === 'absolut' ? 'Tore' : 'Quote'}</th>
               <th className="num">{mode === 'absolut' ? 'Quote' : 'Tore'}</th>
-              <th className="num">Spiele</th>
-              <th className="num">GG</th>
-              <th className="num">Diff</th>
+              <th className="num">Spiele</th><th className="num">GG</th><th className="num">Diff</th>
             </tr>
           </thead>
           <tbody>
@@ -328,24 +310,21 @@ function Ballermann() {
   )
 }
 
+// ── Schießbuden ───────────────────────────────────────────────────────────
 function Schiessbude() {
   const wm = useWM()
   const [mode, setMode] = React.useState('absolut')
   const stats = calcStats(wm)
-
   const sorted = mode === 'absolut'
     ? [...stats].sort((a, b) => b.gg - a.gg)
     : [...stats].sort((a, b) => parseFloat(b.ggQuote) - parseFloat(a.ggQuote))
-
   const top3 = [...stats].sort((a, b) => b.gg - a.gg).slice(0, 3)
 
   return (
     <div>
-      <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Schiessbuden</h2>
-      <p style={{ color: 'var(--text-muted)', marginBottom: 32, fontSize: 15 }}>
-        Die großzügigsten Torwächter – wer hat den Gegner am häufigsten jubeln lassen?
+      <p style={{ color: 'var(--text-muted)', marginBottom: 32, fontSize: 15, lineHeight: 1.7 }}>
+        In jeder WM gibt es Paarungen, die sich scheinbar verabredet haben, die Trommel besonders ausgiebig zu beschäftigen. Die Schießbuden-Statistik dokumentiert, wer den Gegner am häufigsten jubeln ließ. Verteidigung war für diese Männer immer nur ein theoretisches Konzept.
       </p>
-
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 40 }}>
         {top3.map((r, i) => (
           <div key={r.name} className="card" style={{ padding: '24px', textAlign: 'center' }}>
@@ -356,22 +335,15 @@ function Schiessbude() {
           </div>
         ))}
       </div>
-
-      <Toggle
-        options={[{ id: 'absolut', label: 'Meiste Gegentore' }, { id: 'quote', label: 'Höchste Quote' }]}
-        value={mode} onChange={setMode}
-      />
+      <Toggle options={[{ id: 'absolut', label: 'Meiste Gegentore' }, { id: 'quote', label: 'Höchste Quote' }]} value={mode} onChange={setMode} />
       <div className="card" style={{ overflow: 'auto' }}>
         <table className="data-table">
           <thead>
             <tr>
-              <th style={{ width: 48 }}>Pl.</th>
-              <th>Trommler</th>
+              <th style={{ width: 48 }}>Pl.</th><th>Trommler</th>
               <th className="num">{mode === 'absolut' ? 'GG-Tore' : 'Quote'}</th>
               <th className="num">{mode === 'absolut' ? 'Quote' : 'GG-Tore'}</th>
-              <th className="num">Tore</th>
-              <th className="num">Diff</th>
-              <th className="num">Spiele</th>
+              <th className="num">Tore</th><th className="num">Diff</th><th className="num">Spiele</th>
             </tr>
           </thead>
           <tbody>
@@ -389,29 +361,25 @@ function Schiessbude() {
           </tbody>
         </table>
       </div>
-
     </div>
   )
 }
 
+// ── Remiskönige ───────────────────────────────────────────────────────────
 function Remiskoenige() {
   const wm = useWM()
   const [mode, setMode] = React.useState('absolut')
   const stats = calcStats(wm)
-
   const sorted = mode === 'absolut'
     ? [...stats].sort((a, b) => b.u - a.u)
     : [...stats].sort((a, b) => parseFloat(b.uQuote) - parseFloat(a.uQuote))
-
   const top3 = [...stats].sort((a, b) => b.u - a.u).slice(0, 3)
 
   return (
     <div>
-      <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Remiskönige</h2>
-      <p style={{ color: 'var(--text-muted)', marginBottom: 32, fontSize: 15 }}>
-        Wer holt am häufigsten das Unentschieden? Die Meister des kontrollierten Patt.
+      <p style={{ color: 'var(--text-muted)', marginBottom: 32, fontSize: 15, lineHeight: 1.7 }}>
+        Das Unentschieden im Trommelschießen ist eine seltene, aber dokumentierte Erscheinung. Und wie bei allem Seltenen gibt es auch hier Spezialisten. Ob das Strategie ist, Pech, oder die natürliche Folge eines ausgewogenen Charakters, lässt sich aus den Zahlen nicht herauslesen. Die Zahlen zeigen nur, wer es am häufigsten getan hat.
       </p>
-
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 40 }}>
         {top3.map((r, i) => (
           <div key={r.name} className="card" style={{ padding: '24px', textAlign: 'center', background: i === 0 ? 'var(--gruen)' : 'var(--white)' }}>
@@ -422,23 +390,16 @@ function Remiskoenige() {
           </div>
         ))}
       </div>
-
-      <Toggle
-        options={[{ id: 'absolut', label: 'Meiste Remis' }, { id: 'quote', label: 'Höchste Quote' }]}
-        value={mode} onChange={setMode}
-      />
+      <Toggle options={[{ id: 'absolut', label: 'Meiste Remis' }, { id: 'quote', label: 'Höchste Quote' }]} value={mode} onChange={setMode} />
       <div className="card" style={{ overflow: 'auto' }}>
         <table className="data-table">
           <thead>
             <tr>
-              <th style={{ width: 48 }}>Pl.</th>
-              <th>Trommler</th>
+              <th style={{ width: 48 }}>Pl.</th><th>Trommler</th>
               <th className="num">{mode === 'absolut' ? 'Remis' : 'Quote'}</th>
               <th className="num">{mode === 'absolut' ? 'Quote' : 'Remis'}</th>
-              <th className="num">%</th>
-              <th className="num">Spiele</th>
-              <th className="num">Tore</th>
-              <th className="num">GG</th>
+              <th className="num">%</th><th className="num">Spiele</th>
+              <th className="num">Tore</th><th className="num">GG</th>
             </tr>
           </thead>
           <tbody>
@@ -461,8 +422,7 @@ function Remiskoenige() {
   )
 }
 
-
-
+// ── Knappste Rennen ───────────────────────────────────────────────────────
 function KnappsteRennen() {
   const wm = useWM()
   const rennen = wm.weltmeister.map(e => {
@@ -470,17 +430,13 @@ function KnappsteRennen() {
     const diff = tab.length >= 2 ? tab[0].pkt - tab[1].pkt : null
     return { ...e, zweiter: tab[1]?.name, s_pkt: tab[0]?.pkt, z_pkt: tab[1]?.pkt, diff }
   }).filter(r => r.diff !== null).sort((a, b) => a.diff - b.diff)
-
   const maxDiff = Math.max(...rennen.map(r => r.diff))
 
   return (
     <div>
-      <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 8 }}>Knappste Rennen</h2>
-      <p style={{ color: 'var(--text-muted)', marginBottom: 40, fontSize: 15 }}>
-        Kein WM-Titel wurde je mit mehr als 5 Punkten Vorsprung gewonnen. 2016 entschied ein einziger Punkt über die Meisterschaft.
+      <p style={{ color: 'var(--text-muted)', marginBottom: 40, fontSize: 15, lineHeight: 1.7 }}>
+        Die WM-Geschichte kennt Turniere, die bereits zur Halbzeit entschieden waren — und solche, bei denen bis zur allerletzten Partie völlig unklar war, wer am Ende die Schale in die Höhe reckt. Die knappsten Titelrennen: Turniere, bei denen die Tabelle so eng war, dass ein einziger Treffer die Geschichte verändert hätte.
       </p>
-
-      {/* Highlight: engste WM */}
       {(() => {
         const r = rennen[0]
         return (
@@ -505,8 +461,6 @@ function KnappsteRennen() {
           </div>
         )
       })()}
-
-      {/* Alle Rennen */}
       <div className="card" style={{ overflow: 'hidden' }}>
         {rennen.map((r, i) => (
           <div key={r.jahr} style={{ display: 'grid', gridTemplateColumns: '72px 1fr auto', gap: 16, alignItems: 'center', padding: '16px 24px', borderBottom: i < rennen.length - 1 ? '1px solid var(--border)' : 'none' }}>
@@ -520,12 +474,7 @@ function KnappsteRennen() {
                 <span style={{ color: 'var(--text-muted)', fontSize: 13 }}> ({r.s_pkt} Pkt) vs. {r.zweiter} ({r.z_pkt} Pkt)</span>
               </div>
               <div style={{ background: 'var(--cream)', borderRadius: 4, height: 8, overflow: 'hidden' }}>
-                <div style={{
-                  width: `${Math.round(r.diff / maxDiff * 100)}%`,
-                  height: '100%',
-                  borderRadius: 4,
-                  background: r.diff === 1 ? '#dc2626' : r.diff <= 2 ? '#ea580c' : r.diff <= 3 ? '#d97706' : 'var(--gruen)',
-                }} />
+                <div style={{ width: `${Math.round(r.diff / maxDiff * 100)}%`, height: '100%', borderRadius: 4, background: r.diff === 1 ? '#dc2626' : r.diff <= 2 ? '#ea580c' : r.diff <= 3 ? '#d97706' : 'var(--gruen)' }} />
               </div>
             </div>
             <div style={{ textAlign: 'right' }}>
@@ -535,98 +484,11 @@ function KnappsteRennen() {
           </div>
         ))}
       </div>
-
-      <div style={{ marginTop: 24, padding: '16px 20px', background: 'rgba(176,137,45,0.08)', borderRadius: 12, border: '1px solid rgba(176,137,45,0.2)', fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7 }}>
-        In 9 WMs betrug der maximale Vorsprung des Siegers <strong style={{color:'var(--gruen)'}}>5 Punkte</strong>. Das Trommelschießen bleibt bis zur letzten Runde offen.
-      </div>
     </div>
   )
 }
 
-export default function Statistiken() {
-  const { data: wm, loading } = useWMData()
-  if (loading || !wm?.weltmeister?.length) return <div style={{ paddingTop: 120, textAlign: 'center', color: 'var(--text-muted)' }}>Laden…</div>
-  return (
-    <WMContext.Provider value={wm}>
-      <StatistikenInner />
-    </WMContext.Provider>
-  )
-}
-
-function Bestenlisten() {
-  const { data: wm } = useWMData()
-  if (!wm) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
-  const ALLE = wm.ewige_tabelle || []
-  const WRL  = wm.weltrangliste || []
-  const sorted_t   = [...ALLE].filter(r => r.sp > 0).sort((a, b) => (b.t / b.sp) - (a.t / a.sp))
-  const sorted_gg  = [...ALLE].filter(r => r.sp > 0).sort((a, b) => (a.gg / a.sp) - (b.gg / b.sp))
-  const sorted_u   = [...ALLE].filter(r => r.sp > 0).sort((a, b) => (b.u / b.sp) - (a.u / a.sp))
-  const dinos_min  = 6
-  const dinos      = WRL.filter(r => {
-    const wmCount = Object.keys(r).filter(k => k.startsWith('wm')).length
-    return wmCount >= dinos_min
-  }).sort((a, b) => {
-    const wa = Object.keys(a).filter(k => k.startsWith('wm')).length
-    const wb = Object.keys(b).filter(k => k.startsWith('wm')).length
-    return wb - wa || b.total - a.total
-  })
-
-  function BestenCard({ title, emoji, rows, col, label, format }) {
-    return (
-      <div className="card" style={{ marginBottom: 40, padding: '28px 28px 24px' }}>
-        <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>{emoji} {title}</h2>
-        <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>{label}</p>
-        <table className="data-table">
-          <thead><tr><th className="num">PL.</th><th>TROMMLER</th><th className="num">SP</th><th className="num">{col.toUpperCase()}</th><th className="num">QUOTE</th></tr></thead>
-          <tbody>
-            {rows.slice(0, 10).map((r, i) => {
-              const val = format(r)
-              const quote = col === 't' ? (r.t / r.sp).toFixed(3) : col === 'gg' ? (r.gg / r.sp).toFixed(3) : (r.u / r.sp).toFixed(3)
-              return (
-                <tr key={r.name}>
-                  <td className="num" style={{ color: 'var(--text-muted)' }}>{i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}.`}</td>
-                  <td><Link to={`/spielerprofile/${encodeURIComponent(r.name)}`} style={{ color: 'var(--gruen)', fontWeight: 600 }}>{r.name}</Link></td>
-                  <td className="num">{r.sp}</td>
-                  <td className="num" style={{ fontWeight: 700 }}>{val}</td>
-                  <td className="num" style={{ color: 'var(--text-muted)' }}>{quote}</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
-    )
-  }
-
-  return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(480px, 1fr))', gap: 32, marginTop: 8 }}>
-      <BestenCard title="Ballermänner" emoji="⚽" rows={sorted_t} col="t" label="Meiste Tore pro Spiel (mind. 10 Spiele)" format={r => r.t} />
-      <BestenCard title="Schiessbuden" emoji="🎯" rows={sorted_gg} col="gg" label="Wenigste Gegentore pro Spiel (mind. 10 Spiele)" format={r => r.gg} />
-      <BestenCard title="Remiskönige" emoji="🤝" rows={sorted_u} col="u" label="Meiste Unentschieden pro Spiel (mind. 10 Spiele)" format={r => r.u} />
-      <div className="card" style={{ marginBottom: 40, padding: '28px 28px 24px' }}>
-        <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>🦕 Dinos</h2>
-        <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Trommler mit mindestens {dinos_min} WM-Teilnahmen</p>
-        <table className="data-table">
-          <thead><tr><th className="num">PL.</th><th>TROMMLER</th><th className="num">WMs</th><th className="num">WRL PKT.</th></tr></thead>
-          <tbody>
-            {dinos.map((r, i) => {
-              const wmCount = Object.keys(r).filter(k => k.startsWith('wm')).length
-              return (
-                <tr key={r.name}>
-                  <td className="num" style={{ color: 'var(--text-muted)' }}>{i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}.`}</td>
-                  <td><Link to={`/spielerprofile/${encodeURIComponent(r.name)}`} style={{ color: 'var(--gruen)', fontWeight: 600 }}>{r.name}</Link></td>
-                  <td className="num" style={{ fontWeight: 700 }}>{wmCount}</td>
-                  <td className="num">{r.total ?? '–'}</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  )
-}
-
+// ── Supabase RPC ──────────────────────────────────────────────────────────
 const SUPABASE_URL = 'https://pltaiozpoofchprydxuz.supabase.co'
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsdGFpb3pwb29mY2hwcnlkeHV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzg0MTksImV4cCI6MjA5MTkxNDQxOX0.nkV0AclS8hziq-HCk1kltp9T59u0tKqmcywLhprJ1HY'
 
@@ -639,6 +501,7 @@ async function rpc(fn) {
   return res.json()
 }
 
+// ── Rekorde (Supabase) ────────────────────────────────────────────────────
 function Rekorde() {
   const [loading, setLoading] = React.useState(true)
   const [hoechsteSiege, setHoechsteSiege] = React.useState([])
@@ -649,10 +512,8 @@ function Rekorde() {
   React.useEffect(() => {
     async function load() {
       const [r1, r2, r3, r4] = await Promise.all([
-        rpc('rekorde_hoechste_siege'),
-        rpc('rekorde_meiste_tore'),
-        rpc('rekorde_engste_duelle'),
-        rpc('rekorde_wm_vergleich'),
+        rpc('rekorde_hoechste_siege'), rpc('rekorde_meiste_tore'),
+        rpc('rekorde_engste_duelle'), rpc('rekorde_wm_vergleich'),
       ])
       if (Array.isArray(r1)) setHoechsteSiege(r1)
       if (Array.isArray(r2)) setMeisteTore(r2)
@@ -667,7 +528,6 @@ function Rekorde() {
 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(480px, 1fr))', gap: 32, marginTop: 8 }}>
-      {/* Höchste Siege */}
       <div className="card" style={{ padding: '28px 28px 24px' }}>
         <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>🏅 Höchste Siege</h2>
         <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Größte Tordifferenz in einem Spiel</p>
@@ -686,8 +546,6 @@ function Rekorde() {
           </tbody>
         </table>
       </div>
-
-      {/* Torreichste Spiele */}
       <div className="card" style={{ padding: '28px 28px 24px' }}>
         <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>⚽ Torreichste Spiele</h2>
         <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Meiste Tore in einem einzelnen Spiel</p>
@@ -706,8 +564,6 @@ function Rekorde() {
           </tbody>
         </table>
       </div>
-
-      {/* Engste Duelle */}
       <div className="card" style={{ padding: '28px 28px 24px' }}>
         <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>🤝 Engste Duelle</h2>
         <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Meiste Unentschieden zwischen zwei Spielern</p>
@@ -725,13 +581,11 @@ function Rekorde() {
           </tbody>
         </table>
       </div>
-
-      {/* WM Vergleich */}
       <div className="card" style={{ padding: '28px 28px 24px' }}>
         <h2 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 4 }}>📊 WM im Vergleich</h2>
         <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 20 }}>Torreichste und torloseste WMs</p>
         <table className="data-table">
-          <thead><tr><th className="num">WM</th><th className="num">SPIELE</th><th className="num">TORE</th><th className="num">∅ / SPIEL</th></tr></thead>
+          <thead><tr><th className="num">WM</th><th className="num">SPIELE</th><th className="num">TORE</th><th className="num">∅/SP</th></tr></thead>
           <tbody>
             {wmVergleich.map((r, i) => (
               <tr key={i} style={{ background: i === 0 ? 'rgba(176,137,45,0.05)' : i === wmVergleich.length - 1 ? 'rgba(220,38,38,0.04)' : 'transparent' }}>
@@ -748,39 +602,140 @@ function Rekorde() {
   )
 }
 
+// ── Placeholder für noch nicht implementierte Seiten ──────────────────────
+function ComingSoon({ titel, text }) {
+  return (
+    <div style={{ textAlign: 'center', padding: '80px 24px' }}>
+      <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 64, color: 'rgba(28,66,43,0.08)', marginBottom: 24 }}>BALD</div>
+      <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 16 }}>{titel}</h2>
+      <p style={{ fontSize: 16, color: 'var(--text-muted)', maxWidth: 480, margin: '0 auto', lineHeight: 1.7 }}>{text}</p>
+    </div>
+  )
+}
+
+// ── Slug-Mapping ──────────────────────────────────────────────────────────
+// Definiert für jede URL welche Komponente und welcher Tab-Label aktiv ist
+const SLUG_CONFIG = {
+  // Ranglisten
+  'weltrangliste':      { section: 'ranglisten', label: 'WELTRANGLISTE',      component: 'weltrangliste' },
+  'ewige-tabelle':      { section: 'ranglisten', label: 'EWIGE TABELLE',       component: 'ewige-tabelle' },
+  'weltmeister':        { section: 'ranglisten', label: 'ALLE WELTMEISTER',    component: 'champs' },
+  // Stats
+  'ballermann':         { section: 'stats', label: 'BALLERMÄNNER',            component: 'ballermann' },
+  'schiessbuden':       { section: 'stats', label: 'SCHIESSBUDEN',            component: 'schiessbude' },
+  'dinos':              { section: 'stats', label: 'TROMMEL-DINOS',           component: 'dinos' },
+  'remiskoenige':       { section: 'stats', label: 'REMISKÖNIGE',             component: 'remiskoenige' },
+  'knappste-rennen':    { section: 'stats', label: 'KNAPPSTE RENNEN',         component: 'knappste' },
+  'hoechste-siege':     { section: 'stats', label: 'HÖCHSTE SIEGE',           component: 'hoechste-siege' },
+  'torreichste-spiele': { section: 'stats', label: 'TORREICHSTE SPIELE',      component: 'torreichste-spiele' },
+  'engste-duelle':      { section: 'stats', label: 'ENGSTE DUELLE',           component: 'engste-duelle' },
+  'siegesserien':       { section: 'stats', label: 'SIEGESSERIEN',            component: 'siegesserien' },
+  'niederlagenserien':  { section: 'stats', label: 'NIEDERLAGENSERIEN',       component: 'niederlagenserien' },
+  'vergleich':          { section: 'stats', label: 'IM VERGLEICH',            component: 'vergleich' },
+  // Legacy slugs (werden noch aus alten Links aufgerufen)
+  'champs':             { section: 'ranglisten', label: 'ALLE WELTMEISTER',   component: 'champs' },
+  'remiskoenig':        { section: 'stats', label: 'REMISKÖNIGE',             component: 'remiskoenige' },
+  'knappste':           { section: 'stats', label: 'KNAPPSTE RENNEN',         component: 'knappste' },
+  'rekorde':            { section: 'stats', label: 'REKORDE',                 component: 'vergleich' },
+  'bestenlisten':       { section: 'stats', label: 'BALLERMÄNNER',            component: 'ballermann' },
+  'schiessbude':        { section: 'stats', label: 'SCHIESSBUDEN',            component: 'schiessbude' },
+}
+
+const RANGLISTEN_TABS = [
+  { slug: 'weltrangliste', label: 'Weltrangliste' },
+  { slug: 'ewige-tabelle', label: 'Ewige Tabelle' },
+  { slug: 'weltmeister',   label: 'Alle Weltmeister' },
+]
+
+const STATS_TABS = [
+  { slug: 'ballermann',         label: 'Ballermänner' },
+  { slug: 'schiessbuden',       label: 'Schießbuden' },
+  { slug: 'dinos',              label: 'Trommel-Dinos' },
+  { slug: 'remiskoenige',       label: 'Remiskönige' },
+  { slug: 'knappste-rennen',    label: 'Knappste Rennen' },
+  { slug: 'hoechste-siege',     label: 'Höchste Siege' },
+  { slug: 'torreichste-spiele', label: 'Torreichste Spiele' },
+  { slug: 'engste-duelle',      label: 'Engste Duelle' },
+  { slug: 'siegesserien',       label: 'Längste Siegesserien' },
+  { slug: 'niederlagenserien',  label: 'Längste Niederlagenserien' },
+  { slug: 'vergleich',          label: 'Turniere im Vergleich' },
+]
+
+const PAGE_TITLES = {
+  ranglisten: { eyebrow: 'Ranglisten', h1: 'Zahlen lügen nicht. Menschen schon.' },
+  stats:      { eyebrow: 'Stats', h1: 'Der Sport in Zahlen.' },
+}
+
+const SECTION_TITLES = {
+  'weltrangliste':      { h2: 'Weltrangliste',           sub: 'Wer steht wo. Warum. Und wie lange noch.' },
+  'ewige-tabelle':      { h2: 'Ewige Tabelle',           sub: 'Die Wahrheit über zwanzig Jahre Trommelschießen.' },
+  'weltmeister':        { h2: 'Alle Weltmeister',        sub: 'Der erlesene Kreis der Gekrönten.' },
+  'champs':             { h2: 'Alle Weltmeister',        sub: 'Der erlesene Kreis der Gekrönten.' },
+  'ballermann':         { h2: 'Ballermänner',            sub: 'Schießen als Lebenseinstellung.' },
+  'bestenlisten':       { h2: 'Ballermänner',            sub: 'Schießen als Lebenseinstellung.' },
+  'schiessbuden':       { h2: 'Schießbuden',             sub: 'Manche Teams treffen öfter. Diese hier am öftersten.' },
+  'schiessbude':        { h2: 'Schießbuden',             sub: 'Manche Teams treffen öfter. Diese hier am öftersten.' },
+  'dinos':              { h2: 'Trommel-Dinos',           sub: 'Dabei seit Anbeginn. Immer noch da.' },
+  'remiskoenige':       { h2: 'Remiskönige',             sub: 'Unentschieden ist auch ein Ergebnis.' },
+  'remiskoenig':        { h2: 'Remiskönige',             sub: 'Unentschieden ist auch ein Ergebnis.' },
+  'knappste-rennen':    { h2: 'Knappste Rennen',         sub: 'Ein Punkt Unterschied. Manchmal keiner.' },
+  'knappste':           { h2: 'Knappste Rennen',         sub: 'Ein Punkt Unterschied. Manchmal keiner.' },
+  'hoechste-siege':     { h2: 'Höchste Siege',           sub: 'Wenn der Gegner aufgehört hat zu zählen.' },
+  'torreichste-spiele': { h2: 'Torreichste Spiele',      sub: 'Verteidigung war keine Option.' },
+  'engste-duelle':      { h2: 'Engste Duelle',           sub: 'Nahkampf auf der Trommel.' },
+  'siegesserien':       { h2: 'Längste Siegesserien',    sub: 'Wer aufgehört hat zu verlieren.' },
+  'niederlagenserien':  { h2: 'Längste Niederlagenserien', sub: 'Charakter zeigt sich nicht im Sieg.' },
+  'vergleich':          { h2: 'Turniere im Vergleich',   sub: 'Welches Turnier war das beste?' },
+  'rekorde':            { h2: 'Rekorde',                 sub: 'Die Extremwerte des Sports.' },
+}
+
+// ── Hauptkomponente ───────────────────────────────────────────────────────
+export default function Statistiken() {
+  const { data: wm, loading } = useWMData()
+  if (loading || !wm?.weltmeister?.length) return <div style={{ paddingTop: 120, textAlign: 'center', color: 'var(--text-muted)' }}>Laden…</div>
+  return (
+    <WMContext.Provider value={wm}>
+      <StatistikenInner />
+    </WMContext.Provider>
+  )
+}
+
 function StatistikenInner() {
   const loc = useLocation()
-  const sub = loc.pathname.split('/').pop()
-  const tabs = [
-    { id: 'weltrangliste', label: 'WELTRANGLISTE' },
-    { id: 'ewige-tabelle', label: 'EWIGE TABELLE' },
-    { id: 'champs', label: 'ALLE WELTMEISTER' },
-    { id: 'ballermann', label: 'BALLERMÄNNER & SCHIESSBUDEN' },
-    { id: 'schiessbude', label: 'SCHIESSBUDEN', hidden: true },
-    { id: 'bestenlisten', label: 'BESTENLISTEN', hidden: true },
-    { id: 'dinos', label: 'DINOS' },
-    { id: 'remiskoenig', label: 'REMISKÖNIGE' },
-    { id: 'knappste', label: 'KNAPPSTE RENNEN' },
-    { id: 'rekorde', label: 'REKORDE' },
-  ]
-  const active = tabs.find(t => t.id === sub) ? sub : 'weltrangliste'
+  const slug = loc.pathname.split('/').pop()
+  const config = SLUG_CONFIG[slug]
+  const section = config?.section || (loc.pathname.startsWith('/ranglisten') ? 'ranglisten' : 'stats')
+  const component = config?.component || (section === 'ranglisten' ? 'weltrangliste' : 'ballermann')
+  const tabs = section === 'ranglisten' ? RANGLISTEN_TABS : STATS_TABS
+  const pageTitle = PAGE_TITLES[section]
+  const sectionTitle = SECTION_TITLES[slug] || SECTION_TITLES[component] || { h2: '', sub: '' }
+
+  // Aktiver Tab: entspricht dem slug oder dem component
+  const activeSlug = tabs.find(t => t.slug === slug)?.slug
+    || tabs.find(t => SLUG_CONFIG[t.slug]?.component === component)?.slug
+    || tabs[0].slug
+
+  const basePath = section === 'ranglisten' ? '/ranglisten' : '/stats'
 
   return (
     <div style={{ paddingTop: 80 }}>
       <section style={{ background: 'var(--gruen)', padding: '60px 0 0' }}>
         <div className="container">
-          <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)' }}>Zahlen & Daten</div>
-          <h1 style={{ fontSize: 'clamp(36px, 6vw, 72px)', color: 'var(--white)', marginBottom: 32 }}>Statistiken</h1>
-          <div className="stats-tabs" style={{ display: 'flex', gap: 0, borderBottom: '1px solid rgba(255,255,255,0.1)', overflowX: 'auto' }}>
-            {tabs.filter(t => !t.hidden).map(t => (
-              <Link key={t.id} to={`/statistiken/${t.id}`} style={{
-                padding: '14px 24px',
-                fontSize: 15,
-                fontWeight: 600,
-                color: active === t.id ? 'var(--gold)' : 'rgba(255,255,255,0.6)',
-                borderBottom: active === t.id ? '2px solid var(--gold)' : '2px solid transparent',
-                marginBottom: -1,
-                transition: 'color 0.15s',
+          <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)', marginBottom: 12 }}>{pageTitle.eyebrow}</div>
+          <h1 style={{ fontSize: 'clamp(32px, 5vw, 64px)', color: 'var(--white)', marginBottom: sectionTitle.h2 ? 8 : 32 }}>
+            {sectionTitle.h2 || pageTitle.h1}
+          </h1>
+          {sectionTitle.sub && (
+            <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 16, marginBottom: 32, maxWidth: 560 }}>{sectionTitle.sub}</p>
+          )}
+          <div style={{ display: 'flex', gap: 0, borderBottom: '1px solid rgba(255,255,255,0.1)', overflowX: 'auto' }}>
+            {tabs.map(t => (
+              <Link key={t.slug} to={`${basePath}/${t.slug}`} style={{
+                padding: '14px 20px',
+                fontSize: 14, fontWeight: 600,
+                color: activeSlug === t.slug ? 'var(--gold)' : 'rgba(255,255,255,0.6)',
+                borderBottom: activeSlug === t.slug ? '2px solid var(--gold)' : '2px solid transparent',
+                marginBottom: -1, transition: 'color 0.15s',
                 whiteSpace: 'nowrap',
               }}>{t.label}</Link>
             ))}
@@ -790,14 +745,20 @@ function StatistikenInner() {
 
       <section className="section">
         <div className="container">
-          {active === 'weltrangliste' && <Weltrangliste />}
-          {active === 'ewige-tabelle' && <EwigeTabelle />}
-          {active === 'champs' && <Champs />}
-          {(active === 'ballermann' || active === 'schiessbude' || active === 'bestenlisten') && <Bestenlisten />}
-          {active === 'dinos' && <Dinos />}
-          {active === 'remiskoenig' && <Remiskoenige />}
-          {active === 'knappste' && <KnappsteRennen />}
-          {active === 'rekorde' && <Rekorde />}
+          {component === 'weltrangliste'      && <Weltrangliste />}
+          {component === 'ewige-tabelle'      && <EwigeTabelle />}
+          {component === 'champs'             && <Champs />}
+          {component === 'ballermann'         && <Ballermann />}
+          {component === 'schiessbude'        && <Schiessbude />}
+          {component === 'dinos'              && <Dinos />}
+          {component === 'remiskoenige'       && <Remiskoenige />}
+          {component === 'knappste'           && <KnappsteRennen />}
+          {component === 'hoechste-siege'     && <Rekorde />}
+          {component === 'torreichste-spiele' && <Rekorde />}
+          {component === 'engste-duelle'      && <Rekorde />}
+          {component === 'vergleich'          && <Rekorde />}
+          {component === 'siegesserien'       && <ComingSoon titel="Längste Siegesserien" text="Wer aufgehört hat zu verlieren, hat angefangen zu dominieren. Diese Statistik folgt in Kürze." />}
+          {component === 'niederlagenserien'  && <ComingSoon titel="Längste Niederlagenserien" text="Charakter zeigt sich nicht im Sieg. Er zeigt sich darin, wieder anzutreten. Diese Statistik folgt in Kürze." />}
         </div>
       </section>
     </div>

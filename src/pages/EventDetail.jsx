@@ -28,7 +28,7 @@ export default function EventDetail() {
   if (!event) return (
     <div style={{ paddingTop: 120, textAlign: 'center' }}>
       <h2>WM {jahr} nicht gefunden</h2>
-      <Link to="/events" className="btn btn--primary" style={{ marginTop: 16, display: 'inline-flex' }}>← Zurück</Link>
+      <Link to="/turniere" className="btn btn--primary" style={{ marginTop: 16, display: 'inline-flex' }}>← Zurück</Link>
     </div>
   )
 
@@ -47,7 +47,7 @@ export default function EventDetail() {
       }}>
         <div style={{ position: 'absolute', top: -100, right: -100, width: 400, height: 400, borderRadius: '50%', background: 'rgba(255,255,255,0.03)', pointerEvents: 'none' }} />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
-          <Link to="/events" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 24 }}>
+          <Link to="/turniere" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 24 }}>
             ← Alle WMs
           </Link>
           <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)' }}>{event.datum} · {event.ort}</div>
@@ -238,8 +238,8 @@ export default function EventDetail() {
       {/* Navigation */}
       <section className="section--sm">
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-          {prev ? <Link to={`/events/${prev.jahr}`} className="btn btn--outline">← WM {prev.jahr}</Link> : <div />}
-          {next ? <Link to={`/events/${next.jahr}`} className="btn btn--outline">WM {next.jahr} →</Link> : <div />}
+          {prev ? <Link to={`/turniere/${prev.jahr}`} className="btn btn--outline">← WM {prev.jahr}</Link> : <div />}
+          {next ? <Link to={`/turniere/${next.jahr}`} className="btn btn--outline">WM {next.jahr} →</Link> : <div />}
         </div>
       </section>
     </div>
