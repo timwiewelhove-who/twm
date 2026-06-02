@@ -93,7 +93,7 @@ export default function Nav() {
   const [activeDropdown, setActiveDropdown] = useState(null)
   const loc = useLocation()
   const isHome = loc.pathname === '/'
-  const isDarkPage = loc.pathname === '/' || loc.pathname === '/events/2026' || loc.pathname === '/wissenswertes/olympia' || loc.pathname.startsWith('/spielerprofile') || loc.pathname.startsWith('/statistiken')
+  const isDarkPage = loc.pathname === '/' || loc.pathname === '/events/2026' || loc.pathname === '/wissenswertes/olympia' || loc.pathname.startsWith('/spielerprofile') || false
   const isDark = isDarkPage && !scrolled
   const timeoutRef = useRef(null)
 
