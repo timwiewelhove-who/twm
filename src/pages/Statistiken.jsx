@@ -559,11 +559,12 @@ function Bestenlisten() {
   const { data: wm } = useWMData()
   if (!wm) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
   const ALLE = wm.ewige_tabelle || []
+  const WRL  = wm.weltrangliste || []
   const sorted_t   = [...ALLE].filter(r => r.sp > 0).sort((a, b) => (b.t / b.sp) - (a.t / a.sp))
   const sorted_gg  = [...ALLE].filter(r => r.sp > 0).sort((a, b) => (a.gg / a.sp) - (b.gg / b.sp))
   const sorted_u   = [...ALLE].filter(r => r.sp > 0).sort((a, b) => (b.u / b.sp) - (a.u / a.sp))
   const dinos_min  = 6
-  const dinos      = ALLE.filter(r => {
+  const dinos      = WRL.filter(r => {
     const wmCount = Object.keys(r).filter(k => k.startsWith('wm')).length
     return wmCount >= dinos_min
   }).sort((a, b) => {
@@ -617,7 +618,7 @@ function Bestenlisten() {
                   <td className="num" style={{ color: 'var(--text-muted)' }}>{i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i + 1}.`}</td>
                   <td><Link to={`/spielerprofile/${encodeURIComponent(r.name)}`} style={{ color: 'var(--gruen)', fontWeight: 600 }}>{r.name}</Link></td>
                   <td className="num" style={{ fontWeight: 700 }}>{wmCount}</td>
-                  <td className="num">{r.total}</td>
+                  <td className="num">{r.total ?? '–'}</td>
                 </tr>
               )
             })}
