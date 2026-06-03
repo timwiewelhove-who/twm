@@ -94,7 +94,7 @@ export default function Home() {
             objectPosition: 'center',
           }}
         >
-          <source src="/Trommelschiessen-WM-Teaser_Cutted_no_sound.mp4" type="video/mp4" />
+          <source src="/TS_Website_Hero_B.mp4" type="video/mp4" />
         </video>
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.72)' }} />
         <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '0 24px', width: '100%', maxWidth: 700 }}>
