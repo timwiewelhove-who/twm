@@ -78,11 +78,25 @@ export default function Home() {
         position: 'relative',
         overflow: 'hidden',
         paddingTop: 80,
-        backgroundImage: 'url(/hero-2024.jpg)',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center 30%',
+        background: '#0a1c12',
       }}>
-        <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.82)' }} />
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center',
+          }}
+        >
+          <source src="/Trommelschiessen-WM-Teaser_Cutted_no_sound.mp4" type="video/mp4" />
+        </video>
+        <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.72)' }} />
         <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '0 24px', width: '100%', maxWidth: 700 }}>
           <p style={{ fontSize: 'clamp(14px, 1.5vw, 17px)', color: 'rgba(255,255,255,0.65)', marginBottom: 32, letterSpacing: '0.01em' }}>
             Die nächste Trommelschießen-WM kommt bald
