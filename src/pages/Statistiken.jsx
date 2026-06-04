@@ -729,6 +729,10 @@ function TorreichsteSpiele() {
         headline="Verteidigung war keine Option."
         text="Manchmal treffen zwei Spieler aufeinander, die sich stillschweigend darauf geeinigt haben, die Trommel als Zielobjekt zu behandeln und den Rest des Spiels der Fantasie zu überlassen. Die torreichsten Spiele der WM-Geschichte sind das Ergebnis dieser Übereinkunft. Viele Treffer, wenig taktisches Kalkül, maximale Unterhaltung."
       />
+
+      <div style={{ borderRadius: 12, overflow: 'hidden', marginBottom: 48 }}>
+        <img src="/spieler/Trommelschiessen_5.webp" alt="" style={{ width: '100%', height: 'auto', display: 'block' }} loading="lazy" />
+      </div>
       {top && (
         <div className="card" style={{ background: 'var(--gruen)', padding: '28px 32px', marginBottom: 40, display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: 24 }}>
           <div style={{ textAlign: 'right' }}>
@@ -829,6 +833,10 @@ function Siegesserien() {
         headline="Wer aufgehört hat zu verlieren, hat angefangen zu dominieren."
         text="Siegesserien im Trommelschiessen entstehen nicht durch Glück. Sie entstehen durch Konstanz, durch das Ausnutzen jedes Vorteils, durch eine Kombination aus Präzision und der Fähigkeit, auch dann zu gewinnen, wenn es nicht läuft. Die längsten Siegesserien der WM-Geschichte zeigen, welche Spieler es geschafft haben, sich über viele Spiele hinweg auf einem Niveau zu halten, das niemand knacken konnte. Bis jemand es dann doch geknackt hat."
       />
+
+      <div style={{ borderRadius: 12, overflow: 'hidden', marginBottom: 48 }}>
+        <img src="/spieler/Michael_Peter_3.webp" alt="" style={{ width: '100%', height: 'auto', display: 'block' }} loading="lazy" />
+      </div>
       {top && (
         <div className="card" style={{ background: 'var(--gruen)', padding: '32px', marginBottom: 40, display: 'flex', gap: 32, flexWrap: 'wrap', alignItems: 'center' }}>
           <div>
@@ -875,6 +883,10 @@ function Niederlagenserien() {
         headline="Charakter zeigt sich nicht im Sieg. Er zeigt sich darin, wieder anzutreten."
         text="Diese Statistik ist keine Schande. Sie ist eine Ehrung. Denn wer eine lange Niederlagenserie vorweisen kann, hat in dieser Zeit nicht aufgehört zu spielen — hat sich nicht gedrückt, nicht abgemeldet, nicht plötzlich einen Konflikt am Wochenende entdeckt. Diese Spieler sind angetreten, haben verloren, und sind beim nächsten Turnier wieder angetreten. Das verdient Respekt. Nicht viel. Aber echten."
       />
+
+      <div style={{ borderRadius: 12, overflow: 'hidden', marginBottom: 48 }}>
+        <img src="/spieler/Ubbo_Meyer_2.webp" alt="" style={{ width: '100%', height: 'auto', display: 'block' }} loading="lazy" />
+      </div>
       {top && (
         <div className="card" style={{ background: 'var(--gruen)', padding: '32px', marginBottom: 40, display: 'flex', gap: 32, flexWrap: 'wrap', alignItems: 'center' }}>
           <div>
@@ -921,6 +933,10 @@ function TurniereImVergleich() {
         headline="Welches Turnier war eigentlich das beste? Die Zahlen haben eine Meinung."
         text="Tore pro Spiel, Teilnehmerzahl, Spannung im Titelkampf — es gibt viele Wege, ein Turnier zu messen. Diese Seite stellt alle WMs nebeneinander und lässt die Zahlen sprechen. Was dabei herauskommt, überrascht meistens. Die gefühlt beste WM ist selten die statistisch stärkste."
       />
+
+      <div style={{ borderRadius: 12, overflow: 'hidden', marginBottom: 48 }}>
+        <img src="/spieler/Trommelschiessen_6.webp" alt="" style={{ width: '100%', height: 'auto', display: 'block' }} loading="lazy" />
+      </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 40 }}>
         {sorted_tore.slice(0, 3).map((r, i) => (
           <div key={r.jahr} className="card" style={{ padding: '24px', textAlign: 'center', background: i === 0 ? 'var(--gruen)' : 'var(--white)' }}>
