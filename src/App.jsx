@@ -41,11 +41,11 @@ export default function App() {
           <Route path="/events/:jahr" element={<LegacyEventRedirect />} />
 
           {/* Ranglisten */}
-          <Route path="/ranglisten" element={<Navigate to="/ranglisten/weltrangliste" replace />} />
+          <Route path="/ranglisten" element={<Statistiken />} />
           <Route path="/ranglisten/:sub" element={<Statistiken />} />
 
           {/* Stats */}
-          <Route path="/stats" element={<Navigate to="/stats/ballermann" replace />} />
+          <Route path="/stats" element={<Statistiken />} />
           <Route path="/stats/:sub" element={<Statistiken />} />
 
           {/* Legacy statistiken */}
@@ -55,7 +55,7 @@ export default function App() {
           <Route path="/statistiken/:sub" element={<LegacyStatsRedirect />} />
 
           {/* Info */}
-          <Route path="/info" element={<Navigate to="/info/historie" replace />} />
+          <Route path="/info" element={<Info />} />
           <Route path="/info/olympia" element={<Olympia />} />
           <Route path="/info/:sub" element={<Info />} />
           <Route path="/wissenswertes" element={<Navigate to="/info/historie" replace />} />
