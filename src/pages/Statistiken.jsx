@@ -560,6 +560,13 @@ function KnappsteRennen() {
         headline="Ein Punkt Unterschied. Manchmal keiner. Immer unvergesslich."
         text="Die WM-Geschichte kennt Turniere, die bereits zur Halbzeit entschieden waren — und solche, bei denen bis zur allerletzten Partie völlig unklar war, wer am Ende die Schale in die Höhe reckt. Die knappsten Titelrennen dokumentieren genau diese Momente: Turniere, bei denen die Tabelle so eng war, dass ein einziger Treffer die Geschichte verändert hätte."
       />
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 48 }}>
+        {[1,2,3,4,5,6].map(n => (
+          <div key={n} style={{ borderRadius: 12, overflow: 'hidden', aspectRatio: '1/1' }}>
+            <img src={`/spieler/Knappste_Rennen_${n}.webp`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }} loading="lazy" />
+          </div>
+        ))}
+      </div>
       {(() => {
         const r = rennen[0]
         return (
