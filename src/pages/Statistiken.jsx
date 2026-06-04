@@ -681,7 +681,11 @@ function HeadToHead() {
   const alleTraommler = [...wm.ewige_tabelle]
     .filter(r => r.sp > 0)
     .map(r => r.name)
-    .sort((a, b) => a.localeCompare(b, 'de'))
+    .sort((a, b) => {
+      const nachA = a.split(' ').slice(-1)[0]
+      const nachB = b.split(' ').slice(-1)[0]
+      return nachA.localeCompare(nachB, 'de')
+    })
 
   React.useEffect(() => {
     if (!spieler1 || !spieler2) { setMatches([]); return }
@@ -978,11 +982,11 @@ function StatistikenInner() {
           {component === 'remiskoenige'       && <Remiskoenige />}
           {component === 'knappste'           && <KnappsteRennen />}
           {component === 'hoechste-siege'     && <HoechsteSiege />}
-          {component === 'torreichste-spiele' && <ComingSoon titel="Torreichste Spiele" text="Verteidigung war keine Option. Diese Statistik folgt in Kürze." />}
-          {component === 'engste-duelle'      && <ComingSoon titel="Engste Duelle" text="Nahkampf auf der Trommel. Diese Statistik folgt in Kürze." />}
-          {component === 'siegesserien'       && <ComingSoon titel="Längste Siegesserien" text="Wer aufgehört hat zu verlieren, hat angefangen zu dominieren. Diese Statistik folgt in Kürze." />}
-          {component === 'niederlagenserien'  && <ComingSoon titel="Längste Niederlagenserien" text="Charakter zeigt sich nicht im Sieg. Er zeigt sich darin, wieder anzutreten. Diese Statistik folgt in Kürze." />}
-          {component === 'vergleich'          && <ComingSoon titel="Turniere im Vergleich" text="Welches Turnier war das beste? Die Zahlen haben eine Meinung. Folgt in Kürze." />}
+          {component === 'torreichste-spiele' && <TorreichsteSpiele />}
+          {component === 'engste-duelle'      && <EngesteDuelle />}
+          {component === 'siegesserien'       && <Siegesserien />}
+          {component === 'niederlagenserien'  && <Niederlagenserien />}
+          {component === 'vergleich'          && <TurniereImVergleich />}
           {component === 'h2h'              && <HeadToHead />}
         </div>
       </section>
