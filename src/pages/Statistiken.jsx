@@ -67,7 +67,7 @@ function RanglistenUebersicht() {
 // ── Übersicht Stats ───────────────────────────────────────────────────────
 const STATS_CARDS = [
   { slug: 'ballermann', emoji: '🎯', titel: 'Ballermänner', sub: 'Schießen als Lebenseinstellung.' },
-  { slug: 'schiessbuden', emoji: '🚪', titel: 'Schiessbuden', sub: 'Manche Teams treffen öfter. Diese hier am öftersten.' },
+  { slug: 'schiessbuden', emoji: '🚪', titel: 'Schiessbuden', sub: 'Manche Trommler treffen öfter. Diese hier am öftersten.' },
   { slug: 'dinos', emoji: '🦕', titel: 'Trommel-Dinos', sub: 'Dabei seit Anbeginn. Immer noch da.' },
   { slug: 'remiskoenige', emoji: '🤝', titel: 'Remiskönige', sub: 'Unentschieden ist auch ein Ergebnis.' },
   { slug: 'knappste-rennen', emoji: '📏', titel: 'Knappste Rennen', sub: 'Ein Punkt Unterschied. Manchmal keiner.' },
@@ -421,7 +421,7 @@ function Schiessbude() {
   return (
     <div>
       <PageIntro
-        headline="Manche Teams treffen öfter. Diese hier am öftersten."
+        headline="Manche Trommler treffen öfter. Diese hier am öftersten."
         text="In jeder WM gibt es Paarungen, die sich scheinbar verabredet haben, die Trommel besonders ausgiebig zu beschäftigen. Die Schiessbuden-Statistik dokumentiert, wer den Gegner am häufigsten jubeln ließ. Verteidigung war für diese Männer immer nur ein theoretisches Konzept."
       />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 40 }}>
