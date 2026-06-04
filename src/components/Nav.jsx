@@ -2,50 +2,19 @@ import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 
 const NAV_ITEMS = [
-  {
-    to: '/turniere',
-    label: 'Turniere',
-    children: [
-      { to: '/turniere/2026', label: '🔜 WM 2026 · Édition Jubilaire' },
-      { to: '/turniere/2024', label: 'WM 2024 · Jaderberg' },
-      { to: '/turniere/2022', label: 'WM 2022 · Oldenburg' },
-      { to: '/turniere/2018', label: 'WM 2018 · Berne' },
-      { to: '/turniere/2016', label: 'WM 2016 · Hamburg' },
-      { to: '/turniere/2014', label: 'WM 2014 · Hamburg' },
-      { to: '/turniere/2012', label: 'WM 2012 · Berne' },
-      { to: '/turniere/2010', label: 'WM 2010 · Berne' },
-      { to: '/turniere/2008', label: 'WM 2008 · Berne' },
-      { to: '/turniere/2006', label: 'WM 2006 · Hamburg' },
-    ]
-  },
-  {
-    to: '/ranglisten',
+      to: '/ranglisten',
     label: 'Ranglisten',
     children: [
       { to: '/ranglisten/weltrangliste', label: 'Weltrangliste' },
-      { to: '/ranglisten/ewige-tabelle', label: 'Ewige Tabelle' },
-      { to: '/ranglisten/weltmeister', label: 'Alle Weltmeister' },
-    ]
-  },
-  {
-    to: '/stats',
+      to: '/stats',
     label: 'Stats',
     children: [
       { to: '/stats/ballermann', label: 'Ballermänner' },
-      { to: '/stats/schiessbuden', label: 'Schießbuden' },
-      { to: '/stats/dinos', label: 'Trommel-Dinos' },
-      { to: '/stats/remiskoenige', label: 'Remiskönige' },
-      { to: '/stats/knappste-rennen', label: 'Knappste Rennen' },
-      { to: '/stats/hoechste-siege', label: 'Höchste Siege' },
-      { to: '/stats/torreichste-spiele', label: 'Torreichste Spiele' },
-      { to: '/stats/engste-duelle', label: 'Engste Duelle' },
-      { to: '/stats/siegesserien', label: 'Längste Siegesserien' },
-      { to: '/stats/niederlagenserien', label: 'Längste Niederlagenserien' },
-      { to: '/stats/vergleich', label: 'Turniere im Vergleich' },
-    ]
-  },
-  {
-    to: '/spielerprofile',
+      to: '/turniere',
+    label: 'Turniere',
+    children: [
+      { to: '/turniere/2026', label: '🔜 WM 2026 · Édition Jubilaire' },
+      to: '/spielerprofile',
     label: 'Spielerprofile',
     children: []
   },
@@ -54,11 +23,10 @@ const NAV_ITEMS = [
     label: 'Info',
     children: [
       { to: '/info/historie', label: 'Historie' },
-      { to: '/info/regelwerk', label: 'Regelwerk' },
-      { to: '/info/presse', label: 'Presse' },
-      { to: '/info/olympia', label: 'Warum olympisch?' },
-    ]
-  },
+      to: '/info',
+    label: 'Info',
+    children: [
+      { to: '/info/historie', label: 'Historie' }
 ]
 
 function DropdownItem({ item, onClose }) {
