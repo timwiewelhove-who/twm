@@ -40,10 +40,7 @@ const ALLE = berechneAlle()
 
 // Name → Basis-Dateipfad
 function getFotoBase(name) {
-  return name
-    .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue')
-    .replace(/Ä/g, 'Ae').replace(/Ö/g, 'Oe').replace(/Ü/g, 'Ue')
-    .replace(/ß/g, 'ss').replace(/ /g, '_')
+  return name.replace(/ /g, '_')
 }
 
 // Avatar-Kreis: zeigt _1.jpg oder Initialen
@@ -56,7 +53,7 @@ function FotoAvatar({ name, size = 80, fontSize = 22 }) {
   if (hasPhoto) {
     return (
       <img
-        src={`/spieler/${getFotoBase(name)}_1.jpg`}
+        src={`/spieler/${getFotoBase(name)}.jpg`}
         alt={name}
         onError={() => setHasPhoto(false)}
         style={{ width: size, height: size, borderRadius: '50%', objectFit: 'cover', objectPosition: 'center top', border: borderStyle, flexShrink: 0 }}
@@ -114,7 +111,7 @@ function FotoGalerie({ name, onNoPhoto }) {
         {fotos.map((n, i) => (
           <img
             key={n}
-            src={`/spieler/${base}_${n}.jpg`}
+            src={`/spieler/${base}${n === 1 ? '' : `_${n}`}.jpg`}
             alt={`${name} ${n}`}
             onLoad={() => handleLoad(i)}
             onError={() => handleError(n)}
@@ -145,7 +142,7 @@ function FotoGalerie({ name, onNoPhoto }) {
         <div style={{ display: 'flex', gap: 8 }}>
           {fotos.map((n, i) => (
             <button key={n} onClick={() => setAktiv(i)} style={{ padding: 0, border: i === aktiv ? '2px solid var(--gold)' : '2px solid transparent', borderRadius: 8, overflow: 'hidden', cursor: 'pointer', width: 56, height: 56, flexShrink: 0 }}>
-              <img src={`/spieler/${base}_${n}.jpg`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} />
+              <img src={`/spieler/${base}${n === 1 ? '' : `_${n}`}.jpg`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} />
             </button>
           ))}
         </div>
@@ -346,7 +343,7 @@ function SpielerDetail({ spieler }) {
                     const wme = wm.weltmeister.find(x => String(x.jahr) === jahr)
                     return (
                       <tr key={jahr} style={{ background: r.pl === 1 ? 'rgba(176,137,45,0.06)' : 'transparent' }}>
-                        <td><Link to={`/events/${jahr}`} style={{ color: 'var(--gruen)', fontWeight: 600 }}>{jahr}</Link></td>
+                        <td><Link to={`/turniere/${jahr}`} style={{ color: 'var(--gruen)', fontWeight: 600 }}>{jahr}</Link></td>
                         <td style={{ color: 'var(--text-muted)', fontSize: 13 }}>{wme?.ort || '–'}</td>
                         <td className="rank">{r.pl === 1 ? '🏆' : `${r.pl}.`}</td>
                         <td className="num">{r.sp}</td>
@@ -366,7 +363,7 @@ function SpielerDetail({ spieler }) {
           {h2hData.length > 0 && (
             <>
               <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 8, marginTop: 40 }}>Direktvergleiche</h2>
-              <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16 }}>Basierend auf verfügbaren Daten ab WM 2014</p>
+              
               <div className="card" style={{ overflow: 'auto' }}>
                 <table className="data-table">
                   <thead>
@@ -407,7 +404,7 @@ function SpielerDetail({ spieler }) {
           {allMatches.length > 0 && (
             <>
               <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 8, marginTop: 40 }}>Alle Spiele</h2>
-              <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16 }}>Basierend auf verfügbaren Daten ab WM 2006</p>
+              <p style={{ fontSize: 13, color: 'var(--text-muted)', marginBottom: 16 }}>Alle WMs seit 2006</p>
               <input
                 type="text"
                 placeholder="Nach Gegner oder Jahr filtern…"
@@ -457,7 +454,7 @@ function SpielerListe() {
     <div>
       <div style={{ background: 'var(--gruen)', padding: '80px 0 48px' }}>
         <div className="container">
-          <div className="eyebrow">Trommelschießen-WM</div>
+          <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)' }}>Spielerprofile</div>
           <h1 style={{ color: 'white', fontSize: 'clamp(32px, 5vw, 56px)', marginBottom: 16 }}>Spielerprofile</h1>
           <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 16, maxWidth: 560 }}>
             Alle 56 Trommler mit Karrierestatistiken, Platzierungsverläufen und WM-Ergebnissen.
