@@ -198,6 +198,16 @@ function EwigeTabelle() {
 
 // ── Alle Weltmeister ──────────────────────────────────────────────────────
 
+const NAME_TO_FOTO = {
+  'Holger Müller':    'Holger_Mueller',
+  'Maik Lösekann':   'Maik_Lösekann',
+  'Tim Brüggemann':  'Tim_Brüggemann',
+}
+function spielerFotoBase(name) {
+  if (NAME_TO_FOTO[name]) return NAME_TO_FOTO[name]
+  return name.replace(/ /g, '_')
+}
+
 const CHAMP_FOTOS = {
   2024: '/spieler/Patrick_Christof_Weltmeister_2024_1.webp',
   2022: '/spieler/Müller_Praekel_Wachtendorf.webp',
@@ -214,24 +224,24 @@ function Champs() {
         headline="Der erlesene Kreis der Gekrönten. Acht Namen. Zehn Titel."
         text="Weltmeister wird man nicht durch Anwesenheit. Auch nicht durch Enthusiasmus, gute Laune oder die richtige Trommel. Weltmeister wird man, indem man an einem langen, heißen Turniertag besser ist als alle anderen — und das so lange durchhält, bis die letzte Partie gespielt ist. Diese Liste führt alle auf, die das geschafft haben. Manche einmal, einer zweimal. Alle zu Recht."
       />
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(480px, 1fr))', gap: 16 }}>
         {events.map(e => {
-          const siegerFoto = `/spieler/${e.sieger.replace(/ /g, '_')}.webp`
+          const siegerFoto = `/spieler/${spielerFotoBase(e.sieger)}.webp`
           const koenige = e.torschuetzenkoenig.split(' & ').map(n => n.trim())
           return (
-            <Link key={e.jahr} to={`/turniere/${e.jahr}`} className="card card--hover" style={{ padding: '20px 24px', display: 'grid', gridTemplateColumns: '80px 1fr auto', alignItems: 'center', gap: 20 }}>
-              <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 36, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
+            <Link key={e.jahr} to={`/turniere/${e.jahr}`} className="card card--hover" style={{ padding: '24px 28px', display: 'grid', gridTemplateColumns: '72px 1fr auto', alignItems: 'center', gap: 20 }}>
+              <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 44, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
               <div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-                  <div style={{ width: 36, height: 36, borderRadius: '50%', overflow: 'hidden', background: 'var(--cream)', flexShrink: 0 }}>
+                  <div style={{ width: 48, height: 48, borderRadius: '50%', overflow: 'hidden', background: 'var(--cream)', flexShrink: 0 }}>
                     <img src={siegerFoto} alt={e.sieger} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} onError={ev => { ev.target.style.display = 'none' }} />
                   </div>
-                  <div style={{ fontWeight: 700, fontSize: 18, color: 'var(--gruen)' }}>🏆 {e.sieger}</div>
+                  <div style={{ fontWeight: 700, fontSize: 20, color: 'var(--gruen)' }}>🏆 {e.sieger}</div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   {koenige.map(name => (
-                    <div key={name} style={{ width: 28, height: 28, borderRadius: '50%', overflow: 'hidden', background: 'var(--cream)', flexShrink: 0 }}>
-                      <img src={`/spieler/${name.replace(/ /g, '_')}.webp`} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} onError={ev => { ev.target.style.display = 'none' }} />
+                    <div key={name} style={{ width: 36, height: 36, borderRadius: '50%', overflow: 'hidden', background: 'var(--cream)', flexShrink: 0 }}>
+                      <img src={`/spieler/${spielerFotoBase(name)}.webp`} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} onError={ev => { ev.target.style.display = 'none' }} />
                     </div>
                   ))}
                   <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>👑 {e.torschuetzenkoenig}</div>
