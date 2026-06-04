@@ -379,10 +379,10 @@ function Ballermann() {
         headline="Schiessen als Lebenseinstellung. Diese Männer haben es verinnerlicht."
         text="Tore schiessen ist im Trommelschiessen kein Zufall — es ist Handwerk, Wiederholung und ein gesundes Verhältnis zur eigenen Treffsicherheit. Die Ballermänner sind jene Spieler, die über ihre gesamte WM-Karriere die meisten Einschläge erzielt haben. Wer hier oben steht, hat nicht einmal gut gezielt. Er hat einfach immer wieder gezielt. Und meistens getroffen."
       />
-      <div style={{ columns: '3 200px', columnGap: 12, marginBottom: 48 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 48 }}>
         {['/spieler/Bastian_Buse_2.webp', '/spieler/Holger_Mueller_2.webp', '/spieler/Sascha_Wachtendorf_1.webp'].map((src, i) => (
-          <div key={i} style={{ breakInside: 'avoid', marginBottom: 12 }}>
-            <img src={src} alt="" style={{ width: '100%', height: 'auto', display: 'block', borderRadius: 12 }} loading="lazy" />
+          <div key={i} style={{ borderRadius: 12, overflow: 'hidden', aspectRatio: '1/1' }}>
+            <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} loading="lazy" />
           </div>
         ))}
       </div>
