@@ -445,6 +445,9 @@ function Schiessbude() {
         headline="Manche Teams treffen öfter. Diese hier am öftersten."
         text="In jeder WM gibt es Paarungen, die sich scheinbar verabredet haben, die Trommel besonders ausgiebig zu beschäftigen. Die Schiessbuden-Statistik dokumentiert, wer den Gegner am häufigsten jubeln ließ. Verteidigung war für diese Männer immer nur ein theoretisches Konzept."
       />
+      <div style={{ borderRadius: 12, overflow: 'hidden', marginBottom: 40 }}>
+        <img src="/spieler/Schiessbuden.webp" alt="Schiessbuden" style={{ width: '100%', height: 'auto', display: 'block' }} loading="lazy" />
+      </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 40 }}>
         {top3.map((r, i) => (
           <div key={r.name} className="card" style={{ padding: '24px', textAlign: 'center' }}>
