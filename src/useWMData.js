@@ -15,11 +15,13 @@ const EXTRA_FOTOS = {
     '/spieler/Holger_Mueller_Weltmeiseter_1.webp',
     '/spieler/Holger_Mueller_Weltmeiseter_2.webp',
     '/spieler/Holger_Mueller_Weltmeiseter_3.webp',
+    '/spieler/Peter_Mueller_Meyer.webp',
   ],
-  '2022': ['/spieler/Mueller_Praekel_Wachtendorf.webp'],
+  '2022': ['/spieler/Mueller_Praekel_Wachtendorf.webp', '/spieler/Buse_Wachtendorf_Meyer.webp'],
   '2024': [
     '/spieler/Patrick_Christof_Weltmeister_2024_1.webp',
     '/spieler/Patrick_Christof_Weltmeister_2024_2.webp',
+    '/spieler/Christof_Buse.webp',
   ],
 }
 
