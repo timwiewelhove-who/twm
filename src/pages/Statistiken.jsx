@@ -981,6 +981,7 @@ function StatistikenInner() {
           {component === 'siegesserien'       && <ComingSoon titel="Längste Siegesserien" text="Wer aufgehört hat zu verlieren, hat angefangen zu dominieren. Diese Statistik folgt in Kürze." />}
           {component === 'niederlagenserien'  && <ComingSoon titel="Längste Niederlagenserien" text="Charakter zeigt sich nicht im Sieg. Er zeigt sich darin, wieder anzutreten. Diese Statistik folgt in Kürze." />}
           {component === 'vergleich'          && <ComingSoon titel="Turniere im Vergleich" text="Welches Turnier war das beste? Die Zahlen haben eine Meinung. Folgt in Kürze." />}
+          {component === 'h2h'              && <HeadToHead />}
         </div>
       </section>
     </div>
