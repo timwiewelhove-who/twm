@@ -12,9 +12,9 @@ const EXTRA_FOTOS = {
     '/spieler/Henning_Diers_Weltmeister_2016_3.webp',
   ],
   '2018': [
-    '/spieler/Holger_Mueller_Weltmeister_1.webp',
-    '/spieler/Holger_Mueller_Weltmeister_2.webp',
-    '/spieler/Holger_Mueller_Weltmeister_3.webp',
+    '/spieler/Holger_Mueller_Weltmeiseter_1.webp',
+    '/spieler/Holger_Mueller_Weltmeiseter_2.webp',
+    '/spieler/Holger_Mueller_Weltmeiseter_3.webp',
   ],
   '2022': ['/spieler/Mueller_Praekel_Wachtendorf.webp'],
   '2024': [
