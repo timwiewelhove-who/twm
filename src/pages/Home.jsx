@@ -278,7 +278,7 @@ export default function Home() {
               06. Juni 2026
             </div>
             <h2 style={{ fontSize: 'clamp(28px, 4vw, 52px)', color: 'white', lineHeight: 1.05, marginBottom: 20 }}>
-              EDITION JUBILAIRE
+              ÉDITION JUBILAIRE
             </h2>
             <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: 15, lineHeight: 1.8, marginBottom: 12 }}>
               20 Jahre Trommelschießen. Die X. WM ist das Jubiläum einer Idee,
