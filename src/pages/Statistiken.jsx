@@ -67,7 +67,7 @@ function RanglistenUebersicht() {
 // ── Übersicht Stats ───────────────────────────────────────────────────────
 const STATS_CARDS = [
   { slug: 'ballermann', emoji: '🎯', titel: 'Ballermänner', sub: 'Schiessen als Lebenseinstellung.' },
-  { slug: 'schiessbuden', emoji: '🚪', titel: 'Schiessbuden', sub: 'Manche Teams treffen öfter. Diese hier am öftersten.' },
+  { slug: 'schiessbuden', emoji: '🚪', titel: 'Schiessbuden', sub: 'Manche Trommler treffen öfter. Diese hier am öftersten.' },
   { slug: 'dinos', emoji: '🦕', titel: 'Trommel-Dinos', sub: 'Dabei seit Anbeginn. Immer noch da.' },
   { slug: 'remiskoenige', emoji: '🤝', titel: 'Remiskönige', sub: 'Unentschieden ist auch ein Ergebnis.' },
   { slug: 'knappste-rennen', emoji: '📏', titel: 'Knappste Rennen', sub: 'Ein Punkt Unterschied. Manchmal keiner.' },
@@ -386,20 +386,6 @@ function Ballermann() {
           </div>
         ))}
       </div>
-      <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 18, fontWeight: 700, color: 'var(--gruen)', marginBottom: 16 }}>👑 Torschützenkönige</h3>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 40 }}>
-        {topKoenige.map(([name, anzahl], i) => (
-          <div key={name} className="card" style={{ padding: '20px 24px', background: i === 0 ? 'var(--gruen)' : 'var(--white)', display: 'flex', alignItems: 'center', gap: 16 }}>
-            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 36, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>{anzahl}x</div>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: 15, color: i === 0 ? 'white' : 'var(--gruen)' }}>{name}</div>
-              <div style={{ fontSize: 12, color: i === 0 ? 'rgba(255,255,255,0.5)' : 'var(--text-muted)', marginTop: 2 }}>
-                {wm.weltmeister.filter(e => e.torschuetzenkoenig.includes(name)).map(e => e.jahr).join(', ')}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
       <Toggle options={[{ id: 'absolut', label: 'Meiste Treffer' }, { id: 'quote', label: 'Beste Quote' }]} value={mode} onChange={setMode} />
       <div className="card" style={{ overflow: 'auto' }}>
         <table className="data-table">
@@ -426,6 +412,20 @@ function Ballermann() {
           </tbody>
         </table>
       </div>
+      <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 18, fontWeight: 700, color: 'var(--gruen)', marginBottom: 16, marginTop: 48 }}>👑 Torschützenkönige</h3>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12 }}>
+        {topKoenige.map(([name, anzahl], i) => (
+          <div key={name} className="card" style={{ padding: '20px 24px', background: i === 0 ? 'var(--gruen)' : 'var(--white)', display: 'flex', alignItems: 'center', gap: 16 }}>
+            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 36, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>{anzahl}x</div>
+            <div>
+              <div style={{ fontWeight: 700, fontSize: 15, color: i === 0 ? 'white' : 'var(--gruen)' }}>{name}</div>
+              <div style={{ fontSize: 12, color: i === 0 ? 'rgba(255,255,255,0.5)' : 'var(--text-muted)', marginTop: 2 }}>
+                {wm.weltmeister.filter(e => e.torschuetzenkoenig.includes(name)).map(e => e.jahr).join(', ')}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
@@ -442,7 +442,7 @@ function Schiessbude() {
   return (
     <div>
       <PageIntro
-        headline="Manche Teams treffen öfter. Diese hier am öftersten."
+        headline="Manche Trommler treffen öfter. Diese hier am öftersten."
         text="In jeder WM gibt es Paarungen, die sich scheinbar verabredet haben, die Trommel besonders ausgiebig zu beschäftigen. Die Schiessbuden-Statistik dokumentiert, wer den Gegner am häufigsten jubeln ließ. Verteidigung war für diese Männer immer nur ein theoretisches Konzept."
       />
       <div style={{ borderRadius: 12, overflow: 'hidden', marginBottom: 40 }}>
