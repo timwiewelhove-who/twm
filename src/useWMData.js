@@ -5,6 +5,24 @@ import { gameId } from './logic'
 let cache = null
 let liveCache = null
 
+const EXTRA_FOTOS = {
+  '2016': [
+    '/spieler/Henning_Diers_Weltmeister_2016_1.webp',
+    '/spieler/Henning_Diers_Weltmeister_2016_2.webp',
+    '/spieler/Henning_Diers_Weltmeister_2016_3.webp',
+  ],
+  '2018': [
+    '/spieler/Holger_Mueller_Weltmeister_1.webp',
+    '/spieler/Holger_Mueller_Weltmeister_2.webp',
+    '/spieler/Holger_Mueller_Weltmeister_3.webp',
+  ],
+  '2022': ['/spieler/Mueller_Praekel_Wachtendorf.webp'],
+  '2024': [
+    '/spieler/Patrick_Christof_Weltmeister_2024_1.webp',
+    '/spieler/Patrick_Christof_Weltmeister_2024_2.webp',
+  ],
+}
+
 async function loadLiveTournament() {
   if (liveCache !== null) return liveCache
   const { data: tData } = await supabase.from('tournament').select('*').order('created_at', { ascending: false }).limit(1)
@@ -69,13 +87,15 @@ async function loadAll() {
   })
 
   const fotos = {}
-  events?.forEach(e => { if (e.foto_gruppe) fotos[String(e.jahr)] = { gruppe: e.foto_gruppe } })
+  events?.forEach(e => {
+    const j = String(e.jahr)
+    fotos[j] = { gruppe: e.foto_gruppe || null, extra: EXTRA_FOTOS[j] || [] }
+  })
 
   const weltrangliste_basis = rangliste?.map(r => ({ pl: r.pl, name: r.name, ...r.punkte, total: r.total })) || []
   const weltmeister = events?.map(e => ({ jahr: e.jahr, sieger: e.sieger, titel: e.titel, ort: e.ort, datum: e.datum, teilnehmer: e.teilnehmer, torschuetzenkoenig: e.torschuetzenkoenig, tore: e.tore, punkte: e.punkte, spiele: e.spiele })) || []
   const ewige_basis = ewig?.map(r => ({ pl: r.pl, name: r.name, sp: r.sp, s: r.s, u: r.u, n: r.n, t: r.t, gg: r.gg, diff: r.diff, pkt: r.pkt })) || []
 
-  // Live-Turnier einrechnen
   const live = await loadLiveTournament()
   let ewige_tabelle = ewige_basis
   let liveTabelle = null
@@ -86,7 +106,6 @@ async function loadAll() {
     abschlussByJahr['2026'] = liveTabelle
     ewige_tabelle = mergeIntoEwigeTabelle(ewige_basis, liveTabelle)
 
-    // Torschützenkönig live
     const torschuetzen = live.players.map((name, i) => {
       let tore = 0
       live.schedule.forEach(st => st.forEach(m => {
@@ -98,7 +117,6 @@ async function loadAll() {
       return { name, tore }
     }).sort((a, b) => b.tore - a.tore)
 
-    // Weltrangliste live – erst nach erstem Spiel
     const gespielt = Object.keys(live.results).length
     const punkteSchema = { 1: 100, 2: 80, 3: 70, 4: 60, 5: 50, 6: 40, 7: 35, 8: 30, 9: 25, 10: 20 }
     if (gespielt > 0) {
