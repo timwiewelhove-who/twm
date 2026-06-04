@@ -709,7 +709,7 @@ function StatistikenInner() {
 
   return (
     <div style={{ paddingTop: 80 }}>
-      <section style={{ background: 'var(--gruen)', padding: '60px 0 0' }}>
+      <section className="stats-header-section" style={{ background: 'var(--gruen)', padding: 'clamp(40px, 8vw, 60px) 0 0' }}>
         <div className="container">
           <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)', marginBottom: 12 }}>{pageTitle.eyebrow}</div>
           <h1 style={{ fontSize: 'clamp(32px, 5vw, 64px)', color: 'var(--white)', marginBottom: sectionTitle.h2 ? 8 : 32 }}>
@@ -718,7 +718,7 @@ function StatistikenInner() {
           {sectionTitle.sub && (
             <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 16, marginBottom: 32, maxWidth: 560 }}>{sectionTitle.sub}</p>
           )}
-          <div className="subnav-pills" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, paddingBottom: 28 }}>
+          <div className="subnav-pills" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, paddingBottom: 28, paddingTop: 8 }}>
             {tabs.map(t => (
               <Link key={t.slug} to={`${basePath}/${t.slug}`} style={{
                 padding: '7px 16px',
@@ -748,7 +748,7 @@ function StatistikenInner() {
               >{t.label}</Link>
             ))}
           </div>
-          <style>{`@media (max-width: 700px) { .subnav-pills { display: none !important; } }`}</style>
+          <style>{`@media (max-width: 700px) { .subnav-pills { display: none !important; } .stats-header-section { padding-bottom: 40px !important; } }`}</style>
         </div>
       </section>
 
