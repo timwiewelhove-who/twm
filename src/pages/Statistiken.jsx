@@ -775,7 +775,7 @@ function Siegesserien() {
   return (
     <div>
       <PageIntro
-        headline="Wer aufgehoert hat zu verlieren, hat angefangen zu dominieren."
+        headline="Wer aufgehört hat zu verlieren, hat angefangen zu dominieren."
         text="Siegesserien im Trommelschiessen entstehen nicht durch Glueck. Sie entstehen durch Konstanz, durch das Ausnutzen jedes Vorteils, durch eine Kombination aus Praezision und der Faehigkeit, auch dann zu gewinnen, wenn es nicht laeuft. Die laengsten Siegesserien der WM-Geschichte zeigen, welche Spieler es geschafft haben, sich ueber viele Spiele hinweg auf einem Niveau zu halten, das niemand knacken konnte. Bis jemand es dann doch geknackt hat."
       />
       {top && (
