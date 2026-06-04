@@ -77,6 +77,7 @@ const STATS_CARDS = [
   { slug: 'siegesserien', emoji: '🔥', titel: 'Siegesserien', sub: 'Wer aufgehört hat zu verlieren.' },
   { slug: 'niederlagenserien', emoji: '💪', titel: 'Niederlagenserien', sub: 'Charakter zeigt sich nicht im Sieg.' },
   { slug: 'vergleich', emoji: '📊', titel: 'Turniere im Vergleich', sub: 'Welches Turnier war das beste?' },
+  { slug: 'h2h', emoji: '⚔️', titel: 'Jeder gegen jeden', sub: 'Jedes Duell. Jedes Ergebnis. Seit 2006.' },
 ]
 
 function StatsUebersicht() {
@@ -662,6 +663,163 @@ function HoechsteSiege() {
   )
 }
 
+
+// ── Head to Head ──────────────────────────────────────────────────────────
+const SUPABASE_URL_H2H = 'https://pltaiozpoofchprydxuz.supabase.co'
+const SUPABASE_KEY_H2H = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsdGFpb3pwb29mY2hwcnlkeHV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzg0MTksImV4cCI6MjA5MTkxNDQxOX0.nkV0AclS8hziq-HCk1kltp9T59u0tKqmcywLhprJ1HY'
+
+function HeadToHead() {
+  const wm = useWM()
+  const [spieler1, setSpieler1] = React.useState('')
+  const [spieler2, setSpieler2] = React.useState('')
+  const [matches, setMatches] = React.useState([])
+  const [loading, setLoading] = React.useState(false)
+
+  // Alle Trommler aus ewiger Tabelle, alphabetisch
+  const alleTraommler = [...wm.ewige_tabelle]
+    .filter(r => r.sp > 0)
+    .map(r => r.name)
+    .sort((a, b) => a.localeCompare(b, 'de'))
+
+  React.useEffect(() => {
+    if (!spieler1 || !spieler2) { setMatches([]); return }
+    setLoading(true)
+    fetch(`${SUPABASE_URL_H2H}/rest/v1/matches_archive?or=(and(home.eq.${encodeURIComponent(spieler1)},away.eq.${encodeURIComponent(spieler2)}),and(home.eq.${encodeURIComponent(spieler2)},away.eq.${encodeURIComponent(spieler1)}))&order=jahr.desc,spieltag.desc`, {
+      headers: { 'apikey': SUPABASE_KEY_H2H, 'Authorization': `Bearer ${SUPABASE_KEY_H2H}` }
+    })
+    .then(r => r.json())
+    .then(data => { setMatches(Array.isArray(data) ? data : []); setLoading(false) })
+  }, [spieler1, spieler2])
+
+  // Statistiken berechnen
+  const stats = React.useMemo(() => {
+    if (!matches.length || !spieler1 || !spieler2) return null
+    let s1_siege = 0, s2_siege = 0, remis = 0, s1_tore = 0, s2_tore = 0
+    matches.forEach(m => {
+      const s1_home = m.home === spieler1
+      const t1 = s1_home ? m.home_tore : m.away_tore
+      const t2 = s1_home ? m.away_tore : m.home_tore
+      s1_tore += t1; s2_tore += t2
+      if (t1 > t2) s1_siege++
+      else if (t2 > t1) s2_siege++
+      else remis++
+    })
+    return { s1_siege, s2_siege, remis, s1_tore, s2_tore }
+  }, [matches, spieler1, spieler2])
+
+  const selectStyle = {
+    padding: '12px 16px', borderRadius: 10, border: '1px solid var(--border)',
+    fontSize: 15, fontFamily: 'Nunito Sans, sans-serif', background: 'white',
+    color: 'var(--gruen)', fontWeight: 600, cursor: 'pointer', width: '100%',
+    appearance: 'none', backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231c422b' stroke-width='2' fill='none'/%3E%3C/svg%3E")',
+    backgroundRepeat: 'no-repeat', backgroundPosition: 'right 14px center',
+    paddingRight: 36,
+  }
+
+  return (
+    <div>
+      <PageIntro
+        headline="Jedes Duell. Jedes Ergebnis. Jede Begegnung seit 2006."
+        text="Zwanzig Jahre Trommelschiessen-WM bedeuten tausende Duelle zwischen denselben Spielern — manche auf Augenhöhe, manche einseitig, manche noch nie gespielt. Wähle zwei Trommler aus und sieh nach, wie die Geschichte zwischen ihnen aussieht. Die Trommel-WM hat ein gutes Gedächtnis."
+      />
+
+      {/* Dropdown-Auswahl */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 16, alignItems: 'center', marginBottom: 40 }}>
+        <div style={{ position: 'relative' }}>
+          <select value={spieler1} onChange={e => setSpieler1(e.target.value)} style={selectStyle}>
+            <option value="">Trommler wählen…</option>
+            {alleTraommler.filter(n => n !== spieler2).map(n => (
+              <option key={n} value={n}>{n}</option>
+            ))}
+          </select>
+        </div>
+        <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 28, color: 'var(--text-muted)', textAlign: 'center', userSelect: 'none' }}>VS</div>
+        <div style={{ position: 'relative' }}>
+          <select value={spieler2} onChange={e => setSpieler2(e.target.value)} style={selectStyle}>
+            <option value="">Trommler wählen…</option>
+            {alleTraommler.filter(n => n !== spieler1).map(n => (
+              <option key={n} value={n}>{n}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      {/* Ergebnisse */}
+      {spieler1 && spieler2 && (
+        loading ? (
+          <div style={{ textAlign: 'center', padding: 60, color: 'var(--text-muted)' }}>Laden…</div>
+        ) : matches.length === 0 ? (
+          <div style={{ textAlign: 'center', padding: '60px 24px' }}>
+            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 48, color: 'rgba(28,66,43,0.08)', marginBottom: 16 }}>0</div>
+            <h3 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 8 }}>Diese Begegnung hat es noch nie gegeben!</h3>
+            <p style={{ color: 'var(--text-muted)', fontSize: 15 }}>{spieler1} und {spieler2} sind sich in der WM-Geschichte bisher nicht begegnet.</p>
+          </div>
+        ) : (
+          <div>
+            {/* Bilanz-Card */}
+            {stats && (
+              <div className="card" style={{ background: 'var(--gruen)', padding: '28px 32px', marginBottom: 32 }}>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 24, alignItems: 'center' }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>{spieler1}</div>
+                    <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 64, color: stats.s1_siege > stats.s2_siege ? 'var(--gold)' : 'rgba(255,255,255,0.5)', lineHeight: 1 }}>{stats.s1_siege}</div>
+                    <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>Siege · {stats.s1_tore} Tore</div>
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 20, color: 'rgba(255,255,255,0.3)', marginBottom: 8 }}>{matches.length} Spiele</div>
+                    <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 28, color: 'rgba(255,255,255,0.4)' }}>{stats.remis}</div>
+                    <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', marginTop: 2 }}>Remis</div>
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>{spieler2}</div>
+                    <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 64, color: stats.s2_siege > stats.s1_siege ? 'var(--gold)' : 'rgba(255,255,255,0.5)', lineHeight: 1 }}>{stats.s2_siege}</div>
+                    <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>Siege · {stats.s2_tore} Tore</div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Alle Matches */}
+            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 16 }}>
+              Alle {matches.length} Begegnungen · neueste zuerst
+            </div>
+            <div className="card" style={{ overflow: 'hidden' }}>
+              {matches.map((m, i) => {
+                const s1_home = m.home === spieler1
+                const t1 = s1_home ? m.home_tore : m.away_tore
+                const t2 = s1_home ? m.away_tore : m.home_tore
+                const s1_wins = t1 > t2
+                const s2_wins = t2 > t1
+                const draw = t1 === t2
+                return (
+                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr auto', gap: 16, alignItems: 'center', padding: '14px 24px', borderBottom: i < matches.length - 1 ? '1px solid var(--border)' : 'none', background: i % 2 === 0 ? 'transparent' : 'rgba(28,66,43,0.02)' }}>
+                    <div style={{ fontWeight: s1_wins ? 700 : 400, color: s1_wins ? 'var(--gruen)' : 'var(--text-muted)', fontSize: 14 }}>{spieler1}</div>
+                    <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 22, color: draw ? 'var(--text-muted)' : 'var(--gruen)', whiteSpace: 'nowrap', textAlign: 'center', minWidth: 60 }}>
+                      {t1}:{t2}
+                    </div>
+                    <div style={{ fontWeight: s2_wins ? 700 : 400, color: s2_wins ? 'var(--gruen)' : 'var(--text-muted)', fontSize: 14, textAlign: 'right' }}>{spieler2}</div>
+                    <div style={{ textAlign: 'right', minWidth: 72 }}>
+                      <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>WM {m.jahr}</div>
+                      <div style={{ fontSize: 11, color: 'var(--text-light)' }}>ST {m.spieltag}</div>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+        )
+      )}
+
+      {!spieler1 && !spieler2 && (
+        <div style={{ textAlign: 'center', padding: '40px 24px', color: 'var(--text-muted)' }}>
+          <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 48, color: 'rgba(28,66,43,0.06)', marginBottom: 12 }}>VS</div>
+          <p style={{ fontSize: 15 }}>Wähle zwei Trommler aus um ihre gemeinsame Geschichte zu sehen.</p>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── ComingSoon ────────────────────────────────────────────────────────────
 function ComingSoon({ titel, text }) {
   return (
@@ -689,6 +847,7 @@ const SLUG_CONFIG = {
   'siegesserien':       { section: 'stats',      component: 'siegesserien' },
   'niederlagenserien':  { section: 'stats',      component: 'niederlagenserien' },
   'vergleich':          { section: 'stats',      component: 'vergleich' },
+  'h2h':                { section: 'stats',      component: 'h2h' },
   // Legacy
   'champs':             { section: 'ranglisten', component: 'champs' },
   'remiskoenig':        { section: 'stats',      component: 'remiskoenige' },
@@ -714,6 +873,7 @@ const STATS_TABS = [
   { slug: 'siegesserien',       label: 'Siegesserien' },
   { slug: 'niederlagenserien',  label: 'Niederlagenserien' },
   { slug: 'vergleich',          label: 'Im Vergleich' },
+  { slug: 'h2h',                label: 'Jeder gegen jeden' },
 ]
 
 const SECTION_TITLES = {
@@ -736,6 +896,7 @@ const SECTION_TITLES = {
   'siegesserien':       { h1: 'Längste Siegesserien' },
   'niederlagenserien':  { h1: 'Längste Niederlagenserien' },
   'vergleich':          { h1: 'Turniere im Vergleich' },
+  'h2h':                { h1: 'Jeder gegen jeden' },
 }
 
 const PAGE_META = {

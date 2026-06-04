@@ -26,6 +26,7 @@ const NAV_ITEMS = [
       { to: '/stats/siegesserien', label: 'Längste Siegesserien' },
       { to: '/stats/niederlagenserien', label: 'Längste Niederlagenserien' },
       { to: '/stats/vergleich', label: 'Turniere im Vergleich' },
+      { to: '/stats/h2h', label: 'Jeder gegen jeden' },
     ]
   },
   {
