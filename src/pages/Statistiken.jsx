@@ -27,7 +27,7 @@ function RanglistenUebersicht() {
   return (
     <div>
       <PageIntro
-        headline="Zahlen lügen nicht. Menschen schon. Zahlen nicht."
+        headline="Ergebnisse lügen nicht. Erinnerungen schon."
         text="Trommelschiessen ist kein Sport der vagen Eindrücke. Wer gut ist, sieht es hier. Wer dachte, er sei gut, sieht es auch hier — nur anders. Die Ranglisten der Trommelschiess-WM erfassen jeden Punkt, jeden Sieg, jede Niederlage seit 2006. Das Ergebnis ist eine der vollständigsten Leistungsdokumentationen im Amateurbereich des Trommelsports."
       />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
@@ -66,8 +66,8 @@ function RanglistenUebersicht() {
 
 // ── Übersicht Stats ───────────────────────────────────────────────────────
 const STATS_CARDS = [
-  { slug: 'ballermann', emoji: '🎯', titel: 'Ballermänner', sub: 'Schießen als Lebenseinstellung.' },
-  { slug: 'schiessbuden', emoji: '🚪', titel: 'Schiessbuden', sub: 'Manche Trommler treffen öfter. Diese hier am öftersten.' },
+  { slug: 'ballermann', emoji: '🎯', titel: 'Ballermänner', sub: 'Schiessen als Lebenseinstellung.' },
+  { slug: 'schiessbuden', emoji: '🚪', titel: 'Schiessbuden', sub: 'Manche Teams treffen öfter. Diese hier am öftersten.' },
   { slug: 'dinos', emoji: '🦕', titel: 'Trommel-Dinos', sub: 'Dabei seit Anbeginn. Immer noch da.' },
   { slug: 'remiskoenige', emoji: '🤝', titel: 'Remiskönige', sub: 'Unentschieden ist auch ein Ergebnis.' },
   { slug: 'knappste-rennen', emoji: '📏', titel: 'Knappste Rennen', sub: 'Ein Punkt Unterschied. Manchmal keiner.' },
@@ -362,8 +362,8 @@ function Ballermann() {
   return (
     <div>
       <PageIntro
-        headline="Schießen als Lebenseinstellung. Diese Männer haben es verinnerlicht."
-        text="Tore schießen ist im Trommelschiessen kein Zufall — es ist Handwerk, Wiederholung und ein gesundes Verhältnis zur eigenen Treffsicherheit. Die Ballermänner sind jene Spieler, die über ihre gesamte WM-Karriere die meisten Einschläge erzielt haben. Wer hier oben steht, hat nicht einmal gut gezielt. Er hat einfach immer wieder gezielt. Und meistens getroffen."
+        headline="Schiessen als Lebenseinstellung. Diese Männer haben es verinnerlicht."
+        text="Tore schiessen ist im Trommelschiessen kein Zufall — es ist Handwerk, Wiederholung und ein gesundes Verhältnis zur eigenen Treffsicherheit. Die Ballermänner sind jene Spieler, die über ihre gesamte WM-Karriere die meisten Einschläge erzielt haben. Wer hier oben steht, hat nicht einmal gut gezielt. Er hat einfach immer wieder gezielt. Und meistens getroffen."
       />
       <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 18, fontWeight: 700, color: 'var(--gruen)', marginBottom: 16 }}>👑 Torschützenkönige</h3>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 40 }}>
@@ -421,7 +421,7 @@ function Schiessbude() {
   return (
     <div>
       <PageIntro
-        headline="Manche Trommler treffen öfter. Diese hier am öftersten."
+        headline="Manche Teams treffen öfter. Diese hier am öftersten."
         text="In jeder WM gibt es Paarungen, die sich scheinbar verabredet haben, die Trommel besonders ausgiebig zu beschäftigen. Die Schiessbuden-Statistik dokumentiert, wer den Gegner am häufigsten jubeln ließ. Verteidigung war für diese Männer immer nur ein theoretisches Konzept."
       />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 40 }}>
@@ -662,244 +662,6 @@ function HoechsteSiege() {
   )
 }
 
-
-// ── Torreichste Spiele ────────────────────────────────────────────────────
-function TorreichsteSpiele() {
-  const [loading, setLoading] = React.useState(true)
-  const [data, setData] = React.useState([])
-  React.useEffect(() => {
-    rpc('rekorde_torreichste_spiele').then(r => { if (Array.isArray(r)) setData(r); setLoading(false) })
-  }, [])
-  if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
-  const top = data[0]
-  return (
-    <div>
-      <PageIntro
-        headline="Verteidigung war keine Option."
-        text="Manchmal treffen zwei Spieler aufeinander, die sich stillschweigend darauf geeinigt haben, die Trommel als Zielobjekt zu behandeln und den Rest des Spiels der Fantasie zu ueberlassen. Die torreichsten Spiele der WM-Geschichte sind das Ergebnis dieser Uebereinkunft. Viele Treffer, wenig taktisches Kalkuel, maximale Unterhaltung."
-      />
-      {top && (
-        <div className="card" style={{ background: 'var(--gruen)', padding: '28px 32px', marginBottom: 40, display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: 24 }}>
-          <div style={{ textAlign: 'right' }}>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(176,137,45,0.7)', marginBottom: 6 }}>Heimspieler</div>
-            <div style={{ fontWeight: 700, fontSize: 20, color: 'white' }}>{top.home}</div>
-            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 48, color: 'var(--gold)', lineHeight: 1 }}>{top.home_tore}</div>
-          </div>
-          <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: 8 }}>WM {top.jahr}</div>
-            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 28, color: 'rgba(255,255,255,0.3)' }}>:</div>
-            <div style={{ marginTop: 8, fontSize: 13, color: 'var(--gold)', fontWeight: 700 }}>{top.gesamt} Tore</div>
-          </div>
-          <div style={{ textAlign: 'left' }}>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(176,137,45,0.7)', marginBottom: 6 }}>Gastspieler</div>
-            <div style={{ fontWeight: 700, fontSize: 20, color: 'white' }}>{top.away}</div>
-            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 48, color: 'var(--gold)', lineHeight: 1 }}>{top.away_tore}</div>
-          </div>
-        </div>
-      )}
-      <div className="card" style={{ overflow: 'hidden' }}>
-        {data.map((r, i) => (
-          <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr auto', gap: 16, alignItems: 'center', padding: '14px 24px', borderBottom: i < data.length - 1 ? '1px solid var(--border)' : 'none', background: i === 0 ? 'rgba(176,137,45,0.04)' : 'transparent' }}>
-            <div style={{ fontWeight: i < 3 ? 700 : 400, color: 'var(--gruen)', fontSize: 14 }}>{r.home}</div>
-            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 22, color: i < 3 ? 'var(--gold)' : 'var(--gruen)', whiteSpace: 'nowrap' }}>{r.home_tore}:{r.away_tore}</div>
-            <div style={{ fontWeight: i < 3 ? 700 : 400, color: 'var(--gruen)', fontSize: 14 }}>{r.away}</div>
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ background: i < 3 ? 'rgba(176,137,45,0.12)' : 'rgba(28,66,43,0.06)', borderRadius: 8, padding: '4px 10px', fontSize: 13, fontWeight: 700, color: i < 3 ? 'var(--gold)' : 'var(--gruen)', display: 'inline-block' }}>{r.gesamt} Tore</div>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>WM {r.jahr}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-// ── Engste Duelle ─────────────────────────────────────────────────────────
-function EngesteDuelle() {
-  const [loading, setLoading] = React.useState(true)
-  const [data, setData] = React.useState([])
-  React.useEffect(() => {
-    rpc('rekorde_engste_duelle').then(r => { if (Array.isArray(r)) setData(r); setLoading(false) })
-  }, [])
-  if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
-  const top3 = data.slice(0, 3)
-  return (
-    <div>
-      <PageIntro
-        headline="Immer wieder die gleichen zwei. Immer wieder unentschieden."
-        text="Bestimmte Paarungen im Trommelschiessen haben eine Geschichte. Eine lange, zaehe, unentschiedene Geschichte. Die engsten Duelle dokumentieren Direktbegegnungen, die sich ueber mehrere WMs hinweg auf Augenhoehe entwickelt haben — Spieler, die sich gegenseitig so gut kennen, dass jede Partie zum psychologischen Schachspiel wird. Mit Trommel. Das macht es besser."
-      />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12, marginBottom: 40 }}>
-        {top3.map((r, i) => (
-          <div key={i} className="card" style={{ padding: '24px', textAlign: 'center', background: i === 0 ? 'var(--gruen)' : 'var(--white)' }}>
-            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 52, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>{r.remis}</div>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: i === 0 ? 'rgba(255,255,255,0.5)' : 'var(--text-muted)', margin: '6px 0 8px' }}>Remis</div>
-            <div style={{ fontWeight: 700, color: i === 0 ? 'white' : 'var(--gruen)', fontSize: 15 }}>{r.spieler1}</div>
-            <div style={{ fontSize: 13, color: i === 0 ? 'rgba(255,255,255,0.5)' : 'var(--text-muted)', margin: '4px 0' }}>vs.</div>
-            <div style={{ fontWeight: 700, color: i === 0 ? 'white' : 'var(--gruen)', fontSize: 15 }}>{r.spieler2}</div>
-            <div style={{ fontSize: 12, color: i === 0 ? 'rgba(255,255,255,0.4)' : 'var(--text-light)', marginTop: 8 }}>{r.spiele} Spiele gesamt</div>
-          </div>
-        ))}
-      </div>
-      <div className="card" style={{ overflow: 'hidden' }}>
-        {data.map((r, i) => (
-          <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', gap: 24, alignItems: 'center', padding: '14px 24px', borderBottom: i < data.length - 1 ? '1px solid var(--border)' : 'none' }}>
-            <div>
-              <div style={{ fontWeight: i < 3 ? 700 : 400, fontSize: 15, color: 'var(--gruen)' }}>{r.spieler1} <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>vs.</span> {r.spieler2}</div>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>{r.spiele} Spiele insgesamt</div>
-            </div>
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 28, color: 'var(--gruen)' }}>{r.remis}</div>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Remis</div>
-            </div>
-            <div style={{ background: 'rgba(28,66,43,0.06)', borderRadius: 8, padding: '4px 12px', fontSize: 13, fontWeight: 700, color: 'var(--gruen)' }}>
-              {Math.round(r.remis / r.spiele * 100)}%
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-// ── Siegesserien ──────────────────────────────────────────────────────────
-function Siegesserien() {
-  const [loading, setLoading] = React.useState(true)
-  const [data, setData] = React.useState([])
-  React.useEffect(() => {
-    rpc('rekorde_siegesserien').then(r => { if (Array.isArray(r)) setData(r); setLoading(false) })
-  }, [])
-  if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
-  const sorted = [...data].sort((a, b) => b.serie - a.serie)
-  const top = sorted[0]
-  return (
-    <div>
-      <PageIntro
-        headline="Wer aufgehört hat zu verlieren, hat angefangen zu dominieren."
-        text="Siegesserien im Trommelschiessen entstehen nicht durch Glueck. Sie entstehen durch Konstanz, durch das Ausnutzen jedes Vorteils, durch eine Kombination aus Praezision und der Faehigkeit, auch dann zu gewinnen, wenn es nicht laeuft. Die laengsten Siegesserien der WM-Geschichte zeigen, welche Spieler es geschafft haben, sich ueber viele Spiele hinweg auf einem Niveau zu halten, das niemand knacken konnte. Bis jemand es dann doch geknackt hat."
-      />
-      {top && (
-        <div className="card" style={{ background: 'var(--gruen)', padding: '32px', marginBottom: 40, display: 'flex', gap: 32, flexWrap: 'wrap', alignItems: 'center' }}>
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(176,137,45,0.7)', marginBottom: 8 }}>Laengste Siegesserie aller Zeiten</div>
-            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 80, color: 'var(--gold)', lineHeight: 1 }}>{top.serie}</div>
-            <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>Siege in Folge</div>
-          </div>
-          <div>
-            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginBottom: 4 }}>Spieler</div>
-            <div style={{ fontWeight: 700, fontSize: 24, color: 'white' }}>{top.spieler}</div>
-            <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>WM {top.von_jahr}{top.bis_jahr !== top.von_jahr ? ` – ${top.bis_jahr}` : ''}</div>
-          </div>
-        </div>
-      )}
-      <div className="card" style={{ overflow: 'hidden' }}>
-        {sorted.map((r, i) => (
-          <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', gap: 24, alignItems: 'center', padding: '14px 24px', borderBottom: i < sorted.length - 1 ? '1px solid var(--border)' : 'none', background: i === 0 ? 'rgba(176,137,45,0.04)' : 'transparent' }}>
-            <div>
-              <div style={{ fontWeight: i < 3 ? 700 : 400, fontSize: 15, color: 'var(--gruen)' }}>{r.spieler}</div>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>WM {r.von_jahr}{r.bis_jahr !== r.von_jahr ? ` – ${r.bis_jahr}` : ''}</div>
-            </div>
-            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 36, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1, textAlign: 'right' }}>{r.serie}</div>
-            <div style={{ fontSize: 12, color: 'var(--text-muted)', minWidth: 60 }}>Siege</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-// ── Niederlagenserien ─────────────────────────────────────────────────────
-function Niederlagenserien() {
-  const [loading, setLoading] = React.useState(true)
-  const [data, setData] = React.useState([])
-  React.useEffect(() => {
-    rpc('rekorde_niederlagenserien').then(r => { if (Array.isArray(r)) setData(r); setLoading(false) })
-  }, [])
-  if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
-  const sorted = [...data].sort((a, b) => b.serie - a.serie)
-  const top = sorted[0]
-  return (
-    <div>
-      <PageIntro
-        headline="Charakter zeigt sich nicht im Sieg. Er zeigt sich darin, wieder anzutreten."
-        text="Diese Statistik ist keine Schande. Sie ist eine Ehrung. Denn wer eine lange Niederlagenserie vorweisen kann, hat in dieser Zeit nicht aufgehoert zu spielen — hat sich nicht gedrueckt, nicht abgemeldet, nicht ploetzlich einen Konflikt am Wochenende entdeckt. Diese Spieler sind angetreten, haben verloren, und sind beim naechsten Turnier wieder angetreten. Das verdient Respekt. Nicht viel. Aber echten."
-      />
-      {top && (
-        <div className="card" style={{ background: 'var(--gruen)', padding: '32px', marginBottom: 40, display: 'flex', gap: 32, flexWrap: 'wrap', alignItems: 'center' }}>
-          <div>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(176,137,45,0.7)', marginBottom: 8 }}>Laengste Niederlagenserie aller Zeiten</div>
-            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 80, color: '#dc2626', lineHeight: 1 }}>{top.serie}</div>
-            <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>Niederlagen in Folge</div>
-          </div>
-          <div>
-            <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', marginBottom: 4 }}>Spieler</div>
-            <div style={{ fontWeight: 700, fontSize: 24, color: 'white' }}>{top.spieler}</div>
-            <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', marginTop: 4 }}>WM {top.von_jahr}{top.bis_jahr !== top.von_jahr ? ` – ${top.bis_jahr}` : ''}</div>
-          </div>
-        </div>
-      )}
-      <div className="card" style={{ overflow: 'hidden' }}>
-        {sorted.map((r, i) => (
-          <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr auto auto', gap: 24, alignItems: 'center', padding: '14px 24px', borderBottom: i < sorted.length - 1 ? '1px solid var(--border)' : 'none' }}>
-            <div>
-              <div style={{ fontWeight: i < 3 ? 700 : 400, fontSize: 15, color: 'var(--gruen)' }}>{r.spieler}</div>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>WM {r.von_jahr}{r.bis_jahr !== r.von_jahr ? ` – ${r.bis_jahr}` : ''}</div>
-            </div>
-            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 36, color: i === 0 ? '#dc2626' : 'var(--text-muted)', lineHeight: 1, textAlign: 'right' }}>{r.serie}</div>
-            <div style={{ fontSize: 12, color: 'var(--text-muted)', minWidth: 80 }}>Niederlagen</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-// ── Turniere im Vergleich ─────────────────────────────────────────────────
-function TurniereImVergleich() {
-  const [loading, setLoading] = React.useState(true)
-  const [data, setData] = React.useState([])
-  React.useEffect(() => {
-    rpc('rekorde_wm_vergleich').then(r => { if (Array.isArray(r)) setData(r); setLoading(false) })
-  }, [])
-  if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
-  const sorted_tore = [...data].sort((a, b) => b.tore_pro_spiel - a.tore_pro_spiel)
-  const sorted_jahr = [...data].sort((a, b) => a.jahr - b.jahr)
-  const max_tore = Math.max(...data.map(r => parseFloat(r.tore_pro_spiel)))
-  return (
-    <div>
-      <PageIntro
-        headline="Welches Turnier war eigentlich das beste? Die Zahlen haben eine Meinung."
-        text="Tore pro Spiel, Teilnehmerzahl, Spannung im Titelkampf — es gibt viele Wege, ein Turnier zu messen. Diese Seite stellt alle WMs nebeneinander und laesst die Zahlen sprechen. Was dabei herauskommt, ueberrascht meistens. Die gefuehlt beste WM ist selten die statistisch staerkste."
-      />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 40 }}>
-        {sorted_tore.slice(0, 3).map((r, i) => (
-          <div key={r.jahr} className="card" style={{ padding: '24px', textAlign: 'center', background: i === 0 ? 'var(--gruen)' : 'var(--white)' }}>
-            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 48, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>{r.tore_pro_spiel}</div>
-            <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: i === 0 ? 'rgba(255,255,255,0.5)' : 'var(--text-muted)', margin: '6px 0 4px' }}>Tore/Spiel</div>
-            <div style={{ fontWeight: 700, color: i === 0 ? 'white' : 'var(--gruen)', fontSize: 22, fontFamily: "'Bayon', sans-serif" }}>WM {r.jahr}</div>
-            <div style={{ fontSize: 12, color: i === 0 ? 'rgba(255,255,255,0.4)' : 'var(--text-light)', marginTop: 4 }}>{r.tore_gesamt} Tore · {r.spiele} Spiele</div>
-          </div>
-        ))}
-      </div>
-      <div className="card" style={{ overflow: 'hidden', marginBottom: 40 }}>
-        <div style={{ padding: '20px 24px 8px', fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Alle WMs nach Toren pro Spiel</div>
-        {sorted_tore.map((r, i) => (
-          <div key={r.jahr} style={{ display: 'grid', gridTemplateColumns: '72px 1fr auto', gap: 16, alignItems: 'center', padding: '12px 24px', borderBottom: i < sorted_tore.length - 1 ? '1px solid var(--border)' : 'none' }}>
-            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 24, color: i === 0 ? 'var(--gold)' : 'var(--gruen)' }}>WM {r.jahr}</div>
-            <div>
-              <div style={{ background: 'var(--cream)', borderRadius: 4, height: 10, overflow: 'hidden' }}>
-                <div style={{ width: `${Math.round(parseFloat(r.tore_pro_spiel) / max_tore * 100)}%`, height: '100%', borderRadius: 4, background: i === 0 ? 'var(--gold)' : 'var(--gruen)', opacity: 0.7 + (i === 0 ? 0.3 : 0) }} />
-              </div>
-              <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 4 }}>{r.tore_gesamt} Tore · {r.spiele} Spiele</div>
-            </div>
-            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 28, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', textAlign: 'right', minWidth: 48 }}>{r.tore_pro_spiel}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
 // ── ComingSoon ────────────────────────────────────────────────────────────
 function ComingSoon({ titel, text }) {
   return (
@@ -1054,11 +816,11 @@ function StatistikenInner() {
           {component === 'remiskoenige'       && <Remiskoenige />}
           {component === 'knappste'           && <KnappsteRennen />}
           {component === 'hoechste-siege'     && <HoechsteSiege />}
-          {component === 'torreichste-spiele' && <TorreichsteSpiele />}
-          {component === 'engste-duelle'      && <EngesteDuelle />}
-          {component === 'siegesserien'       && <Siegesserien />}
-          {component === 'niederlagenserien'  && <Niederlagenserien />}
-          {component === 'vergleich'          && <TurniereImVergleich />}
+          {component === 'torreichste-spiele' && <ComingSoon titel="Torreichste Spiele" text="Verteidigung war keine Option. Diese Statistik folgt in Kürze." />}
+          {component === 'engste-duelle'      && <ComingSoon titel="Engste Duelle" text="Nahkampf auf der Trommel. Diese Statistik folgt in Kürze." />}
+          {component === 'siegesserien'       && <ComingSoon titel="Längste Siegesserien" text="Wer aufgehört hat zu verlieren, hat angefangen zu dominieren. Diese Statistik folgt in Kürze." />}
+          {component === 'niederlagenserien'  && <ComingSoon titel="Längste Niederlagenserien" text="Charakter zeigt sich nicht im Sieg. Er zeigt sich darin, wieder anzutreten. Diese Statistik folgt in Kürze." />}
+          {component === 'vergleich'          && <ComingSoon titel="Turniere im Vergleich" text="Welches Turnier war das beste? Die Zahlen haben eine Meinung. Folgt in Kürze." />}
         </div>
       </section>
     </div>
