@@ -718,18 +718,37 @@ function StatistikenInner() {
           {sectionTitle.sub && (
             <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 16, marginBottom: 32, maxWidth: 560 }}>{sectionTitle.sub}</p>
           )}
-          <div style={{ display: 'flex', gap: 0, borderBottom: '1px solid rgba(255,255,255,0.1)', overflowX: 'auto' }}>
+          <div className="subnav-pills" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, paddingBottom: 28 }}>
             {tabs.map(t => (
               <Link key={t.slug} to={`${basePath}/${t.slug}`} style={{
-                padding: '14px 20px',
-                fontSize: 14, fontWeight: 600,
-                color: activeSlug === t.slug ? 'var(--gold)' : 'rgba(255,255,255,0.6)',
-                borderBottom: activeSlug === t.slug ? '2px solid var(--gold)' : '2px solid transparent',
-                marginBottom: -1, transition: 'color 0.15s',
+                padding: '7px 16px',
+                fontSize: 13, fontWeight: 600,
+                borderRadius: 999,
+                border: '1px solid',
+                borderColor: activeSlug === t.slug ? 'var(--gold)' : 'rgba(255,255,255,0.25)',
+                background: activeSlug === t.slug ? 'var(--gold)' : 'transparent',
+                color: activeSlug === t.slug ? 'var(--gruen)' : 'rgba(255,255,255,0.7)',
+                transition: 'all 0.15s',
                 whiteSpace: 'nowrap',
-              }}>{t.label}</Link>
+              }}
+              onMouseEnter={e => {
+                if (activeSlug !== t.slug) {
+                  e.currentTarget.style.background = 'rgba(255,255,255,0.12)'
+                  e.currentTarget.style.color = 'white'
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.5)'
+                }
+              }}
+              onMouseLeave={e => {
+                if (activeSlug !== t.slug) {
+                  e.currentTarget.style.background = 'transparent'
+                  e.currentTarget.style.color = 'rgba(255,255,255,0.7)'
+                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)'
+                }
+              }}
+              >{t.label}</Link>
             ))}
           </div>
+          <style>{`@media (max-width: 700px) { .subnav-pills { display: none !important; } }`}</style>
         </div>
       </section>
 

@@ -27,22 +27,20 @@ export default function Events() {
           <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 16, marginBottom: 32, maxWidth: 560 }}>
             Seit 2006 wird der Trommelschieß-Weltmeister im direkten Duell ermittelt. Hier sind alle Auflagen — von den chaotischen Anfängen bis zur Jubiläums-WM 2026.
           </p>
-          <div style={{ display: 'flex', gap: 0, borderBottom: '1px solid rgba(255,255,255,0.1)', overflowX: 'auto' }}>
+          <div className="subnav-pills" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, paddingBottom: 28 }}>
             {TURNIER_TABS.map(t => (
               <Link key={t.jahr} to={`/turniere/${t.jahr}`} style={{
-                padding: '12px 18px',
-                fontSize: 14, fontWeight: 600,
-                color: 'rgba(255,255,255,0.6)',
-                borderBottom: '2px solid transparent',
-                marginBottom: -1,
-                transition: 'color 0.15s',
-                whiteSpace: 'nowrap',
+                padding: '7px 16px', fontSize: 13, fontWeight: 600,
+                borderRadius: 999, border: '1px solid rgba(255,255,255,0.25)',
+                background: 'transparent', color: 'rgba(255,255,255,0.7)',
+                transition: 'all 0.15s', whiteSpace: 'nowrap',
               }}
-                onMouseEnter={e => { e.currentTarget.style.color = 'var(--gold)' }}
-                onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.6)' }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = 'white'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.5)' }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'rgba(255,255,255,0.7)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.25)' }}
               >{t.label}</Link>
             ))}
           </div>
+          <style>{`@media (max-width: 700px) { .subnav-pills { display: none !important; } }`}</style>
         </div>
       </section>
       <section className="section">
