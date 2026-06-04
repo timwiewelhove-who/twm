@@ -42,8 +42,8 @@ const ALLE = berechneAlle()
 // Explizites Mapping: DB-Name → Dateiname (ohne Extension)
 // Nur nötig wenn DB-Name vom Dateinamen abweicht
 const FOTO_OVERRIDES = {
-  'Holger Müller':       'Holger_Müller',
-  'Holger Mueller':      'Holger_Müller',
+  'Holger Müller':       'Holger_Mueller',
+  'Holger Mueller':      'Holger_Mueller',
   'Maik Lösekann':       'Maik_Lösekann',
   'Maik Loesekann':      'Maik_Lösekann',
   'Tim Brüggemann':      'Tim_Brüggemann',
