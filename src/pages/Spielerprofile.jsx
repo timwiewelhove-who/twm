@@ -53,7 +53,7 @@ function FotoAvatar({ name, size = 80, fontSize = 22 }) {
   if (hasPhoto) {
     return (
       <img
-        src={`/spieler/${getFotoBase(name)}.jpg`}
+        src={`/spieler/${getFotoBase(name)}.webp`}
         alt={name}
         onError={() => setHasPhoto(false)}
         style={{ width: size, height: size, borderRadius: '50%', objectFit: 'cover', objectPosition: 'center top', border: borderStyle, flexShrink: 0 }}
@@ -111,7 +111,7 @@ function FotoGalerie({ name, onNoPhoto }) {
         {fotos.map((n, i) => (
           <img
             key={n}
-            src={`/spieler/${base}${n === 1 ? '' : `_${n}`}.jpg`}
+            src={`/spieler/${base}${n === 1 ? '' : `_${n}`}.webp`}
             alt={`${name} ${n}`}
             onLoad={() => handleLoad(i)}
             onError={() => handleError(n)}
@@ -142,7 +142,7 @@ function FotoGalerie({ name, onNoPhoto }) {
         <div style={{ display: 'flex', gap: 8 }}>
           {fotos.map((n, i) => (
             <button key={n} onClick={() => setAktiv(i)} style={{ padding: 0, border: i === aktiv ? '2px solid var(--gold)' : '2px solid transparent', borderRadius: 8, overflow: 'hidden', cursor: 'pointer', width: 56, height: 56, flexShrink: 0 }}>
-              <img src={`/spieler/${base}${n === 1 ? '' : `_${n}`}.jpg`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} />
+              <img src={`/spieler/${base}${n === 1 ? '' : `_${n}`}.webp`} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', display: 'block' }} />
             </button>
           ))}
         </div>
