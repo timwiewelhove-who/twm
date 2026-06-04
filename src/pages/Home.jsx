@@ -314,7 +314,7 @@ export default function Home() {
               </p>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <Link to="/statistiken/ballermann" className="btn btn--primary">Ballermänner →</Link>
-                <Link to="/statistiken/ballermann" className="btn btn--outline">Schiessbuden →</Link>
+                <Link to="/stats/schiessbuden" className="btn btn--outline">Schiessbuden →</Link>
               </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
