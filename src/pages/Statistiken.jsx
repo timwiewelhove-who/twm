@@ -674,7 +674,7 @@ function HoechsteSiege() {
             {highlights.map((r, i) => (
               <div key={i} style={{ background: 'var(--gruen)', borderRadius: 16, padding: '28px 32px', display: 'grid', gridTemplateColumns: 'auto 1fr auto', gap: 24, alignItems: 'center' }}>
                 <div style={{ width: 64, height: 64, borderRadius: '50%', overflow: 'hidden', background: 'rgba(255,255,255,0.1)', flexShrink: 0 }}>
-                  <img src={`/spieler/${r.sieger.replace(/ /g, '_')}.jpg`} alt={r.sieger} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { e.target.style.display = 'none' }} />
+                  <img src={`/spieler/${spielerFotoBase(r.sieger)}.webp`} alt={r.sieger} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => { e.target.style.display = 'none' }} />
                 </div>
                 <div>
                   <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(176,137,45,0.7)', marginBottom: 6 }}>WM {r.jahr}</div>
