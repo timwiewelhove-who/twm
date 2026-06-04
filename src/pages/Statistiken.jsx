@@ -675,6 +675,8 @@ function HeadToHead() {
   const [matches, setMatches] = React.useState([])
   const [loading, setLoading] = React.useState(false)
 
+  if (!wm) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
+
   // Alle Trommler aus ewiger Tabelle, alphabetisch
   const alleTraommler = [...wm.ewige_tabelle]
     .filter(r => r.sp > 0)
