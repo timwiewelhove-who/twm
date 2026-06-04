@@ -221,7 +221,7 @@ function Champs() {
   return (
     <div>
       <PageIntro
-        headline="Der erlesene Kreis der Gekrönten. Acht Namen. Zehn Titel."
+        headline="Der erlesene Kreis der Gekrönten."
         text="Weltmeister wird man nicht durch Anwesenheit. Auch nicht durch Enthusiasmus, gute Laune oder die richtige Trommel. Weltmeister wird man, indem man an einem langen, heißen Turniertag besser ist als alle anderen — und das so lange durchhält, bis die letzte Partie gespielt ist. Diese Liste führt alle auf, die das geschafft haben. Manche einmal, einer zweimal. Alle zu Recht."
       />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(480px, 1fr))', gap: 16 }}>
