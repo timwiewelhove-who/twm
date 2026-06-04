@@ -53,7 +53,7 @@ const REGELWERK_SECTIONS = [
 
 const INFO_CARDS = [
   { id: 'historie',  emoji: '📖', titel: 'Historie',          sub: 'Wie alles anfing. Und warum es nicht aufgehört hat.' },
-  { id: 'regelwerk', emoji: '📋', titel: 'Regelwerk',         sub: 'Einfacher als Fußball. Ernsthafter als man denkt.' },
+  { id: 'regelwerk', emoji: '📋', titel: 'Regelwerk',         sub: 'Einfacher als Fussball. Ernsthafter als man denkt.' },
   { id: 'presse',    emoji: '📰', titel: 'Presse',            sub: 'Die Welt schaut hin. Manchmal.' },
   { id: 'olympia',   emoji: '🏅', titel: 'Warum olympisch?',  sub: 'Weil es längst überfällig ist.' },
 ]
@@ -67,7 +67,7 @@ const TABS = [
 
 const SECTION_H1 = {
   'historie':  'Wie alles anfing.',
-  'regelwerk': 'Einfacher als Fußball.',
+  'regelwerk': 'Einfacher als Fussball.',
   'presse':    'Die Welt schaut hin.',
   'olympia':   'Warum olympisch?',
 }
@@ -176,7 +176,7 @@ export default function Wissenswertes() {
             <div style={{ maxWidth: 800 }}>
               <div style={{ marginBottom: 48 }}>
                 <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', color: 'var(--gruen)', marginBottom: 16, lineHeight: 1.2 }}>
-                  Einfacher als Fußball. Ernsthafter als man denkt.
+                  Einfacher als Fussball. Ernsthafter als man denkt.
                 </h2>
                 <p style={{ fontSize: 16, lineHeight: 1.9, color: 'var(--text-muted)' }}>
                   Trommelschiessen hat seit 2006 ein Regelwerk, das auf einer Seite Platz hat. Das soll so bleiben.
