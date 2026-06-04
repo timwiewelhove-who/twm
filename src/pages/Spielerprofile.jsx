@@ -39,7 +39,27 @@ const ALLE = berechneAlle()
 
 
 // Name → Basis-Dateipfad
+// Explizites Mapping: DB-Name → Dateiname (ohne Extension)
+// Nur nötig wenn DB-Name vom Dateinamen abweicht
+const FOTO_OVERRIDES = {
+  'Holger Müller':       'Holger_Müller',
+  'Holger Mueller':      'Holger_Müller',
+  'Maik Lösekann':       'Maik_Lösekann',
+  'Maik Loesekann':      'Maik_Lösekann',
+  'Tim Brüggemann':      'Tim_Brüggemann',
+  'Tim Brueggemann':     'Tim_Brüggemann',
+  'Matthias Trätmar':    'Matthias_Trätmar',
+  'Matthias Traetmar':   'Matthias_Trätmar',
+  'Marco Pforr':         'Marco_Pforr',
+  'Marco Pfor':          'Marco_Pforr',
+  'Stefan Meyer':        'Stefan_Meyer',
+  'Stephan Krontal':     'Stephan_Krontal',
+  'Patrick Christof':    'Patrick_Christof',
+  'Christof Buse':       'Christof_Buse',
+}
+
 function getFotoBase(name) {
+  if (FOTO_OVERRIDES[name]) return FOTO_OVERRIDES[name]
   return name.replace(/ /g, '_')
 }
 
