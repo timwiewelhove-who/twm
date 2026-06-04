@@ -197,6 +197,14 @@ function EwigeTabelle() {
 }
 
 // ── Alle Weltmeister ──────────────────────────────────────────────────────
+
+const CHAMP_FOTOS = {
+  2024: '/spieler/Patrick_Christof_Weltmeister_2024_1.webp',
+  2022: '/spieler/Müller_Praekel_Wachtendorf.webp',
+  2018: '/spieler/Holger_Müller_Weltmeiseter_1.webp',
+  2016: '/spieler/Henning_Diers_Weltmeister_2016_1.webp',
+}
+
 function Champs() {
   const wm = useWM()
   const events = [...wm.weltmeister].reverse()
@@ -208,7 +216,12 @@ function Champs() {
       />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {events.map(e => (
-          <Link key={e.jahr} to={`/turniere/${e.jahr}`} className="card card--hover" style={{ padding: '20px 24px', display: 'grid', gridTemplateColumns: '80px 1fr auto', alignItems: 'center', gap: 20 }}>
+          <Link key={e.jahr} to={`/turniere/${e.jahr}`} className="card card--hover" style={{ padding: '20px 24px', display: 'grid', gridTemplateColumns: CHAMP_FOTOS[e.jahr] ? '72px 80px 1fr auto' : '80px 1fr auto', alignItems: 'center', gap: 20 }}>
+            {CHAMP_FOTOS[e.jahr] && (
+              <div style={{ width: 64, height: 64, borderRadius: 10, overflow: 'hidden', flexShrink: 0 }}>
+                <img src={CHAMP_FOTOS[e.jahr]} alt={e.sieger} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
+              </div>
+            )}
             <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 36, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
             <div>
               <div style={{ fontWeight: 700, fontSize: 18, color: 'var(--gruen)' }}>🏆 {e.sieger}</div>

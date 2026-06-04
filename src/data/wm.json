@@ -4008,19 +4008,32 @@
     "2016": {
       "gruppe": "/wm-2016-gruppe.jpg",
       "extra": [
-        "/wm-2016-henning-1.jpg",
-        "/wm-2016-henning-2.jpg",
+        "/spieler/Henning_Diers_Weltmeister_2016_1.webp",
+        "/wm-2016-henning-1.webp",
+        "/wm-2016-henning-2.webp",
         "/wm-2016-extra.jpg"
       ]
     },
     "2018": {
-      "gruppe": "/wm-2018-gruppe.jpg"
+      "gruppe": "/wm-2018-gruppe.jpg",
+      "extra": [
+        "/spieler/Holger_Müller_Weltmeiseter_1.webp",
+        "/spieler/Holger_Müller_Weltmeiseter_2.webp",
+        "/spieler/Holger_Müller_Weltmeiseter_3.webp"
+      ]
     },
     "2022": {
-      "gruppe": "/wm-2022-gruppe.jpg"
+      "gruppe": "/wm-2022-gruppe.jpg",
+      "extra": [
+        "/spieler/Müller_Praekel_Wachtendorf.webp"
+      ]
     },
     "2024": {
-      "gruppe": "/hero-2024.jpg"
+      "gruppe": "/hero-2024.jpg",
+      "extra": [
+        "/spieler/Patrick_Christof_Weltmeister_2024_1.webp",
+        "/spieler/Patrick_Christof_Weltmeister_2024_2.webp"
+      ]
     }
   }
 }
