@@ -663,7 +663,7 @@ const SECTION_TITLES = {
   'champs':             { h2: 'Alle Weltmeister',        sub: 'Der erlesene Kreis der Gekrönten.' },
   'ballermann':         { h2: 'Ballermänner',            sub: 'Schießen als Lebenseinstellung.' },
   'bestenlisten':       { h2: 'Ballermänner',            sub: 'Schießen als Lebenseinstellung.' },
-  'schiessbuden':       { h2: 'Schießbuden',             sub: 'Manche Teams treffen öfter. Diese hier am öftersten.' },
+  'schiessbuden':       { h2: 'Schiessbuden',             sub: 'Manche Teams treffen öfter. Diese hier am öftersten.' },
   'schiessbude':        { h2: 'Schießbuden',             sub: 'Manche Teams treffen öfter. Diese hier am öftersten.' },
   'dinos':              { h2: 'Trommel-Dinos',           sub: 'Dabei seit Anbeginn. Immer noch da.' },
   'remiskoenige':       { h2: 'Remiskönige',             sub: 'Unentschieden ist auch ein Ergebnis.' },
