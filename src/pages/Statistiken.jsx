@@ -28,7 +28,7 @@ function RanglistenUebersicht() {
     <div>
       <PageIntro
         headline="Zahlen lügen nicht. Menschen schon. Zahlen nicht."
-        text="Trommelschießen ist kein Sport der vagen Eindrücke. Wer gut ist, sieht es hier. Wer dachte, er sei gut, sieht es auch hier — nur anders. Die Ranglisten der Trommelschieß-WM erfassen jeden Punkt, jeden Sieg, jede Niederlage seit 2006. Das Ergebnis ist eine der vollständigsten Leistungsdokumentationen im Amateurbereich des Trommelsports."
+        text="Trommelschiessen ist kein Sport der vagen Eindrücke. Wer gut ist, sieht es hier. Wer dachte, er sei gut, sieht es auch hier — nur anders. Die Ranglisten der Trommelschiess-WM erfassen jeden Punkt, jeden Sieg, jede Niederlage seit 2006. Das Ergebnis ist eine der vollständigsten Leistungsdokumentationen im Amateurbereich des Trommelsports."
       />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
         <Link to="/ranglisten/weltrangliste" className="card card--hover" style={{ padding: '32px', textDecoration: 'none' }}>
@@ -46,7 +46,7 @@ function RanglistenUebersicht() {
         <Link to="/ranglisten/ewige-tabelle" className="card card--hover" style={{ padding: '32px', textDecoration: 'none' }}>
           <div style={{ fontSize: 32, marginBottom: 12 }}>📊</div>
           <h3 style={{ fontFamily: "'Bayon', sans-serif", fontSize: 24, color: 'var(--gruen)', marginBottom: 8, letterSpacing: '0.03em' }}>Ewige Tabelle</h3>
-          <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 20 }}>Die Wahrheit über zwanzig Jahre Trommelschießen. Komprimiert auf eine Liste.</p>
+          <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 20 }}>Die Wahrheit über zwanzig Jahre Trommelschiessen. Komprimiert auf eine Liste.</p>
           <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>{wm.ewige_tabelle.filter(r => r.sp > 0).length} Trommler · alle WMs</div>
         </Link>
         <Link to="/ranglisten/weltmeister" className="card card--hover" style={{ padding: '32px', textDecoration: 'none' }}>
@@ -84,7 +84,7 @@ function StatsUebersicht() {
     <div>
       <PageIntro
         headline="Der Sport in Zahlen. Mehr Zahlen als erwartet. Mehr Sport auch."
-        text="Zwanzig Jahre Trommelschießen hinterlassen Spuren. Nicht nur in den Erinnerungen der Teilnehmer — sondern in einer Datenbank, die über 2.500 Spiele umfasst und jeden Treffer, jede Serie, jedes Unentschieden gespeichert hat. Ballermänner, Schiessbuden, Dinos, Remiskönige — und Kategorien, die man bei keinem anderen Weltverband findet."
+        text="Zwanzig Jahre Trommelschiessen hinterlassen Spuren. Nicht nur in den Erinnerungen der Teilnehmer — sondern in einer Datenbank, die über 2.500 Spiele umfasst und jeden Treffer, jede Serie, jedes Unentschieden gespeichert hat. Ballermänner, Schiessbuden, Dinos, Remiskönige — und Kategorien, die man bei keinem anderen Weltverband findet."
       />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: 16 }}>
         {STATS_CARDS.map(c => (
@@ -154,7 +154,7 @@ function EwigeTabelle() {
   return (
     <div>
       <PageIntro
-        headline="Die Wahrheit über zwanzig Jahre Trommelschießen. Komprimiert auf eine Liste."
+        headline="Die Wahrheit über zwanzig Jahre Trommelschiessen. Komprimiert auf eine Liste."
         text="Die Ewige Tabelle ist das Gedächtnis des Sports. Hier zählt nicht das letzte Turnier, nicht der eine großartige Tag, nicht der Sieg gegen den ewigen Lieblingsrivalen. Hier zählt alles — jedes Spiel, jeder Punkt, jede WM seit 2006. Wer hier oben steht, hat über Jahre konstant geliefert. Wer hier unten steht, hat zumindest immer mitgemacht. Und das, bei aller Ehrlichkeit dieser Tabelle, ist auch etwas wert."
       />
       <div className="card" style={{ overflow: 'auto' }}>
@@ -296,7 +296,7 @@ function Dinos() {
         <div style={{ columns: '2 300px', columnGap: 12 }}>
           {['/dino-2.jpg', '/dino-1.jpg', '/dino-5.jpg'].map((src, i) => (
             <div key={i} style={{ breakInside: 'avoid', marginBottom: 12 }}>
-              <img src={src} alt="Trommelschießen-Dinos WM 2024" style={{ width: '100%', height: 'auto', display: 'block', borderRadius: 12 }} loading="lazy" />
+              <img src={src} alt="Trommelschiessen-Dinos WM 2024" style={{ width: '100%', height: 'auto', display: 'block', borderRadius: 12 }} loading="lazy" />
             </div>
           ))}
         </div>
@@ -363,7 +363,7 @@ function Ballermann() {
     <div>
       <PageIntro
         headline="Schießen als Lebenseinstellung. Diese Männer haben es verinnerlicht."
-        text="Tore schießen ist im Trommelschießen kein Zufall — es ist Handwerk, Wiederholung und ein gesundes Verhältnis zur eigenen Treffsicherheit. Die Ballermänner sind jene Spieler, die über ihre gesamte WM-Karriere die meisten Einschläge erzielt haben. Wer hier oben steht, hat nicht einmal gut gezielt. Er hat einfach immer wieder gezielt. Und meistens getroffen."
+        text="Tore schießen ist im Trommelschiessen kein Zufall — es ist Handwerk, Wiederholung und ein gesundes Verhältnis zur eigenen Treffsicherheit. Die Ballermänner sind jene Spieler, die über ihre gesamte WM-Karriere die meisten Einschläge erzielt haben. Wer hier oben steht, hat nicht einmal gut gezielt. Er hat einfach immer wieder gezielt. Und meistens getroffen."
       />
       <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 18, fontWeight: 700, color: 'var(--gruen)', marginBottom: 16 }}>👑 Torschützenkönige</h3>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 40 }}>
@@ -477,7 +477,7 @@ function Remiskoenige() {
     <div>
       <PageIntro
         headline="Unentschieden ist auch ein Ergebnis. Für manche sogar ein Spezialgebiet."
-        text="Das Unentschieden im Trommelschießen ist eine seltene, aber dokumentierte Erscheinung. Und wie bei allem Seltenen gibt es auch hier Spezialisten — Spieler, die statistisch auffällig oft mit einem Punkt nach Hause gehen. Ob das Strategie ist, Pech, oder die natürliche Folge eines ausgewogenen Charakters, lässt sich aus den Zahlen nicht herauslesen. Die Zahlen zeigen nur, wer es am häufigsten getan hat."
+        text="Das Unentschieden im Trommelschiessen ist eine seltene, aber dokumentierte Erscheinung. Und wie bei allem Seltenen gibt es auch hier Spezialisten — Spieler, die statistisch auffällig oft mit einem Punkt nach Hause gehen. Ob das Strategie ist, Pech, oder die natürliche Folge eines ausgewogenen Charakters, lässt sich aus den Zahlen nicht herauslesen. Die Zahlen zeigen nur, wer es am häufigsten getan hat."
       />
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 40 }}>
         {top3.map((r, i) => (

@@ -3,7 +3,7 @@ import Presse from './Presse'
 
 const HISTORIE = `Wenn Wohnzimmer zu Stadien mutieren und das Sofa als Fankurve dient, dann steht mal wieder ein großes Turnier auf dem Küchenkalender. Aus alten Hüten werden noch ältere Tricks gezaubert: Bierflaschen als Anzeigetafel oder Chili con carne, um dem laschen mexikanischen Querpassfußball einen Schuss Würze zu geben. Holger, Maik und Torsten haben für France 98 ihre WG in „Stade Chemin Bouleau" umbenannt. „Ey Digger, das heißt doch einfach nur 'Stadion am Birkenweg' auf Französisch", reichte als Erklärung völlig aus. Hausnummer 13 in 22850 Norderstedt, so viel schiebt der Chronist aus heutiger Sicht gerne noch hinterher.
 
-Auf der Suche nach erheiternden Spielchen, falls Holland gegen Südkorea plus zwölf Wicküler nebst lustigen Schnäppchen die Stimmung nicht zur La Ola bringen, wippte ein kleiner Softball in den Torwartfingern von Torsten hin und her. Irgendwann marschierte er mit den 36,5 Zentimetern im Umfang in den Waschraum der WG. Nur dieses Zimmer darf seither als Geburtsort des Trommelschießens in Betracht kommen. Bei rund vier Metern Länge und der Waschmaschine am einen Ende war allen Beteiligten schnell klar: Das Runde muss ins Runde! Das Mutterhaus des Trommelschießens wird übrigens oft mit Wembley verglichen und wurde aus Ehrfurcht vor dieser technisch hoch anspruchsvollen Disziplin schon früher abgerissen als die Londoner Kultstätte selbst.
+Auf der Suche nach erheiternden Spielchen, falls Holland gegen Südkorea plus zwölf Wicküler nebst lustigen Schnäppchen die Stimmung nicht zur La Ola bringen, wippte ein kleiner Softball in den Torwartfingern von Torsten hin und her. Irgendwann marschierte er mit den 36,5 Zentimetern im Umfang in den Waschraum der WG. Nur dieses Zimmer darf seither als Geburtsort des Trommelschiessens in Betracht kommen. Bei rund vier Metern Länge und der Waschmaschine am einen Ende war allen Beteiligten schnell klar: Das Runde muss ins Runde! Das Mutterhaus des Trommelschiessens wird übrigens oft mit Wembley verglichen und wurde aus Ehrfurcht vor dieser technisch hoch anspruchsvollen Disziplin schon früher abgerissen als die Londoner Kultstätte selbst.
 
 Die Regularien waren auch schnell formuliert: Ab da, wo sich der hellblaue Teppich leicht wölbt, wird geschossen. Anlauf bis zu Maiks Zimmertür, jeder fünf Mal im Duell, immer abwechselnd, wie Elfmeterschießen. Ob Liga oder Gruppenphase mit K.o.-System, das kommt auf die Anzahl der Gäste an. Erst unter Wettbewerbsbedingungen entstand übrigens die wichtigste Regel: Der Ball muss in der Trommel liegen bleiben!!!
 
@@ -12,14 +12,14 @@ Die Wäscheständerzone wurde schnell zum VIP-Bereich mit der besten Sicht auf K
 const REGELWERK_SECTIONS = [
   {
     title: 'Das Spiel',
-    text: 'Trommelschießen ist einfach. Das ist eine seiner größten Stärken — und einer der Hauptgründe, warum es seit 2006 ohne nennenswerte Regelreformen ausgekommen ist. Zwei Spieler, eine Trommel, fünf Schüsse pro Seite, abwechselnd. Wer mehr trifft, gewinnt. Wer gleich oft trifft, teilt. Wer weniger trifft, verliert. Das war\'s. Alles andere ist Ausführungsbestimmung.',
+    text: 'Trommelschiessen ist einfach. Das ist eine seiner größten Stärken — und einer der Hauptgründe, warum es seit 2006 ohne nennenswerte Regelreformen ausgekommen ist. Zwei Spieler, eine Trommel, fünf Schüsse pro Seite, abwechselnd. Wer mehr trifft, gewinnt. Wer gleich oft trifft, teilt. Wer weniger trifft, verliert. Das war\'s. Alles andere ist Ausführungsbestimmung.',
   },
   {
     title: 'Das Spielgerät',
     items: [
       { label: 'Die Trommel', text: 'Maximal 80 cm breit, maximal 100 cm hoch, Trommeldurchmesser zwischen 25 und 35 cm. Top-Lader sind nicht erlaubt.' },
       { label: 'Die Trommille', text: 'Das offizielle Schussgerät — maximal 41,5 cm Umfang und maximal 500 Gramm. Nach dem Schuss muss sie in der Trommel verbleiben. Springt sie wieder heraus, zählt der Treffer nicht. Diese Regel klingt trivial. Sie ist es nicht.' },
-      { label: 'Das Schuhwerk', text: 'Darf frei gewählt werden. Das ist eine der wenigen Entscheidungen im Trommelschießen, die vollständig beim Spieler liegen.' },
+      { label: 'Das Schuhwerk', text: 'Darf frei gewählt werden. Das ist eine der wenigen Entscheidungen im Trommelschiessen, die vollständig beim Spieler liegen.' },
       { label: 'Die Schussdistanz', text: 'Beträgt 3 Meter. Sie gilt für das gesamte Turnier und für alle Spieler gleich.' },
     ],
   },
@@ -121,7 +121,7 @@ export default function Wissenswertes() {
                   Was ist das hier eigentlich?
                 </h2>
                 <p style={{ fontSize: 16, lineHeight: 1.9, color: 'var(--text-muted)', maxWidth: 720 }}>
-                  Trommelschießen wurde 1998 in einer Norderstedter WG erfunden und hat sich seitdem zur einzigen Sportart der Welt entwickelt, die eine Waschmaschine als Tor verwendet. Hier erfährst du alles: die Geschichte des Sports, das Regelwerk, was die Presse schreibt — und warum Trommelschießen eigentlich olympisch sein sollte.
+                  Trommelschiessen wurde 1998 in einer Norderstedter WG erfunden und hat sich seitdem zur einzigen Sportart der Welt entwickelt, die eine Waschmaschine als Tor verwendet. Hier erfährst du alles: die Geschichte des Sports, das Regelwerk, was die Presse schreibt — und warum Trommelschiessen eigentlich olympisch sein sollte.
                 </p>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24 }}>
@@ -163,7 +163,7 @@ export default function Wissenswertes() {
                 <div style={{ columns: '2 260px', columnGap: 12 }}>
                   {['/mood-0.jpg', '/mood-3.jpg', '/mood-1.jpg', '/mood-6.jpg', '/mood-2.jpg', '/meisterschale.jpg'].map((src, i) => (
                     <div key={i} style={{ breakInside: 'avoid', marginBottom: 12 }}>
-                      <img src={src} alt="Trommelschießen-WM Impressionen" style={{ width: '100%', height: 'auto', display: 'block', borderRadius: 12 }} loading="lazy" />
+                      <img src={src} alt="Trommelschiessen-WM Impressionen" style={{ width: '100%', height: 'auto', display: 'block', borderRadius: 12 }} loading="lazy" />
                     </div>
                   ))}
                 </div>
@@ -179,7 +179,7 @@ export default function Wissenswertes() {
                   Einfacher als Fußball. Ernsthafter als man denkt.
                 </h2>
                 <p style={{ fontSize: 16, lineHeight: 1.9, color: 'var(--text-muted)' }}>
-                  Trommelschießen hat seit 2006 ein Regelwerk, das auf einer Seite Platz hat. Das soll so bleiben.
+                  Trommelschiessen hat seit 2006 ein Regelwerk, das auf einer Seite Platz hat. Das soll so bleiben.
                 </p>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
