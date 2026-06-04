@@ -215,26 +215,35 @@ function Champs() {
         text="Weltmeister wird man nicht durch Anwesenheit. Auch nicht durch Enthusiasmus, gute Laune oder die richtige Trommel. Weltmeister wird man, indem man an einem langen, heißen Turniertag besser ist als alle anderen — und das so lange durchhält, bis die letzte Partie gespielt ist. Diese Liste führt alle auf, die das geschafft haben. Manche einmal, einer zweimal. Alle zu Recht."
       />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        {events.map(e => (
-          <Link key={e.jahr} to={`/turniere/${e.jahr}`} className="card card--hover" style={{ padding: '20px 24px', display: 'grid', gridTemplateColumns: CHAMP_FOTOS[e.jahr] ? '72px 80px 1fr auto' : '80px 1fr auto', alignItems: 'center', gap: 20 }}>
-            {CHAMP_FOTOS[e.jahr] && (
-              <div style={{ width: 64, height: 64, borderRadius: 10, overflow: 'hidden', flexShrink: 0 }}>
-                <img src={CHAMP_FOTOS[e.jahr]} alt={e.sieger} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />
+        {events.map(e => {
+          const siegerFoto = `/spieler/${e.sieger.replace(/ /g, '_')}.webp`
+          const koenige = e.torschuetzenkoenig.split(' & ').map(n => n.trim())
+          return (
+            <Link key={e.jahr} to={`/turniere/${e.jahr}`} className="card card--hover" style={{ padding: '20px 24px', display: 'grid', gridTemplateColumns: '80px 1fr auto', alignItems: 'center', gap: 20 }}>
+              <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 36, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
+                  <div style={{ width: 36, height: 36, borderRadius: '50%', overflow: 'hidden', background: 'var(--cream)', flexShrink: 0 }}>
+                    <img src={siegerFoto} alt={e.sieger} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} onError={ev => { ev.target.style.display = 'none' }} />
+                  </div>
+                  <div style={{ fontWeight: 700, fontSize: 18, color: 'var(--gruen)' }}>🏆 {e.sieger}</div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                  {koenige.map(name => (
+                    <div key={name} style={{ width: 28, height: 28, borderRadius: '50%', overflow: 'hidden', background: 'var(--cream)', flexShrink: 0 }}>
+                      <img src={`/spieler/${name.replace(/ /g, '_')}.webp`} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} onError={ev => { ev.target.style.display = 'none' }} />
+                    </div>
+                  ))}
+                  <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>👑 {e.torschuetzenkoenig}</div>
+                </div>
               </div>
-            )}
-            <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 36, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: 18, color: 'var(--gruen)' }}>🏆 {e.sieger}</div>
-              <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 2 }}>
-                {e.ort?.split('–')[0]?.trim()} · {e.punkte} Pkt · {e.teilnehmer} Teilnehmer
+              <div style={{ textAlign: 'right' }}>
+                <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>{e.ort?.split('–')[0]?.trim()}</div>
+                <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>{e.punkte} Pkt · {e.teilnehmer} TN</div>
               </div>
-            </div>
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>Torschützenkönig</div>
-              <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--gruen)' }}>👑 {e.torschuetzenkoenig}</div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          )
+        })}
       </div>
     </div>
   )
