@@ -711,8 +711,7 @@ function HeadToHead() {
     padding: '12px 16px', borderRadius: 10, border: '1px solid var(--border)',
     fontSize: 15, fontFamily: 'Nunito Sans, sans-serif', background: 'white',
     color: 'var(--gruen)', fontWeight: 600, cursor: 'pointer', width: '100%',
-    appearance: 'none', backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231c422b' stroke-width='2' fill='none'/%3E%3C/svg%3E")',
-    backgroundRepeat: 'no-repeat', backgroundPosition: 'right 14px center',
+    paddingRight: 36,
     paddingRight: 36,
   }
 
