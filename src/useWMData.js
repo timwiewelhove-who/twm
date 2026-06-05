@@ -3,7 +3,6 @@ import { supabase } from './supabase'
 import { gameId } from './logic'
 
 let cache = null
-let liveCache = null
 
 const EXTRA_FOTOS = {
   '2016': [
@@ -26,15 +25,13 @@ const EXTRA_FOTOS = {
 }
 
 async function loadLiveTournament() {
-  if (liveCache !== null) return liveCache
   const { data: tData } = await supabase.from('tournament').select('*').order('created_at', { ascending: false }).limit(1)
-  if (!tData?.length || !tData[0].started) { liveCache = null; return null }
+  if (!tData?.length || !tData[0].started) { return null }
   const t = tData[0]
   const { data: rData } = await supabase.from('results').select('*')
   const results = {}
   rData?.forEach(r => { results[r.game_id] = { home: r.home_score, away: r.away_score } })
-  liveCache = { players: t.players, schedule: t.schedule, results }
-  return liveCache
+  return { players: t.players, schedule: t.schedule, results }
 }
 
 function calcLiveAbschlusstabelle(players, schedule, results) {
@@ -177,13 +174,12 @@ export function useWMData() {
     const existing = supabase.getChannels().find(c => c.topic === 'realtime:wm-data-live')
     if (existing) supabase.removeChannel(existing)
     const sub = supabase.channel('wm-data-live')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'results' }, (payload) => {
-        liveCache = null; cache = null
-        const delay = payload.eventType === 'DELETE' ? 500 : 0
-        setTimeout(() => loadAll().then(result => { cache = result; setData(result) }), delay)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'results' }, () => {
+        cache = null
+        loadAll().then(result => { cache = result; setData(result) })
       })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'tournament' }, () => {
-        liveCache = null; cache = null
+        cache = null
         loadAll().then(result => { cache = result; setData(result) })
       })
       .subscribe()
