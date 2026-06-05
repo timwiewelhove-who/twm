@@ -70,12 +70,13 @@ function mergeIntoEwigeTabelle(basis, liveTabelle) {
 
 async function loadAll() {
   const [
-    { data: events }, { data: abschluss }, { data: ewig }, { data: rangliste }
+    { data: events }, { data: abschluss }, { data: ewig }, { data: rangliste }, { data: archiveRaw }
   ] = await Promise.all([
     supabase.from('wm_events').select('*').order('jahr', { ascending: true }),
     supabase.from('abschlusstabellen').select('*').order('jahr').order('pl'),
     supabase.from('ewige_tabelle').select('*').order('pl'),
     supabase.from('weltrangliste').select('*').order('pl'),
+    supabase.from('matches_archive').select('*').order('jahr').order('spieltag'),
   ])
 
   const abschlussByJahr = {}
@@ -94,6 +95,15 @@ async function loadAll() {
   const weltrangliste_basis = rangliste?.map(r => ({ pl: r.pl, name: r.name, ...r.punkte, total: r.total })) || []
   const weltmeister = events?.map(e => ({ jahr: e.jahr, sieger: e.sieger, titel: e.titel, ort: e.ort, datum: e.datum, teilnehmer: e.teilnehmer, torschuetzenkoenig: e.torschuetzenkoenig, tore: e.tore, punkte: e.punkte, spiele: e.spiele })) || []
   const ewige_basis = ewig?.map(r => ({ pl: r.pl, name: r.name, sp: r.sp, s: r.s, u: r.u, n: r.n, t: r.t, gg: r.gg, diff: r.diff, pkt: r.pkt })) || []
+
+  // matches_archive als normalisiertes Array
+  const archiveMatches = archiveRaw?.map(r => ({
+    jahr: r.jahr, spieltag: r.spieltag,
+    home: r.home, away: r.away,
+    home_tore: r.home_tore, away_tore: r.away_tore,
+    gesamt: r.home_tore + r.away_tore,
+    differenz: Math.abs(r.home_tore - r.away_tore),
+  })) || []
 
   const live = await loadLiveTournament()
   let ewige_tabelle = ewige_basis
@@ -151,16 +161,37 @@ async function loadAll() {
 
   const gespielt = live ? Object.keys(live.results).length : 0
 
+  // Live-Matches aus wm.live hinzufügen
+  let liveMatches = []
+  if (live && liveTabelle) {
+    live.schedule.forEach((st, stIdx) => {
+      st.forEach(m => {
+        const r = live.results[gameId(m.home, m.away)]
+        if (!r) return
+        const homeName = live.players[m.home]
+        const awayName = live.players[m.away]
+        liveMatches.push({
+          jahr: 2026, spieltag: stIdx + 1,
+          home: homeName, away: awayName,
+          home_tore: r.home, away_tore: r.away,
+          gesamt: r.home + r.away,
+          differenz: Math.abs(r.home - r.away),
+        })
+      })
+    })
+  }
+
+  const matches = [...archiveMatches, ...liveMatches]
+
   return {
     weltmeister, ewige_tabelle,
     weltrangliste: (live && gespielt > 0) ? liveWeltrangliste : weltrangliste_basis,
-    abschlusstabellen: abschlussByJahr, fotos,
+    abschlusstabellen: abschlussByJahr, fotos, matches,
     live: live ? { players: live.players, schedule: live.schedule, results: live.results, tabelle: liveTabelle } : null,
   }
 }
 
 export function useWMData() {
-  console.log('useWMData hook called')
   const [data, setData] = useState(cache)
   const [loading, setLoading] = useState(!cache)
   const [error, setError] = useState(null)
@@ -176,7 +207,6 @@ export function useWMData() {
     if (existing) supabase.removeChannel(existing)
     const sub = supabase.channel('wm-data-live')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'results' }, (payload) => {
-        console.log('REALTIME EVENT results:', payload.eventType, payload)
         const delay = payload.eventType === 'DELETE' ? 800 : 0
         setTimeout(() => {
           cache = null
@@ -187,9 +217,7 @@ export function useWMData() {
         cache = null
         loadAll().then(result => { cache = result; setData(result) })
       })
-      .subscribe((status) => {
-        console.log('Realtime subscription status:', status)
-      })
+      .subscribe()
     return () => supabase.removeChannel(sub)
   }, [])
 

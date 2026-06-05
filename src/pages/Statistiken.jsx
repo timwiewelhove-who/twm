@@ -653,13 +653,18 @@ async function rpc(fn) {
 // ── Höchste Siege ─────────────────────────────────────────────────────────
 function HoechsteSiege() {
   const wm = useWM()
-  const [loading, setLoading] = React.useState(true)
-  const [data, setData] = React.useState([])
-  React.useEffect(() => {
-    rpc('rekorde_hoechste_siege').then(r => { if (Array.isArray(r)) setData(r); setLoading(false) })
-  }, [wm])
-  if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
-  const gefiltert = data.filter(r => r.differenz >= 3)
+  if (!wm?.matches) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
+  const sorted = [...wm.matches]
+    .filter(r => r.home_tore !== r.away_tore)
+    .map(r => ({
+      sieger: r.home_tore > r.away_tore ? r.home : r.away,
+      verlierer: r.home_tore > r.away_tore ? r.away : r.home,
+      tore_s: Math.max(r.home_tore, r.away_tore),
+      tore_n: Math.min(r.home_tore, r.away_tore),
+      differenz: r.differenz, jahr: r.jahr,
+    }))
+    .sort((a, b) => b.differenz - a.differenz || b.tore_s - a.tore_s)
+  const gefiltert = sorted.filter(r => r.differenz >= 3)
   const highlights = gefiltert.filter(r => r.differenz >= 4)
   const normal = gefiltert.filter(r => r.differenz === 3)
   return (
@@ -718,12 +723,10 @@ function HoechsteSiege() {
 // ── Torreichste Spiele ────────────────────────────────────────────────────
 function TorreichsteSpiele() {
   const wm = useWM()
-  const [loading, setLoading] = React.useState(true)
-  const [data, setData] = React.useState([])
-  React.useEffect(() => {
-    rpc('rekorde_torreichste_spiele').then(r => { if (Array.isArray(r)) setData(r); setLoading(false) })
-  }, [wm])
-  if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
+  if (!wm?.matches) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
+  const data = [...wm.matches]
+    .sort((a, b) => b.gesamt - a.gesamt || b.jahr - a.jahr)
+    .slice(0, 50)
   const top = data[0]
   return (
     <div>
@@ -774,12 +777,18 @@ function TorreichsteSpiele() {
 // ── Engste Duelle ─────────────────────────────────────────────────────────
 function EngesteDuelle() {
   const wm = useWM()
-  const [loading, setLoading] = React.useState(true)
-  const [data, setData] = React.useState([])
-  React.useEffect(() => {
-    rpc('rekorde_engste_duelle').then(r => { if (Array.isArray(r)) setData(r); setLoading(false) })
-  }, [wm])
-  if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
+  if (!wm?.matches) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
+  const paarungen = {}
+  wm.matches.forEach(m => {
+    const key = [m.home, m.away].sort().join('|')
+    if (!paarungen[key]) paarungen[key] = { spieler1: [m.home, m.away].sort()[0], spieler2: [m.home, m.away].sort()[1], remis: 0, spiele: 0 }
+    paarungen[key].spiele++
+    if (m.home_tore === m.away_tore) paarungen[key].remis++
+  })
+  const data = Object.values(paarungen)
+    .filter(r => r.spiele >= 4)
+    .sort((a, b) => b.remis - a.remis || b.spiele - a.spiele)
+    .slice(0, 20)
   const top3 = data.slice(0, 3)
   return (
     <div>
@@ -821,15 +830,34 @@ function EngesteDuelle() {
 }
 
 // ── Siegesserien ──────────────────────────────────────────────────────────
+function calcSerien(matches, gewonnenFn) {
+  const byPlayer = {}
+  const sorted = [...matches].sort((a, b) => a.jahr - b.jahr || a.spieltag - b.spieltag)
+  sorted.forEach(m => {
+    [
+      { name: m.home, won: gewonnenFn(m, true) },
+      { name: m.away, won: gewonnenFn(m, false) },
+    ].forEach(({ name, won }) => {
+      if (!byPlayer[name]) byPlayer[name] = { cur: 0, max: 0, von: 0, bis: 0, maxVon: 0, maxBis: 0 }
+      const p = byPlayer[name]
+      if (won) {
+        if (p.cur === 0) p.von = m.jahr
+        p.cur++; p.bis = m.jahr
+        if (p.cur > p.max) { p.max = p.cur; p.maxVon = p.von; p.maxBis = p.bis }
+      } else { p.cur = 0 }
+    })
+  })
+  return Object.entries(byPlayer)
+    .filter(([, v]) => v.max > 1)
+    .map(([spieler, v]) => ({ spieler, serie: v.max, von_jahr: v.maxVon, bis_jahr: v.maxBis }))
+    .sort((a, b) => b.serie - a.serie)
+    .slice(0, 20)
+}
+
 function Siegesserien() {
   const wm = useWM()
-  const [loading, setLoading] = React.useState(true)
-  const [data, setData] = React.useState([])
-  React.useEffect(() => {
-    rpc('rekorde_siegesserien').then(r => { if (Array.isArray(r)) setData(r); setLoading(false) })
-  }, [wm])
-  if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
-  const sorted = [...data].sort((a, b) => b.serie - a.serie)
+  if (!wm?.matches) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
+  const sorted = calcSerien(wm.matches, (m, isHome) => isHome ? m.home_tore > m.away_tore : m.away_tore > m.home_tore)
   const top = sorted[0]
   return (
     <div>
@@ -874,13 +902,8 @@ function Siegesserien() {
 // ── Niederlagenserien ─────────────────────────────────────────────────────
 function Niederlagenserien() {
   const wm = useWM()
-  const [loading, setLoading] = React.useState(true)
-  const [data, setData] = React.useState([])
-  React.useEffect(() => {
-    rpc('rekorde_niederlagenserien').then(r => { if (Array.isArray(r)) setData(r); setLoading(false) })
-  }, [wm])
-  if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
-  const sorted = [...data].sort((a, b) => b.serie - a.serie)
+  if (!wm?.matches) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
+  const sorted = calcSerien(wm.matches, (m, isHome) => isHome ? m.home_tore < m.away_tore : m.away_tore < m.home_tore)
   const top = sorted[0]
   return (
     <div>
@@ -925,13 +948,18 @@ function Niederlagenserien() {
 // ── Turniere im Vergleich ─────────────────────────────────────────────────
 function TurniereImVergleich() {
   const wm = useWM()
-  const [loading, setLoading] = React.useState(true)
-  const [data, setData] = React.useState([])
-  React.useEffect(() => {
-    rpc('rekorde_wm_vergleich').then(r => { if (Array.isArray(r)) setData(r); setLoading(false) })
-  }, [wm])
-  if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
-  const sorted_tore = [...data].sort((a, b) => b.tore_pro_spiel - a.tore_pro_spiel)
+  if (!wm?.matches) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
+  const byJahr = {}
+  wm.matches.forEach(m => {
+    if (!byJahr[m.jahr]) byJahr[m.jahr] = { jahr: m.jahr, spiele: 0, tore_gesamt: 0 }
+    byJahr[m.jahr].spiele++
+    byJahr[m.jahr].tore_gesamt += m.gesamt
+  })
+  const data = Object.values(byJahr).map(r => ({
+    ...r,
+    tore_pro_spiel: r.spiele > 0 ? (r.tore_gesamt / r.spiele).toFixed(2) : '0.00'
+  }))
+  const sorted_tore = [...data].sort((a, b) => parseFloat(b.tore_pro_spiel) - parseFloat(a.tore_pro_spiel))
   const max_tore = Math.max(...data.map(r => parseFloat(r.tore_pro_spiel)))
   return (
     <div>
@@ -973,15 +1001,11 @@ function TurniereImVergleich() {
 }
 
 // ── Head to Head ──────────────────────────────────────────────────────────
-const SUPABASE_URL_H2H = 'https://pltaiozpoofchprydxuz.supabase.co'
-const SUPABASE_KEY_H2H = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBsdGFpb3pwb29mY2hwcnlkeHV6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYzMzg0MTksImV4cCI6MjA5MTkxNDQxOX0.nkV0AclS8hziq-HCk1kltp9T59u0tKqmcywLhprJ1HY'
-
 function HeadToHead() {
   const wm = useWM()
   const [spieler1, setSpieler1] = React.useState('')
   const [spieler2, setSpieler2] = React.useState('')
   const [matches, setMatches] = React.useState([])
-  const [loading, setLoading] = React.useState(false)
 
   if (!wm) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
 
@@ -996,14 +1020,12 @@ function HeadToHead() {
     })
 
   React.useEffect(() => {
-    if (!spieler1 || !spieler2) { setMatches([]); return }
-    setLoading(true)
-    fetch(`${SUPABASE_URL_H2H}/rest/v1/matches_archive?or=(and(home.eq.${encodeURIComponent(spieler1)},away.eq.${encodeURIComponent(spieler2)}),and(home.eq.${encodeURIComponent(spieler2)},away.eq.${encodeURIComponent(spieler1)}))&order=jahr.desc,spieltag.desc`, {
-      headers: { 'apikey': SUPABASE_KEY_H2H, 'Authorization': `Bearer ${SUPABASE_KEY_H2H}` }
-    })
-    .then(r => r.json())
-    .then(data => { setMatches(Array.isArray(data) ? data : []); setLoading(false) })
-  }, [spieler1, spieler2])
+    if (!spieler1 || !spieler2 || !wm?.matches) { setMatches([]); return }
+    const filtered = wm.matches
+      .filter(m => (m.home === spieler1 && m.away === spieler2) || (m.home === spieler2 && m.away === spieler1))
+      .sort((a, b) => b.jahr - a.jahr || b.spieltag - a.spieltag)
+    setMatches(filtered)
+  }, [spieler1, spieler2, wm])
 
   // Statistiken berechnen
   const stats = React.useMemo(() => {
@@ -1059,9 +1081,7 @@ function HeadToHead() {
 
       {/* Ergebnisse */}
       {spieler1 && spieler2 && (
-        loading ? (
-          <div style={{ textAlign: 'center', padding: 60, color: 'var(--text-muted)' }}>Laden…</div>
-        ) : matches.length === 0 ? (
+        matches.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '60px 24px' }}>
             <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 48, color: 'rgba(28,66,43,0.08)', marginBottom: 16 }}>0</div>
             <h3 style={{ fontSize: 22, color: 'var(--gruen)', marginBottom: 8 }}>Diese Begegnung hat es noch nie gegeben!</h3>
