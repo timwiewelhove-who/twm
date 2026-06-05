@@ -14,6 +14,65 @@ const TURNIER_TABS = [
   { jahr: 2006, label: 'WM 2006' },
 ]
 
+const WM_ORTE = [
+  { name: 'Hamburg', lat: 53.5748, lng: 9.9595, wms: [2006, 2014, 2016, 2026], label: 'Hamburg' },
+  { name: 'Berne', lat: 53.1817, lng: 8.4836, wms: [2008, 2010, 2012, 2018], label: 'Berne' },
+  { name: 'Jaderberg', lat: 53.3330, lng: 8.1856, wms: [2024], label: 'Jaderberg' },
+  { name: 'Oldenburg', lat: 53.1435, lng: 8.2146, wms: [2022], label: 'Oldenburg' },
+]
+
+// Einfache SVG-Karte Norddeutschland
+function WMKarte() {
+  // Bounding box: lng 7.8-10.5, lat 52.8-54.0
+  const minLng = 7.8, maxLng = 10.5, minLat = 52.8, maxLat = 54.0
+  const W = 600, H = 280
+
+  function project(lat, lng) {
+    const x = ((lng - minLng) / (maxLng - minLng)) * W
+    const y = ((maxLat - lat) / (maxLat - minLat)) * H
+    return { x, y }
+  }
+
+  return (
+    <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 16, overflow: 'hidden', marginBottom: 56 }}>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto', display: 'block' }}>
+        {/* Küstenlinie grob */}
+        <rect width={W} height={H} fill="rgba(28,66,43,0.3)" />
+        <text x={W/2} y={H/2} textAnchor="middle" fill="rgba(255,255,255,0.06)" fontSize={48} fontFamily="sans-serif" dy={16}>NORDDEUTSCHLAND</text>
+
+        {/* Verbindungslinien zwischen Orten */}
+        {WM_ORTE.map((a, i) => WM_ORTE.slice(i+1).map(b => {
+          const pa = project(a.lat, a.lng)
+          const pb = project(b.lat, b.lng)
+          return <line key={`${a.name}-${b.name}`} x1={pa.x} y1={pa.y} x2={pb.x} y2={pb.y} stroke="rgba(176,137,45,0.15)" strokeWidth={1} strokeDasharray="4 4" />
+        }))}
+
+        {/* Punkte */}
+        {WM_ORTE.map(ort => {
+          const { x, y } = project(ort.lat, ort.lng)
+          const size = ort.wms.length
+          const r = 8 + size * 4
+          return (
+            <g key={ort.name}>
+              <circle cx={x} cy={y} r={r + 4} fill="rgba(176,137,45,0.15)" />
+              <circle cx={x} cy={y} r={r} fill="var(--gold, #b0892d)" opacity={0.9} />
+              <text x={x} y={y} textAnchor="middle" dy={5} fontSize={12} fontWeight="700" fill="#1c422b" fontFamily="sans-serif">
+                {ort.wms.length}x
+              </text>
+              <text x={x} y={y + r + 14} textAnchor="middle" fontSize={11} fill="rgba(255,255,255,0.8)" fontFamily="sans-serif" fontWeight="600">
+                {ort.label}
+              </text>
+              <text x={x} y={y + r + 26} textAnchor="middle" fontSize={9} fill="rgba(255,255,255,0.4)" fontFamily="sans-serif">
+                {ort.wms.join(' · ')}
+              </text>
+            </g>
+          )
+        })}
+      </svg>
+    </div>
+  )
+}
+
 export default function Events() {
   const { data: wm, loading } = useWMData()
   const loc = useLocation()
@@ -29,7 +88,7 @@ export default function Events() {
         <div className="container">
           <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)', marginBottom: 12 }}>Turniere</div>
           <h1 style={{ fontSize: 'clamp(32px, 5vw, 64px)', color: 'var(--white)', marginBottom: isOverview ? 0 : 8 }}>
-            {isOverview ? 'Zehn Mal Weltgeschichte.' : 'Turniere'}
+            {isOverview ? 'Getrommelte Weltgeschichte.' : 'Turniere'}
           </h1>
           {!isOverview && (
             <>
@@ -56,14 +115,17 @@ export default function Events() {
       <section className="section">
         <div className="container">
           {isOverview && (
-            <div style={{ marginBottom: 56 }}>
-              <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', color: 'var(--gruen)', marginBottom: 16, lineHeight: 1.2 }}>
-                Seit 2006 wird hier Geschichte geschrieben.
-              </h2>
-              <p style={{ fontSize: 16, lineHeight: 1.9, color: 'var(--text-muted)', maxWidth: 720 }}>
-                Was als improvisierter Slam in einem Hamburger Hinterhof begann, ist heute ein Turnier mit Tradition, Archiv und erschreckend detaillierter Statistik. Zehn Auflagen, zehn Weltmeister, zehn Geschichten. Hier sind sie alle — von den chaotischen Anfängen 2006 bis zur Jubiläums-WM 2026, bei der niemand behaupten kann, er wäre nicht gewarnt worden.
-              </p>
-            </div>
+            <>
+              <div style={{ marginBottom: 40 }}>
+                <h2 style={{ fontSize: 'clamp(22px, 3vw, 32px)', color: 'var(--gruen)', marginBottom: 16, lineHeight: 1.2 }}>
+                  Seit 2006 wird hier Geschichte geschrieben.
+                </h2>
+                <p style={{ fontSize: 16, lineHeight: 1.9, color: 'var(--text-muted)', maxWidth: 720 }}>
+                  Was als improvisierter Slam in einem Hamburger Hinterhof begann, ist heute ein Turnier mit Tradition, Archiv und erschreckend detaillierter Statistik. Zehn Auflagen, vier Austragungsorte, zehn Weltmeister.
+                </p>
+              </div>
+              <WMKarte />
+            </>
           )}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {events.map(e => (
@@ -77,8 +139,8 @@ export default function Events() {
                 onMouseLeave={ev => { ev.currentTarget.style.borderColor = 'var(--border)'; ev.currentTarget.style.boxShadow = 'none' }}>
                 <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 48, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: 20, color: 'var(--gruen)', marginBottom: 4 }}>🏆 {e.sieger}{e.titel > 1 ? ` (${e.titel}. Titel)` : ''}</div>
-                  <div style={{ fontSize: 14, color: 'var(--text-muted)' }}>{e.ort} · {e.datum} · {e.teilnehmer} Teilnehmer · 👑 {e.torschuetzenkoenig} ({e.tore} Tore)</div>
+                  <div style={{ fontWeight: 700, fontSize: 20, color: 'var(--gruen)', marginBottom: 4 }}>📍 {e.ort}</div>
+                  <div style={{ fontSize: 14, color: 'var(--text-muted)' }}>{e.datum} · {e.teilnehmer} Teilnehmer</div>
                 </div>
                 <div style={{ fontSize: 24, color: 'var(--text-light)' }}>→</div>
               </Link>
