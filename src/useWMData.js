@@ -179,11 +179,11 @@ export function useWMData() {
     const sub = supabase.channel('wm-data-live')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'results' }, () => {
         liveCache = null; cache = null
-        loadAll().then(result => { cache = result; setData(result) })
+        setTimeout(() => loadAll().then(result => { cache = result; setData(result) }), 300)
       })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'tournament' }, () => {
         liveCache = null; cache = null
-        loadAll().then(result => { cache = result; setData(result) })
+        setTimeout(() => loadAll().then(result => { cache = result; setData(result) }), 300)
       })
       .subscribe()
     return () => supabase.removeChannel(sub)
