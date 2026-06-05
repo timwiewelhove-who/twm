@@ -22,7 +22,7 @@ export default function Footer() {
           </div>
           <div>
             <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 12 }}>Live</div>
-            <a href="https://trommelwm.vercel.app" target="_blank" rel="noopener" style={{ display: 'block', marginBottom: 8, fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>Live-Dashboard</a>
+            <a href="https://live.trommelschiessen.de" target="_blank" rel="noopener" style={{ display: 'block', marginBottom: 8, fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>Live-Dashboard</a>
           </div>
         </div>
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 24, display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, fontSize: 13 }}>

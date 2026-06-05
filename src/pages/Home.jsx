@@ -103,7 +103,7 @@ export default function Home() {
           </p>
           <Countdown />
           <div style={{ marginTop: 40 }}>
-            <a href="https://trommelwm.vercel.app" target="_blank" rel="noopener" className="btn btn--gold">
+            <a href="https://live.trommelschiessen.de" target="_blank" rel="noopener" className="btn btn--gold">
               Live-Dashboard →
             </a>
           </div>
@@ -291,7 +291,7 @@ export default function Home() {
               <Link to="/events/2026" className="btn" style={{ background: 'var(--gold)', color: 'var(--gruen)', fontWeight: 700, border: 'none' }}>
                 Mehr zur WM 2026 →
               </Link>
-              <a href="https://trommelwm.vercel.app" target="_blank" rel="noopener" className="btn btn--outline" style={{ color: 'white', borderColor: 'rgba(255,255,255,0.25)' }}>
+              <a href="https://live.trommelschiessen.de" target="_blank" rel="noopener" className="btn btn--outline" style={{ color: 'white', borderColor: 'rgba(255,255,255,0.25)' }}>
                 Live-Dashboard →
               </a>
             </div>

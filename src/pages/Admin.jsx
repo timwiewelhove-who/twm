@@ -64,7 +64,7 @@ export default function Admin() {
             <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14 }}>trommelschiessen.de</div>
           </div>
           <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-            <a href="https://trommelwm.vercel.app/admin" target="_blank" rel="noopener" className="btn btn--outline" style={{ color: 'rgba(255,255,255,0.7)', borderColor: 'rgba(255,255,255,0.2)', fontSize: 14 }}>
+            <a href="https://live.trommelschiessen.de/admin" target="_blank" rel="noopener" className="btn btn--outline" style={{ color: 'rgba(255,255,255,0.7)', borderColor: 'rgba(255,255,255,0.2)', fontSize: 14 }}>
               Live-Admin →
             </a>
             <button onClick={() => { sessionStorage.removeItem('twm_admin'); setAuth(false) }}
@@ -125,7 +125,7 @@ export default function Admin() {
           <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7 }}>
             Alle Tabellen und Statistiken sind in <code style={{ background: 'rgba(0,0,0,0.06)', padding: '2px 6px', borderRadius: 4 }}>src/data/wm.json</code> gespeichert.
             Das Live-Dashboard (Ergebnisse eintragen, Spieltag steuern) ist unter{' '}
-            <a href="https://trommelwm.vercel.app/admin" target="_blank" rel="noopener" style={{ color: 'var(--gold)', fontWeight: 600 }}>trommelwm.vercel.app/admin</a> erreichbar.
+            <a href="https://live.trommelschiessen.de/admin" target="_blank" rel="noopener" style={{ color: 'var(--gold)', fontWeight: 600 }}>live.trommelschiessen.de/admin</a> erreichbar.
           </p>
         </div>
       </div>

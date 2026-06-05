@@ -221,7 +221,7 @@ function LiveBlock() {
         Am 06.06.2026 werden hier die Live-Ergebnisse, die aktuelle Tabelle<br />
         und die Torschützenliste in Echtzeit aktualisiert.
       </div>
-      <a href="https://trommelwm.vercel.app" target="_blank" rel="noopener"
+      <a href="https://live.trommelschiessen.de" target="_blank" rel="noopener"
         className="btn" style={{ background: 'var(--gold)', color: 'var(--gruen)', fontWeight: 700, border: 'none' }}>
         Zum Live-Dashboard →
       </a>
@@ -238,7 +238,7 @@ function LiveBlock() {
         <LiveTorschuetzen schedule={schedule} results={results} players={players} />
       </div>
       <div style={{ textAlign: 'center' }}>
-        <a href="https://trommelwm.vercel.app" target="_blank" rel="noopener"
+        <a href="https://live.trommelschiessen.de" target="_blank" rel="noopener"
           className="btn btn--outline">
           Vollständiges Live-Dashboard →
         </a>
@@ -377,7 +377,7 @@ export default function WM2026() {
               Die 10. Weltmeisterschaft im Trommelschießen hat noch nicht stattgefunden.<br />
               Am 06.06.2026 kann das Turnier live auf dem Dashboard verfolgt werden.
             </div>
-            <a href="https://trommelwm.vercel.app" target="_blank" rel="noopener" className="btn" style={{ background: 'var(--gold)', color: 'var(--gruen)', fontWeight: 700, border: 'none' }}>
+            <a href="https://live.trommelschiessen.de" target="_blank" rel="noopener" className="btn" style={{ background: 'var(--gold)', color: 'var(--gruen)', fontWeight: 700, border: 'none' }}>
               Jetzt Live-Dashboard ansehen →
             </a>
           </div>

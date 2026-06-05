@@ -171,7 +171,7 @@ export default function Nav() {
               </div>
             )
           })}
-          <a href="https://trommelwm.vercel.app" target="_blank" rel="noopener" className="btn btn--primary" style={{ fontSize: 14, padding: '8px 18px', marginLeft: 8 }}>
+          <a href="https://live.trommelschiessen.de" target="_blank" rel="noopener" className="btn btn--primary" style={{ fontSize: 14, padding: '8px 18px', marginLeft: 8 }}>
             Live →
           </a>
         </div>
@@ -197,7 +197,7 @@ export default function Nav() {
             </div>
           ))}
           <div style={{ padding: '16px 24px' }}>
-            <a href="https://trommelwm.vercel.app" target="_blank" rel="noopener" className="btn btn--primary" style={{ width: '100%', justifyContent: 'center' }}>
+            <a href="https://live.trommelschiessen.de" target="_blank" rel="noopener" className="btn btn--primary" style={{ width: '100%', justifyContent: 'center' }}>
               Live-Dashboard →
             </a>
           </div>
