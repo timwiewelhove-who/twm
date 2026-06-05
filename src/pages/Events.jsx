@@ -17,58 +17,65 @@ const TURNIER_TABS = [
 const WM_ORTE = [
   { name: 'Hamburg', lat: 53.5748, lng: 9.9595, wms: [2006, 2014, 2016, 2026], label: 'Hamburg' },
   { name: 'Berne', lat: 53.1817, lng: 8.4836, wms: [2008, 2010, 2012, 2018], label: 'Berne' },
-  { name: 'Jaderberg', lat: 53.3330, lng: 8.1856, wms: [2024], label: 'Jaderberg' },
-  { name: 'Oldenburg', lat: 53.1435, lng: 8.2146, wms: [2022], label: 'Oldenburg' },
+  { name: 'Jaderberg', lat: 53.4200, lng: 8.0500, wms: [2024], label: 'Jaderberg' },
+  { name: 'Oldenburg', lat: 53.0800, lng: 8.2800, wms: [2022], label: 'Oldenburg' },
 ]
 
-// Einfache SVG-Karte Norddeutschland
-function WMKarte() {
-  // Bounding box: lng 7.8-10.5, lat 52.8-54.0
-  const minLng = 7.8, maxLng = 10.5, minLat = 52.8, maxLat = 54.0
-  const W = 600, H = 280
+import { useEffect, useRef } from 'react'
 
-  function project(lat, lng) {
-    const x = ((lng - minLng) / (maxLng - minLng)) * W
-    const y = ((maxLat - lat) / (maxLat - minLat)) * H
-    return { x, y }
-  }
+function WMKarte() {
+  const mapRef = useRef(null)
+  const mapInstanceRef = useRef(null)
+
+  useEffect(() => {
+    if (mapInstanceRef.current) return
+
+    // Leaflet dynamisch laden
+    const link = document.createElement('link')
+    link.rel = 'stylesheet'
+    link.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css'
+    document.head.appendChild(link)
+
+    const script = document.createElement('script')
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js'
+    script.onload = () => {
+      const L = window.L
+      const map = L.map(mapRef.current, { zoomControl: true, scrollWheelZoom: false })
+        .setView([53.35, 8.9], 8)
+
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+        attribution: '© OpenStreetMap, © CARTO'
+      }).addTo(map)
+
+      const goldIcon = L.divIcon({
+        className: '',
+        html: (count) => `<div style="background:#b0892d;color:#1c422b;width:${24+count*8}px;height:${24+count*8}px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:${count>1?13:11}px;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.2)">${count}x</div>`,
+        iconSize: [40, 40],
+        iconAnchor: [20, 20],
+      })
+
+      WM_ORTE.forEach(ort => {
+        const icon = L.divIcon({
+          className: '',
+          html: `<div style="background:#b0892d;color:#1c422b;width:${24+ort.wms.length*8}px;height:${24+ort.wms.length*8}px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,0.25)">${ort.wms.length}x</div>`,
+          iconSize: [24+ort.wms.length*8, 24+ort.wms.length*8],
+          iconAnchor: [(24+ort.wms.length*8)/2, (24+ort.wms.length*8)/2],
+        })
+        L.marker([ort.lat, ort.lng], { icon })
+          .addTo(map)
+          .bindPopup(`<strong>${ort.label}</strong><br/>${ort.wms.join(' · ')}`)
+      })
+
+      mapInstanceRef.current = map
+    }
+    document.head.appendChild(script)
+
+    return () => {}
+  }, [])
 
   return (
-    <div style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 16, overflow: 'hidden', marginBottom: 56 }}>
-      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: 'auto', display: 'block' }}>
-        {/* Küstenlinie grob */}
-        <rect width={W} height={H} fill="rgba(28,66,43,0.3)" />
-        <text x={W/2} y={H/2} textAnchor="middle" fill="rgba(255,255,255,0.06)" fontSize={48} fontFamily="sans-serif" dy={16}>NORDDEUTSCHLAND</text>
-
-        {/* Verbindungslinien zwischen Orten */}
-        {WM_ORTE.map((a, i) => WM_ORTE.slice(i+1).map(b => {
-          const pa = project(a.lat, a.lng)
-          const pb = project(b.lat, b.lng)
-          return <line key={`${a.name}-${b.name}`} x1={pa.x} y1={pa.y} x2={pb.x} y2={pb.y} stroke="rgba(176,137,45,0.15)" strokeWidth={1} strokeDasharray="4 4" />
-        }))}
-
-        {/* Punkte */}
-        {WM_ORTE.map(ort => {
-          const { x, y } = project(ort.lat, ort.lng)
-          const size = ort.wms.length
-          const r = 8 + size * 4
-          return (
-            <g key={ort.name}>
-              <circle cx={x} cy={y} r={r + 4} fill="rgba(176,137,45,0.15)" />
-              <circle cx={x} cy={y} r={r} fill="var(--gold, #b0892d)" opacity={0.9} />
-              <text x={x} y={y} textAnchor="middle" dy={5} fontSize={12} fontWeight="700" fill="#1c422b" fontFamily="sans-serif">
-                {ort.wms.length}x
-              </text>
-              <text x={x} y={y + r + 14} textAnchor="middle" fontSize={11} fill="rgba(255,255,255,0.8)" fontFamily="sans-serif" fontWeight="600">
-                {ort.label}
-              </text>
-              <text x={x} y={y + r + 26} textAnchor="middle" fontSize={9} fill="rgba(255,255,255,0.4)" fontFamily="sans-serif">
-                {ort.wms.join(' · ')}
-              </text>
-            </g>
-          )
-        })}
-      </svg>
+    <div style={{ borderRadius: 16, overflow: 'hidden', marginBottom: 56, height: 360, border: '1px solid var(--border)', position: 'relative' }}>
+      <div ref={mapRef} style={{ width: '100%', height: '100%', filter: 'grayscale(1) sepia(0.4) hue-rotate(80deg) saturate(0.6) brightness(0.92)' }} />
     </div>
   )
 }
