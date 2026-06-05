@@ -172,8 +172,14 @@ function LiveBlock() {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'tournament' }, () => loadLive())
       .on('postgres_changes', { event: '*', schema: 'public', table: 'results' }, payload => {
         if (payload.eventType === 'DELETE') {
-          console.log('DELETE payload.old:', JSON.stringify(payload.old))
-          setResults(prev => { const n = { ...prev }; delete n[payload.old.game_id]; return n })
+          // payload.old enthält kein game_id — neu laden
+          supabase.from('results').select('*').then(({ data }) => {
+            if (data) {
+              const rMap = {}
+              data.forEach(r => { rMap[r.game_id] = { home: r.home_score, away: r.away_score } })
+              setResults(rMap)
+            }
+          })
         } else {
           const r = payload.new
           setResults(prev => ({ ...prev, [r.game_id]: { home: r.home_score, away: r.away_score } }))
