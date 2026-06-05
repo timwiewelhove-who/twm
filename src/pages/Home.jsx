@@ -16,7 +16,7 @@ function Countdown() {
 
   const Block = ({ n, label }) => (
     <div style={{ textAlign: 'center', minWidth: 60 }}>
-      <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(56px, 8vw, 96px)', color: 'white', lineHeight: 1, letterSpacing: '-0.06em' }}>
+      <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(56px, 8vw, 96px)', color: 'white', lineHeight: 1, letterSpacing: '-0.02em' }}>
         {String(n).padStart(2, '0')}
       </div>
       <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginTop: 6 }}>
@@ -29,7 +29,7 @@ function Countdown() {
   )
 
   return (
-    <div style={{ display: 'flex', gap: 'clamp(12px, 3vw, 32px)', alignItems: 'flex-start', justifyContent: 'center', flexWrap: 'nowrap' }}>
+    <div style={{ display: 'flex', gap: '4px', alignItems: 'flex-start', justifyContent: 'center', flexWrap: 'nowrap' }}>
       <Block n={d} label="Tage" /><Sep />
       <Block n={h} label="Std" /><Sep />
       <Block n={m} label="Min" /><Sep />
@@ -99,7 +99,8 @@ export default function Home() {
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.72)' }} />
         <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '0 24px', width: '100%', maxWidth: 700 }}>
           <p style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(18px, 2vw, 26px)', color: 'rgba(255,255,255,0.85)', marginBottom: 32, letterSpacing: '0.08em' }}>
-            TROMMELSCHIESSEN – ALLES ANDERE IST UNSAUBER!
+            TROMMELSCHIESSEN
+ALLES ANDERE IST UNSAUBER
           </p>
           <Countdown />
           <div style={{ marginTop: 40 }}>
