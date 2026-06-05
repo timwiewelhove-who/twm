@@ -652,11 +652,12 @@ async function rpc(fn) {
 
 // ── Höchste Siege ─────────────────────────────────────────────────────────
 function HoechsteSiege() {
+  const wm = useWM()
   const [loading, setLoading] = React.useState(true)
   const [data, setData] = React.useState([])
   React.useEffect(() => {
     rpc('rekorde_hoechste_siege').then(r => { if (Array.isArray(r)) setData(r); setLoading(false) })
-  }, [])
+  }, [wm])
   if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
   const gefiltert = data.filter(r => r.differenz >= 3)
   const highlights = gefiltert.filter(r => r.differenz >= 4)
@@ -716,11 +717,12 @@ function HoechsteSiege() {
 
 // ── Torreichste Spiele ────────────────────────────────────────────────────
 function TorreichsteSpiele() {
+  const wm = useWM()
   const [loading, setLoading] = React.useState(true)
   const [data, setData] = React.useState([])
   React.useEffect(() => {
     rpc('rekorde_torreichste_spiele').then(r => { if (Array.isArray(r)) setData(r); setLoading(false) })
-  }, [])
+  }, [wm])
   if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
   const top = data[0]
   return (
@@ -771,11 +773,12 @@ function TorreichsteSpiele() {
 
 // ── Engste Duelle ─────────────────────────────────────────────────────────
 function EngesteDuelle() {
+  const wm = useWM()
   const [loading, setLoading] = React.useState(true)
   const [data, setData] = React.useState([])
   React.useEffect(() => {
     rpc('rekorde_engste_duelle').then(r => { if (Array.isArray(r)) setData(r); setLoading(false) })
-  }, [])
+  }, [wm])
   if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
   const top3 = data.slice(0, 3)
   return (
@@ -819,11 +822,12 @@ function EngesteDuelle() {
 
 // ── Siegesserien ──────────────────────────────────────────────────────────
 function Siegesserien() {
+  const wm = useWM()
   const [loading, setLoading] = React.useState(true)
   const [data, setData] = React.useState([])
   React.useEffect(() => {
     rpc('rekorde_siegesserien').then(r => { if (Array.isArray(r)) setData(r); setLoading(false) })
-  }, [])
+  }, [wm])
   if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
   const sorted = [...data].sort((a, b) => b.serie - a.serie)
   const top = sorted[0]
@@ -869,11 +873,12 @@ function Siegesserien() {
 
 // ── Niederlagenserien ─────────────────────────────────────────────────────
 function Niederlagenserien() {
+  const wm = useWM()
   const [loading, setLoading] = React.useState(true)
   const [data, setData] = React.useState([])
   React.useEffect(() => {
     rpc('rekorde_niederlagenserien').then(r => { if (Array.isArray(r)) setData(r); setLoading(false) })
-  }, [])
+  }, [wm])
   if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
   const sorted = [...data].sort((a, b) => b.serie - a.serie)
   const top = sorted[0]
@@ -919,11 +924,12 @@ function Niederlagenserien() {
 
 // ── Turniere im Vergleich ─────────────────────────────────────────────────
 function TurniereImVergleich() {
+  const wm = useWM()
   const [loading, setLoading] = React.useState(true)
   const [data, setData] = React.useState([])
   React.useEffect(() => {
     rpc('rekorde_wm_vergleich').then(r => { if (Array.isArray(r)) setData(r); setLoading(false) })
-  }, [])
+  }, [wm])
   if (loading) return <div style={{ textAlign: 'center', padding: 80 }}>Laden…</div>
   const sorted_tore = [...data].sort((a, b) => b.tore_pro_spiel - a.tore_pro_spiel)
   const max_tore = Math.max(...data.map(r => parseFloat(r.tore_pro_spiel)))
