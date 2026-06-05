@@ -98,10 +98,7 @@ export default function Home() {
         </video>
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.72)' }} />
         <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '0 24px', width: '100%', maxWidth: 700 }}>
-          <p style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(18px, 2vw, 26px)', color: 'rgba(255,255,255,0.85)', marginBottom: 32, letterSpacing: '0.08em' }}>
-            TROMMELSCHIESSEN
-ALLES ANDERE IST UNSAUBER
-          </p>
+          <p style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(18px, 2vw, 26px)', color: 'rgba(255,255,255,0.85)', marginBottom: 32, letterSpacing: '0.08em', lineHeight: 1.3 }}>TROMMELSCHIESSEN<br />ALLES ANDERE IST UNSAUBER</p>
           <Countdown />
           <div style={{ marginTop: 40 }}>
             <a href="https://live.trommelschiessen.de" target="_blank" rel="noopener" className="btn btn--gold">
