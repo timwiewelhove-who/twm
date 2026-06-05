@@ -178,8 +178,13 @@ export function useWMData() {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'results' }, (payload) => {
         console.log('REALTIME EVENT results:', payload.eventType, payload)
         cache = null
-        const delay = payload.eventType === 'DELETE' ? 800 : 0
-        setTimeout(() => loadAll().then(result => { cache = result; setData(result) }), delay)
+        if (payload.eventType === 'DELETE') {
+          // Mehrfach laden um sicherzustellen dass Supabase den DELETE committed hat
+          setTimeout(() => { cache = null; loadAll().then(result => { cache = result; setData(result) }) }, 500)
+          setTimeout(() => { cache = null; loadAll().then(result => { cache = result; setData(result) }) }, 1500)
+        } else {
+          loadAll().then(result => { cache = result; setData(result) })
+        }
       })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'tournament' }, () => {
         cache = null
