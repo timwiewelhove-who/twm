@@ -178,7 +178,8 @@ export function useWMData() {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'results' }, (payload) => {
         console.log('REALTIME EVENT results:', payload.eventType, payload)
         cache = null
-        loadAll().then(result => { cache = result; setData(result) })
+        const delay = payload.eventType === 'DELETE' ? 800 : 0
+        setTimeout(() => loadAll().then(result => { cache = result; setData(result) }), delay)
       })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'tournament' }, () => {
         cache = null
