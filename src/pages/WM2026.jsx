@@ -341,7 +341,7 @@ export default function WM2026() {
           <div style={{ marginBottom: 48 }}>
             <h2 style={{ fontSize: 32, color: 'var(--gruen)', marginBottom: 16 }}>Edition Jubilaire</h2>
             <div style={{ borderRadius: 16, overflow: 'hidden', background: '#0a1c12' }}>
-              <video controls playsInline style={{ width: '100%', display: 'block', maxHeight: 480, objectFit: 'cover' }}>
+              <video autoPlay loop muted playsInline style={{ width: '100%', display: 'block', maxHeight: 480, objectFit: 'cover' }}>
                 <source src="/wm2026-teaser.mp4" type="video/mp4" />
               </video>
             </div>
