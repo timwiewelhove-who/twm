@@ -236,7 +236,8 @@ function Champs() {
                   <div style={{ width: 48, height: 48, borderRadius: '50%', overflow: 'hidden', background: 'var(--cream)', flexShrink: 0 }}>
                     <img src={siegerFoto} alt={e.sieger} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} onError={ev => { ev.target.style.display = 'none' }} />
                   </div>
-                  <div style={{ fontWeight: 700, fontSize: 20, color: 'var(--gruen)' }}>🏆 {e.sieger}</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 3 }}>Weltmeister</div>
+                  <div style={{ fontWeight: 700, fontSize: 20, color: 'var(--gruen)' }}>{e.sieger}</div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                   {koenige.map(name => (
@@ -244,7 +245,8 @@ function Champs() {
                       <img src={`/spieler/${spielerFotoBase(name)}.webp`} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} onError={ev => { ev.target.style.display = 'none' }} />
                     </div>
                   ))}
-                  <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>👑 {e.torschuetzenkoenig}</div>
+                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 3 }}>Torschützenkönig</div>
+                  <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>{e.torschuetzenkoenig}</div>
                 </div>
               </div>
               <div style={{ textAlign: 'right' }}>
