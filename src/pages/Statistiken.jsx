@@ -224,40 +224,40 @@ function Champs() {
         headline="Der erlesene Kreis der Gekrönten."
         text="Weltmeister wird man nicht durch Anwesenheit. Auch nicht durch Enthusiasmus, gute Laune oder die richtige Trommel. Weltmeister wird man, indem man an einem langen, heißen Turniertag besser ist als alle anderen — und das so lange durchhält, bis die letzte Partie gespielt ist. Diese Liste führt alle auf, die das geschafft haben. Manche einmal, einer zweimal. Alle zu Recht."
       />
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(480px, 1fr))', gap: 16 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {events.map(e => {
           const siegerFoto = `/spieler/${spielerFotoBase(e.sieger)}.webp`
           const koenige = e.torschuetzenkoenig.split(' & ').map(n => n.trim())
           return (
-            <Link key={e.jahr} to={`/turniere/${e.jahr}`} className="card card--hover" style={{ padding: '24px 28px', display: 'grid', gridTemplateColumns: '72px 1fr auto', alignItems: 'center', gap: 20 }}>
-              <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 44, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
-                  <div style={{ width: 48, height: 48, borderRadius: '50%', overflow: 'hidden', background: 'var(--cream)', flexShrink: 0 }}>
+            <Link key={e.jahr} to={`/turniere/${e.jahr}`} className="card card--hover" style={{ padding: '24px 28px', display: 'grid', gridTemplateColumns: '100px 1fr', alignItems: 'stretch', gap: 24, textDecoration: 'none' }}>
+              <div style={{ borderRight: '1px solid var(--border)', paddingRight: 24, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 52, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
+                <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 6, fontWeight: 600, lineHeight: 1.4 }}>{e.ort?.split('–')[0]?.trim()}</div>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 10 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <div style={{ width: 52, height: 52, borderRadius: '50%', overflow: 'hidden', background: 'var(--cream)', flexShrink: 0, border: '2px solid var(--gold)' }}>
                     <img src={siegerFoto} alt={e.sieger} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} onError={ev => { ev.target.style.display = 'none' }} />
                   </div>
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 3 }}>Weltmeister</div>
-                  <div style={{ fontWeight: 700, fontSize: 20, color: 'var(--gruen)' }}>{e.sieger}</div>
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: 20, color: 'var(--gruen)', lineHeight: 1.2 }}>{e.sieger}</div>
+                    <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 3 }}>{e.punkte} Punkte · {e.teilnehmer} Trommler</div>
+                  </div>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, paddingTop: 8, borderTop: '1px solid var(--border)' }}>
+                  <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginRight: 4 }}>Torschützenkönig</span>
                   {koenige.map(name => (
-                    <div key={name} style={{ width: 36, height: 36, borderRadius: '50%', overflow: 'hidden', background: 'var(--cream)', flexShrink: 0 }}>
+                    <div key={name} style={{ width: 24, height: 24, borderRadius: '50%', overflow: 'hidden', background: 'var(--cream)', flexShrink: 0 }}>
                       <img src={`/spieler/${spielerFotoBase(name)}.webp`} alt={name} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} onError={ev => { ev.target.style.display = 'none' }} />
                     </div>
                   ))}
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 3 }}>Torschützenkönig</div>
-                  <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>{e.torschuetzenkoenig}</div>
+                  <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>{e.torschuetzenkoenig} ({e.tore} Tore)</span>
                 </div>
-              </div>
-              <div style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>{e.ort?.split('–')[0]?.trim()}</div>
-                <div style={{ fontSize: 13, color: 'var(--text-muted)' }}>{e.punkte} Pkt · {e.teilnehmer} TN</div>
               </div>
             </Link>
           )
         })}
       </div>
-    </div>
   )
 }
 
