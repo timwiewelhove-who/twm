@@ -76,7 +76,7 @@ async function loadAll() {
     supabase.from('abschlusstabellen').select('*').order('jahr').order('pl'),
     supabase.from('ewige_tabelle').select('*').order('pl'),
     supabase.from('weltrangliste').select('*').order('pl'),
-    supabase.from('matches_archive').select('*').order('jahr').order('spieltag'),
+    supabase.from('matches_archive').select('*').order('jahr').order('spieltag').limit(5000),
   ])
 
   const abschlussByJahr = {}
