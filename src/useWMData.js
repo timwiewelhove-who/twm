@@ -100,9 +100,9 @@ async function loadAll() {
   const archiveMatches = archiveRaw?.map(r => ({
     jahr: r.jahr, spieltag: r.spieltag,
     home: r.home, away: r.away,
-    home_tore: r.home_tore, away_tore: r.away_tore,
-    gesamt: r.home_tore + r.away_tore,
-    differenz: Math.abs(r.home_tore - r.away_tore),
+    home_tore: Number(r.home_tore), away_tore: Number(r.away_tore),
+    gesamt: Number(r.home_tore) + Number(r.away_tore),
+    differenz: Math.abs(Number(r.home_tore) - Number(r.away_tore)),
   })) || []
 
   const live = await loadLiveTournament()
