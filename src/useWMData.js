@@ -76,7 +76,18 @@ async function loadAll() {
     supabase.from('abschlusstabellen').select('*').order('jahr').order('pl'),
     supabase.from('ewige_tabelle').select('*').order('pl'),
     supabase.from('weltrangliste').select('*').order('pl'),
-    supabase.from('matches_archive').select('*').order('jahr').order('spieltag').limit(5000),
+    (async () => {
+      const all = []
+      let offset = 0
+      while (true) {
+        const { data: batch } = await supabase.from('matches_archive').select('*').order('jahr').order('spieltag').range(offset, offset + 999)
+        if (!batch?.length) break
+        all.push(...batch)
+        if (batch.length < 1000) break
+        offset += 1000
+      }
+      return { data: all }
+    })(),
   ])
 
   const abschlussByJahr = {}
