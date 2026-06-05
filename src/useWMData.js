@@ -174,7 +174,8 @@ export function useWMData() {
     const existing = supabase.getChannels().find(c => c.topic === 'realtime:wm-data-live')
     if (existing) supabase.removeChannel(existing)
     const sub = supabase.channel('wm-data-live')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'results' }, () => {
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'results' }, (payload) => {
+        console.log('REALTIME EVENT results:', payload.eventType, payload)
         cache = null
         loadAll().then(result => { cache = result; setData(result) })
       })
