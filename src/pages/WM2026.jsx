@@ -172,6 +172,7 @@ function LiveBlock() {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'tournament' }, () => loadLive())
       .on('postgres_changes', { event: '*', schema: 'public', table: 'results' }, payload => {
         if (payload.eventType === 'DELETE') {
+          console.log('DELETE payload.old:', JSON.stringify(payload.old))
           setResults(prev => { const n = { ...prev }; delete n[payload.old.game_id]; return n })
         } else {
           const r = payload.new
@@ -279,6 +280,16 @@ export default function WM2026() {
         </div>
       </section>
 
+      {/* ── LIVE-BLOCK ── */}
+      <section className="section" style={{ background: 'var(--cream)' }}>
+        <div className="container">
+          <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>
+            Live · 06.06.2026
+          </div>
+          <LiveBlock />
+        </div>
+      </section>
+
       {/* Infos */}
       <section className="section--sm" style={{ background: 'white' }}>
         <div className="container">
@@ -321,27 +332,31 @@ export default function WM2026() {
             <Link to="/spielerprofile/Patrick%20Christof" className="btn btn--outline">Profil →</Link>
           </div>
 
+          {/* Bisherige Champions */}
+          <h2 style={{ fontSize: 32, color: 'var(--gruen)', marginBottom: 24 }}>Alle bisherigen Champions</h2>
+          {!wmLoading && wm?.weltmeister && (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginBottom: 48 }}>
+              {[...wm.weltmeister].reverse().map(e => (
+                <Link key={e.jahr} to={`/events/${e.jahr}`} style={{ textDecoration: 'none' }}>
+                  <div className="card" style={{ padding: '12px 18px', display: 'flex', gap: 12, alignItems: 'center', transition: 'transform 0.15s' }}
+                    onMouseEnter={el => el.currentTarget.style.transform = 'translateY(-2px)'}
+                    onMouseLeave={el => el.currentTarget.style.transform = 'none'}>
+                    <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 22, color: 'var(--gold)', lineHeight: 1 }}>{e.jahr}</div>
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--gruen)' }}>🏆 {e.sieger}</div>
+                      <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>{e.ort}</div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
 
-        </div>
-      </section>
-
-      {/* ── LIVE-BLOCK ── */}
-      <section className="section" style={{ background: 'var(--cream)' }}>
-        <div className="container">
-          <div style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>
-            Live · 06.06.2026
-          </div>
-          <LiveBlock />
-        </div>
-      </section>
-
-      <section className="section--sm" style={{ background: 'white' }}>
-        <div className="container">
           {/* Video */}
           <div style={{ marginBottom: 48 }}>
             <h2 style={{ fontSize: 32, color: 'var(--gruen)', marginBottom: 16 }}>Edition Jubilaire</h2>
             <div style={{ borderRadius: 16, overflow: 'hidden', background: '#0a1c12' }}>
-              <video autoPlay loop muted playsInline style={{ width: '100%', display: 'block', maxHeight: 480, objectFit: 'cover' }}>
+              <video controls playsInline style={{ width: '100%', display: 'block', maxHeight: 480, objectFit: 'cover' }}>
                 <source src="/wm2026-teaser.mp4" type="video/mp4" />
               </video>
             </div>
