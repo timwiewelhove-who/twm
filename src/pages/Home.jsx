@@ -16,7 +16,7 @@ function Countdown() {
 
   const Block = ({ n, label }) => (
     <div style={{ textAlign: 'center', minWidth: 60 }}>
-      <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(40px, 6vw, 72px)', color: 'white', lineHeight: 1, letterSpacing: '-0.02em' }}>
+      <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(56px, 8vw, 96px)', color: 'white', lineHeight: 1, letterSpacing: '-0.06em' }}>
         {String(n).padStart(2, '0')}
       </div>
       <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginTop: 6 }}>
@@ -25,7 +25,7 @@ function Countdown() {
     </div>
   )
   const Sep = () => (
-    <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(32px, 5vw, 56px)', color: 'rgba(255,255,255,0.3)', lineHeight: 1, marginBottom: 18 }}>:</div>
+    <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(44px, 6vw, 72px)', color: 'rgba(255,255,255,0.3)', lineHeight: 1, marginBottom: 18 }}>:</div>
   )
 
   return (
@@ -98,8 +98,8 @@ export default function Home() {
         </video>
         <div style={{ position: 'absolute', inset: 0, background: 'rgba(18,45,29,0.72)' }} />
         <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '0 24px', width: '100%', maxWidth: 700 }}>
-          <p style={{ fontSize: 'clamp(14px, 1.5vw, 17px)', color: 'rgba(255,255,255,0.65)', marginBottom: 32, letterSpacing: '0.01em' }}>
-            Die nächste Trommelschießen-WM kommt bald
+          <p style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(18px, 2vw, 26px)', color: 'rgba(255,255,255,0.85)', marginBottom: 32, letterSpacing: '0.08em' }}>
+            TROMMELSCHIESSEN – ALLES ANDERE IST UNSAUBER!
           </p>
           <Countdown />
           <div style={{ marginTop: 40 }}>
