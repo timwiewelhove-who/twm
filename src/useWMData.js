@@ -177,13 +177,14 @@ export function useWMData() {
     const existing = supabase.getChannels().find(c => c.topic === 'realtime:wm-data-live')
     if (existing) supabase.removeChannel(existing)
     const sub = supabase.channel('wm-data-live')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'results' }, () => {
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'results' }, (payload) => {
         liveCache = null; cache = null
-        setTimeout(() => loadAll().then(result => { cache = result; setData(result) }), 300)
+        const delay = payload.eventType === 'DELETE' ? 500 : 0
+        setTimeout(() => loadAll().then(result => { cache = result; setData(result) }), delay)
       })
       .on('postgres_changes', { event: '*', schema: 'public', table: 'tournament' }, () => {
         liveCache = null; cache = null
-        setTimeout(() => loadAll().then(result => { cache = result; setData(result) }), 300)
+        loadAll().then(result => { cache = result; setData(result) })
       })
       .subscribe()
     return () => supabase.removeChannel(sub)
