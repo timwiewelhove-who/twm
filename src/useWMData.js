@@ -160,6 +160,7 @@ async function loadAll() {
 }
 
 export function useWMData() {
+  console.log('useWMData hook called')
   const [data, setData] = useState(cache)
   const [loading, setLoading] = useState(!cache)
   const [error, setError] = useState(null)
@@ -183,7 +184,9 @@ export function useWMData() {
         cache = null
         loadAll().then(result => { cache = result; setData(result) })
       })
-      .subscribe()
+      .subscribe((status) => {
+        console.log('Realtime subscription status:', status)
+      })
     return () => supabase.removeChannel(sub)
   }, [])
 
