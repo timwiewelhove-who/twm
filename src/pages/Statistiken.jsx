@@ -258,6 +258,7 @@ function Champs() {
           )
         })}
       </div>
+    </div>
   )
 }
 
