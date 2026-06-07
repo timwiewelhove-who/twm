@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useWMData } from '../useWMData'
 
 function Countdown() {
-  const target = new Date('2026-06-06T10:00:00')
+  const target = new Date('2028-06-02T10:00:00')
   const [diff, setDiff] = useState(target - new Date())
   useEffect(() => {
     const t = setInterval(() => setDiff(target - new Date()), 1000)
