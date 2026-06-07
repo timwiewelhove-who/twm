@@ -25,7 +25,7 @@ function Countdown() {
     </div>
   )
   const Sep = () => (
-    <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(44px, 6vw, 72px)', color: 'rgba(255,255,255,0.3)', lineHeight: 1, marginBottom: 18 }}>:</div>
+    <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(44px, 6vw, 72px)', color: 'rgba(255,255,255,0.3)', lineHeight: 1, marginBottom: 18, padding: '0 10px' }}>:</div>
   )
 
   return (
@@ -100,11 +100,7 @@ export default function Home() {
         <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', padding: '0 24px', width: '100%', maxWidth: 700 }}>
           <p style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(18px, 2vw, 26px)', color: 'rgba(255,255,255,0.85)', marginBottom: 32, letterSpacing: '0.08em', lineHeight: 1.3 }}>TROMMELSCHIESSEN<br />ALLES ANDERE IST UNSAUBER</p>
           <Countdown />
-          <div style={{ marginTop: 40 }}>
-            <a href="https://live.trommelschiessen.de" target="_blank" rel="noopener" className="btn btn--gold">
-              Live-Dashboard →
-            </a>
-          </div>
+
         </div>
       </section>
 
