@@ -34,7 +34,6 @@ export default function EventDetail() {
   const { data: wm, loading } = useWMData()
   const [cd, setCd] = useState(getCountdown())
   const [selectedSpieltag, setSelectedSpieltag] = useState(null)
-  const [selectedSpieltag, setSelectedSpieltag] = useState(null)
   useEffect(() => { const t = setInterval(() => setCd(getCountdown()), 1000); return () => clearInterval(t) }, [])
   if (loading || !wm?.weltmeister?.length) return <div style={{ paddingTop: 120, textAlign: 'center', color: 'var(--text-muted)' }}>Laden…</div>
 
