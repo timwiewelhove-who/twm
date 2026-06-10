@@ -241,7 +241,18 @@ export default function EventDetail() {
           <div className="container">
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 40, alignItems: 'start' }}>
               <div>
-                <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 20 }}>Spieltag {aktiverSpieltag}</h2>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, gap: 16, flexWrap: 'wrap' }}>
+                  <h2 style={{ fontSize: 28, color: 'var(--gruen)', margin: 0 }}>Spieltag {aktiverSpieltag}</h2>
+                  {maxSpieltag > 1 && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <input type="range" min={1} max={maxSpieltag} value={aktiverSpieltag}
+                        onChange={e => setSelectedSpieltag(Number(e.target.value))}
+                        style={{ width: 120, accentColor: 'var(--gruen)' }}
+                      />
+                      <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 20, color: 'var(--gruen)', minWidth: 28 }}>{aktiverSpieltag}</span>
+                    </div>
+                  )}
+                </div>
                 <div className="card" style={{ overflow: 'hidden' }}>
                   {spieltagErgebnisse.map((m, i) => (
                     <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: 12, padding: '12px 20px', borderBottom: i < spieltagErgebnisse.length - 1 ? '1px solid var(--border)' : 'none' }}>
@@ -253,7 +264,18 @@ export default function EventDetail() {
                 </div>
               </div>
               <div>
-                <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 20 }}>Torschützen</h2>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, gap: 16, flexWrap: 'wrap' }}>
+                  <h2 style={{ fontSize: 28, color: 'var(--gruen)', margin: 0 }}>Torschützen</h2>
+                  {maxSpieltag > 1 && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                      <input type="range" min={1} max={maxSpieltag} value={aktiverSpieltag}
+                        onChange={e => setSelectedSpieltag(Number(e.target.value))}
+                        style={{ width: 120, accentColor: 'var(--gruen)' }}
+                      />
+                      <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 20, color: 'var(--gruen)', minWidth: 28 }}>{aktiverSpieltag}</span>
+                    </div>
+                  )}
+                </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 16 }}>
                   {torschuetzenNachSpieltag.slice(0, 3).map((r, i) => (
                     <div key={r.name} className="card" style={{ padding: '16px 12px', textAlign: 'center', border: i === 0 ? '2px solid var(--gold)' : '1px solid var(--border)' }}>
