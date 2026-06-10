@@ -22,6 +22,13 @@ const EXTRA_FOTOS = {
     '/spieler/Patrick_Christof_Weltmeister_2024_2.webp',
     '/spieler/Christof_Buse.webp',
   ],
+  '2026': [
+    '/TWM_2026_01.jpeg', '/TWM_2026_02.jpeg', '/TWM_2026_03.jpeg',
+    '/TWM_2026_04.jpeg', '/TWM_2026_05.jpeg', '/TWM_2026_06.jpeg',
+    '/TWM_2026_07.jpeg', '/TWM_2026_08.jpeg', '/TWM_2026_09.jpeg',
+    '/TWM_2026_10.jpeg', '/TWM_2026_11.jpeg', '/TWM_2026_12.jpeg',
+    '/TWM_2026_13.jpeg', '/TWM_2026_14.jpeg', '/TWM_2026_15.jpeg',
+  ],
 }
 
 async function loadLiveTournament() {
@@ -100,7 +107,7 @@ async function loadAll() {
   const fotos = {}
   events?.forEach(e => {
     const j = String(e.jahr)
-    fotos[j] = { gruppe: e.foto_gruppe || null, extra: EXTRA_FOTOS[j] || [] }
+    fotos[j] = { gruppe: j === '2026' ? '/Trommelschiessen_WM_2026.jpg' : (e.foto_gruppe || null), extra: EXTRA_FOTOS[j] || [] }
   })
 
   const weltrangliste_basis = rangliste?.map(r => ({ pl: r.pl, name: r.name, ...r.punkte, total: r.total })) || []

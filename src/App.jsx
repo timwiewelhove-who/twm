@@ -8,7 +8,6 @@ import EventDetail from './pages/EventDetail'
 import Statistiken from './pages/Statistiken'
 import Info from './pages/Wissenswertes'
 import Spielerprofile from './pages/Spielerprofile'
-import WM2026 from './pages/WM2026'
 import Olympia from './pages/Olympia'
 import Admin from './pages/Admin'
 import Rechtliches from './pages/Rechtliches'
@@ -34,7 +33,6 @@ export default function App() {
 
           {/* Turniere */}
           <Route path="/turniere" element={<Turniere />} />
-          <Route path="/turniere/2026" element={<WM2026 />} />
           <Route path="/turniere/:jahr" element={<EventDetail />} />
           <Route path="/events" element={<Navigate to="/turniere" replace />} />
           <Route path="/events/2026" element={<Navigate to="/turniere/2026" replace />} />

@@ -14,6 +14,7 @@ const INTRO_TEXTE = {
   2018: 'Holger Müller holte sich zurück, was er 2012 begonnen hatte. Weltmeister und Torschützenkönig in einem — eine Kombination, die vorher keiner für möglich gehalten hatte. Berne war zum letzten Mal Austragungsort.',
   2022: 'Neue Stadt, neues Gesicht: Marco Praekel sicherte sich seinen zweiten Titel — diesmal in Oldenburg. Sascha Wachtendorf schoss die meisten Tore und blieb trotzdem ohne Schale.',
   2024: 'Patrick Christof. Von Platz 18 beim Debüt 2008 zum Weltmeister 2024 — die größte Aufholjagd der WM-Geschichte. Bastian Buse schoss 47 Tore und ging trotzdem leer aus.',
+  2026: 'Die Jubiläums-WM. 20 Jahre nach der ersten Ausgabe in einer Norderstedter WG feierte das Trommelschießen seinen runden Geburtstag — mit 21 Trommelnden, alten Dinos, neuen Talenten und einer Edition, die es so nur einmal gibt.',
 }
 
 function getCountdown() {
@@ -145,8 +146,7 @@ export default function EventDetail() {
       </section>
 
       {/* Fakten-Sektion */}
-      {!is2026 && (
-        <section className="section--sm" style={{ background: 'var(--white)' }}>
+      <section className="section--sm" style={{ background: 'var(--white)' }}>
           <div className="container">
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 40, alignItems: 'start' }}>
               <p style={{ fontSize: 16, lineHeight: 1.9, color: 'var(--text-muted)', margin: 0 }}>
@@ -170,7 +170,6 @@ export default function EventDetail() {
             </div>
           </div>
         </section>
-      )}
 
       {/* Gruppenfoto */}
       {fotos?.gruppe && (
@@ -338,6 +337,20 @@ export default function EventDetail() {
           </section>
         )
       })()}
+
+      {/* Edition Jubilaire – nur für 2026 */}
+      {is2026 && (
+        <section className="section--sm" style={{ background: 'var(--white)' }}>
+          <div className="container">
+            <h2 style={{ fontSize: 32, color: 'var(--gruen)', marginBottom: 16 }}>Edition Jubilaire</h2>
+            <div style={{ borderRadius: 16, overflow: 'hidden', background: '#0a1c12' }}>
+              <video autoPlay loop muted playsInline style={{ width: '100%', display: 'block', maxHeight: 480, objectFit: 'cover' }}>
+                <source src="/wm2026-teaser.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Extra-Fotos */}
       {fotos?.extra && fotos.extra.length > 0 && (
