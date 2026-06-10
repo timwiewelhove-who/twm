@@ -33,7 +33,7 @@ const NAV_ITEMS = [
     to: '/turniere',
     label: 'Turniere',
     children: [
-      { to: '/turniere/2026', label: '🔜 WM 2026 · Édition Jubilaire' },
+      { to: '/turniere/2026', label: 'WM 2026 · Berne' },
       { to: '/turniere/2024', label: 'WM 2024 · Jaderberg' },
       { to: '/turniere/2022', label: 'WM 2022 · Oldenburg' },
       { to: '/turniere/2018', label: 'WM 2018 · Berne' },
