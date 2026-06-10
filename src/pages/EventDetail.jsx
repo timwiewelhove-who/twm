@@ -148,7 +148,7 @@ export default function EventDetail() {
                   { label: 'Teilnehmer', value: event.teilnehmer },
                   { label: 'Sieger-Punkte', value: `${event.punkte} Pkt.` },
                   { label: 'Weltmeister', value: event.sieger, wide: true },
-                  { label: 'Torschützenkönig', value: `${event.torschuetzenkoenig} (${event.tore} Tore)`, wide: true },
+                  { label: 'Torschützenkönig', value: event.torschuetzenkoenig.includes('Tore') ? event.torschuetzenkoenig : `${event.torschuetzenkoenig} (${event.tore} Tore)`, wide: true },
                 ].map(item => (
                   <div key={item.label} className="card" style={{ padding: '16px 20px', gridColumn: item.wide ? 'span 2' : 'span 1' }}>
                     <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 6 }}>{item.label}</div>
