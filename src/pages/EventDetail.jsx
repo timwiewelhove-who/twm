@@ -186,7 +186,7 @@ export default function EventDetail() {
                 <span style={{ fontSize: 13, color: 'var(--text-muted)', fontWeight: 600 }}>Spieltag</span>
                 <input type="range" min={1} max={maxSpieltag} value={aktiverSpieltag}
                   onChange={e => setSelectedSpieltag(Number(e.target.value))}
-                  style={{ width: 160, accentColor: 'var(--gruen)' }}
+                  style={{ width: 160, accentColor: 'var(--gruen)', touchAction: 'none' }}
                 />
                 <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 22, color: 'var(--gruen)', minWidth: 32, textAlign: 'right' }}>{aktiverSpieltag}</span>
               </div>
@@ -247,7 +247,7 @@ export default function EventDetail() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <input type="range" min={1} max={maxSpieltag} value={aktiverSpieltag}
                         onChange={e => setSelectedSpieltag(Number(e.target.value))}
-                        style={{ width: 120, accentColor: 'var(--gruen)' }}
+                        style={{ width: 120, accentColor: 'var(--gruen)', touchAction: 'none' }}
                       />
                       <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 20, color: 'var(--gruen)', minWidth: 28 }}>{aktiverSpieltag}</span>
                     </div>
@@ -270,7 +270,7 @@ export default function EventDetail() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <input type="range" min={1} max={maxSpieltag} value={aktiverSpieltag}
                         onChange={e => setSelectedSpieltag(Number(e.target.value))}
-                        style={{ width: 120, accentColor: 'var(--gruen)' }}
+                        style={{ width: 120, accentColor: 'var(--gruen)', touchAction: 'none' }}
                       />
                       <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 20, color: 'var(--gruen)', minWidth: 28 }}>{aktiverSpieltag}</span>
                     </div>
