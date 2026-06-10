@@ -148,14 +148,14 @@ export default function EventDetail() {
       {!is2026 && (
         <section className="section--sm" style={{ background: 'var(--white)' }}>
           <div className="container">
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'start' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 40, alignItems: 'start' }}>
               <p style={{ fontSize: 16, lineHeight: 1.9, color: 'var(--text-muted)', margin: 0 }}>
                 {INTRO_TEXTE[event.jahr] || ''}
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 {[
                   { label: 'Datum', value: event.datum },
-                  { label: 'Ort', value: event.ort?.split('–')[0]?.trim(), big: true },
+                  { label: 'Ort', value: event.ort?.split('–')[0]?.trim() },
                   { label: 'Teilnehmer', value: event.teilnehmer },
                   { label: 'Sieger-Punkte', value: `${event.punkte} Pkt.` },
                   { label: 'Weltmeister', value: event.sieger, wide: true },
@@ -163,7 +163,7 @@ export default function EventDetail() {
                 ].map(item => (
                   <div key={item.label} className="card" style={{ padding: '16px 20px', gridColumn: item.wide ? 'span 2' : 'span 1' }}>
                     <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 6 }}>{item.label}</div>
-                    <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: item.big ? 28 : 22, color: 'var(--gruen)', lineHeight: 1.1 }}>{item.value}</div>
+                    <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 20, color: 'var(--gruen)', lineHeight: 1.2 }}>{item.value}</div>
                   </div>
                 ))}
               </div>
@@ -251,7 +251,7 @@ export default function EventDetail() {
       {jahresMatches.length > 0 && (
         <section className="section--sm" style={{ background: 'var(--cream)' }}>
           <div className="container">
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'start' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 40, alignItems: 'start' }}>
               <div>
                 <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 20 }}>Spieltag {aktiverSpieltag}</h2>
                 <div className="card" style={{ overflow: 'hidden' }}>

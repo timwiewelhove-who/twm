@@ -127,7 +127,7 @@ export default function Nav() {
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 4 }} className="nav-links">
           {NAV_ITEMS.map(item => {
-            const isActive = loc.pathname.startsWith(item.to)
+            const isActive = item.to === '/' ? loc.pathname === '/' : loc.pathname.startsWith(item.to)
             const showDrop = activeDropdown === item.label
             const isMega = item.label === 'Stats'
             return (
