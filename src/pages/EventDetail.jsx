@@ -10,9 +10,9 @@ const TURNIER_TABS = [
 const INTRO_TEXTE = {
   2006: 'Die Geburtsstunde. In einer Norderstedter WG entstand die Idee, Tischkicker ernst zu nehmen — ernsthafter jedenfalls als die meisten anderen Dinge in diesem Sommer. Stephan Krontal gewann das erste Turnier, das noch keiner für ein erstes Turnier hielt.',
   2008: 'Die zweite Auflage, die erste mit Wiederholungsgefahr. Berne, Ubbo Meyers Garten, Bierbänke. Henning Diers setzte sich durch und machte klar: Das hier wird öfter stattfinden.',
-  2010: 'Marco Praekel schrieb den ersten Titelverteidigungsversuch der Geschichte — und scheiterte. Oder auch nicht: Er gewann. Berne blieb das Zuhause der WM, der Garten wurde zur Pilgerstätte.',
+  2010: 'Marco Praekel gewann seinen ersten Titel — ruhig, präzise, ohne viel Aufhebens. Berne blieb das Zuhause der WM, der Garten wurde zur Pilgerstätte.',
   2012: 'Holger Müller. Zum ersten Mal. Mit 46 Punkten und einer Dominanz, die niemand erwartet hatte. Maik Lösekann schoss die meisten Tore — aber es reichte nicht.',
-  2014: 'Die Heimkehr nach Hamburg. Henning Diers holte seinen ersten Titel — und niemand war besonders überrascht. Außer vielleicht Henning Diers.',
+  2014: 'Die Heimkehr nach Hamburg. Henning Diers holte seinen zweiten Titel — sechs Jahre nach dem ersten. Diesmal wusste er, wie es geht.',
   2016: 'Henning Diers wieder. Titel Nummer zwei in Hamburg, mit 71 Punkten. Einer der wenigen Spieler, die beweisen konnten: Wiederholung ist kein Zufall.',
   2018: 'Holger Müller holte sich zurück, was er 2012 begonnen hatte. Weltmeister und Torschützenkönig in einem — eine Kombination, die vorher keiner für möglich gehalten hatte. Berne war zum letzten Mal Austragungsort.',
   2022: 'Neue Stadt, neues Gesicht: Marco Praekel sicherte sich seinen zweiten Titel — diesmal in Oldenburg. Sascha Wachtendorf schoss die meisten Tore und blieb trotzdem ohne Schale.',
