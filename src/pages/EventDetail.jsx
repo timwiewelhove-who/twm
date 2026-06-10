@@ -2,6 +2,22 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useWMData } from '../useWMData'
 
+const TURNIER_TABS = [
+  2026, 2024, 2022, 2018, 2016, 2014, 2012, 2010, 2008, 2006
+]
+
+
+const INTRO_TEXTE = {
+  2006: 'Die Geburtsstunde. In einer Norderstedter WG entstand die Idee, Tischkicker ernst zu nehmen — ernsthafter jedenfalls als die meisten anderen Dinge in diesem Sommer. Stephan Krontal gewann das erste Turnier, das noch keiner für ein erstes Turnier hielt.',
+  2008: 'Die zweite Auflage, die erste mit Wiederholungsgefahr. Berne, Ubbo Meyers Garten, Bierbänke. Henning Diers setzte sich durch und machte klar: Das hier wird öfter stattfinden.',
+  2010: 'Marco Praekel schrieb den ersten Titelverteidigungsversuch der Geschichte — und scheiterte. Oder auch nicht: Er gewann. Berne blieb das Zuhause der WM, der Garten wurde zur Pilgerstätte.',
+  2012: 'Holger Müller. Zum ersten Mal. Mit 46 Punkten und einer Dominanz, die niemand erwartet hatte. Maik Lösekann schoss die meisten Tore — aber es reichte nicht.',
+  2014: 'Die Heimkehr nach Hamburg. Henning Diers holte seinen ersten Titel — und niemand war besonders überrascht. Außer vielleicht Henning Diers.',
+  2016: 'Henning Diers wieder. Titel Nummer zwei in Hamburg, mit 71 Punkten. Einer der wenigen Spieler, die beweisen konnten: Wiederholung ist kein Zufall.',
+  2018: 'Holger Müller holte sich zurück, was er 2012 begonnen hatte. Weltmeister und Torschützenkönig in einem — eine Kombination, die vorher keiner für möglich gehalten hatte. Berne war zum letzten Mal Austragungsort.',
+  2022: 'Neue Stadt, neues Gesicht: Marco Praekel sicherte sich seinen zweiten Titel — diesmal in Oldenburg. Sascha Wachtendorf schoss die meisten Tore und blieb trotzdem ohne Schale.',
+  2024: 'Patrick Christof. Von Platz 18 beim Debüt 2008 zum Weltmeister 2024 — die größte Aufholjagd der WM-Geschichte. Bastian Buse schoss 47 Tore und ging trotzdem leer aus.',
+}
 
 function getCountdown() {
   const ziel = new Date('2026-06-06T10:00:00')
@@ -32,29 +48,24 @@ export default function EventDetail() {
     </div>
   )
 
-  const idx = wm.weltmeister.findIndex(e => String(e.jahr) === jahr)
-  const prev = wm.weltmeister[idx - 1]
-  const next = wm.weltmeister[idx + 1]
+  const is2026 = String(event.jahr) === '2026'
 
   return (
     <div style={{ paddingTop: 80 }}>
-      {/* Hero – sauberer grüner Hintergrund, kein Foto */}
-      <section style={{
-        background: 'var(--gruen)',
-        padding: '80px 0 60px',
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
+      {/* Hero */}
+      <section style={{ background: 'var(--gruen)', padding: '60px 0 0', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: -100, right: -100, width: 400, height: 400, borderRadius: '50%', background: 'rgba(255,255,255,0.03)', pointerEvents: 'none' }} />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <Link to="/turniere" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 24 }}>
             ← Alle WMs
           </Link>
           <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)' }}>{event.datum} · {event.ort}</div>
-          <h1 style={{ fontSize: 'clamp(40px, 7vw, 80px)', color: 'var(--white)' }}>
-            {String(event.jahr) === '2026' ? '10. TRMMLR-WM' : `WM ${event.jahr}`}
+          <h1 style={{ fontSize: 'clamp(40px, 7vw, 80px)', color: 'var(--white)', marginBottom: 0 }}>
+            {is2026 ? '10. TRMMLR-WM' : `WM ${event.jahr}`}
           </h1>
-          {String(event.jahr) === '2026' && (
+
+          {/* Countdown nur für 2026 */}
+          {is2026 && (
             <div style={{ display: 'flex', gap: 16, marginTop: 24, marginBottom: 8, flexWrap: 'nowrap', overflowX: 'auto' }}>
               {[
                 { val: cd.tage, label: 'Tage' },
@@ -71,23 +82,57 @@ export default function EventDetail() {
               ))}
             </div>
           )}
-          <div style={{ display: 'flex', gap: 16, marginTop: 20, flexWrap: 'wrap' }}>
-            {[
-              { label: 'Weltmeister', value: `🏆 ${event.sieger}` },
-              { label: 'Torschützenkönig', value: `👑 ${event.torschuetzenkoenig} (${event.tore} Tore)` },
-              { label: 'Teilnehmer', value: event.teilnehmer },
-              { label: 'Sieger-Punkte', value: `${event.punkte} Pkt.` },
-            ].map(item => (
-              <div key={item.label} style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(8px)', borderRadius: 10, padding: '14px 20px', border: '1px solid rgba(255,255,255,0.15)' }}>
-                <div style={{ fontSize: 11, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)', marginBottom: 4 }}>{item.label}</div>
-                <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 20, color: 'var(--gold)', display: 'flex', alignItems: 'center', gap: 8 }}>{item.value}</div>
-              </div>
+
+          {/* Pill-Navigation für alle WMs */}
+          <div className="subnav-pills" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, paddingTop: 28, paddingBottom: 28 }}>
+            {TURNIER_TABS.map(j => (
+              <Link key={j} to={`/turniere/${j}`} style={{
+                padding: '7px 16px', fontSize: 13, fontWeight: 600,
+                borderRadius: 999, border: '1px solid rgba(255,255,255,0.25)',
+                background: String(j) === jahr ? 'rgba(255,255,255,0.15)' : 'transparent',
+                color: String(j) === jahr ? 'white' : 'rgba(255,255,255,0.7)',
+                transition: 'all 0.15s', whiteSpace: 'nowrap',
+                borderColor: String(j) === jahr ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.25)',
+              }}>WM {j}</Link>
             ))}
           </div>
+          <style>{`@media (max-width: 700px) { .subnav-pills { display: none !important; } }`}</style>
         </div>
       </section>
 
-      {/* Gruppenfoto – über der Abschlusstabelle */}
+      {/* Fakten-Sektion */}
+      {!is2026 && (
+        <section className="section--sm" style={{ background: 'var(--white)' }}>
+          <div className="container">
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'start' }}>
+              {/* Intro-Text */}
+              <div>
+                <p style={{ fontSize: 16, lineHeight: 1.9, color: 'var(--text-muted)', margin: 0 }}>
+                  {INTRO_TEXTE[event.jahr] || ''}
+                </p>
+              </div>
+              {/* Fakten-Cards */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                {[
+                  { label: 'Datum', value: event.datum },
+                  { label: 'Ort', value: event.ort?.split('–')[0]?.trim(), big: true },
+                  { label: 'Teilnehmer', value: event.teilnehmer },
+                  { label: 'Sieger-Punkte', value: `${event.punkte} Pkt.` },
+                  { label: 'Weltmeister', value: event.sieger, wide: true },
+                  { label: 'Torschützenkönig', value: `${event.torschuetzenkoenig} (${event.tore} Tore)`, wide: true },
+                ].map(item => (
+                  <div key={item.label} className="card" style={{ padding: '16px 20px', gridColumn: item.wide ? 'span 2' : 'span 1' }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 6 }}>{item.label}</div>
+                    <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: item.big ? 28 : 22, color: 'var(--gruen)', lineHeight: 1.1 }}>{item.value}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Gruppenfoto */}
       {fotos?.gruppe && (
         <section className="section--sm" style={{ background: 'var(--cream)' }}>
           <div className="container">
@@ -95,12 +140,7 @@ export default function EventDetail() {
               Die Trommler · WM {event.jahr}
             </div>
             <div className="card" style={{ overflow: 'hidden' }}>
-              <img
-                src={fotos.gruppe}
-                alt={`Alle Teilnehmer WM ${event.jahr}`}
-                style={{ width: '100%', height: 'auto', display: 'block' }}
-                loading="lazy"
-              />
+              <img src={fotos.gruppe} alt={`Alle Teilnehmer WM ${event.jahr}`} style={{ width: '100%', height: 'auto', display: 'block' }} loading="lazy" />
             </div>
           </div>
         </section>
@@ -154,12 +194,12 @@ export default function EventDetail() {
       </section>
 
       {/* Turnier-Statistiken */}
-      {tabelle.length > 0 && (() => {
+      {tabelle && tabelle.length > 0 && (() => {
         const sorted_t  = [...tabelle].sort((a,b) => b.t  - a.t)
         const sorted_gg = [...tabelle].sort((a,b) => b.gg - a.gg)
         const sorted_u  = [...tabelle].sort((a,b) => b.u  - a.u)
 
-        const StatTable = ({ titel, emoji, rows, valueKey, valueLabel, quoteKey, quoteFn }) => (
+        const StatTable = ({ titel, emoji, rows, valueKey, valueLabel }) => (
           <div>
             <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 17, fontWeight: 700, color: 'var(--gruen)', marginBottom: 14 }}>
               {emoji} {titel}
@@ -201,25 +241,16 @@ export default function EventDetail() {
                 Alle Werte beziehen sich ausschließlich auf die WM {event.jahr}.
               </p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 32 }}>
-                <StatTable
-                  titel="Ballermänner" emoji="⚽"
-                  rows={sorted_t} valueKey="t" valueLabel="Tore"
-                />
-                <StatTable
-                  titel="Schiessbuden" emoji="🥅"
-                  rows={sorted_gg} valueKey="gg" valueLabel="Gegentore"
-                />
-                <StatTable
-                  titel="Remiskönige" emoji="🤝"
-                  rows={sorted_u} valueKey="u" valueLabel="Remis"
-                />
+                <StatTable titel="Ballermänner" emoji="⚽" rows={sorted_t} valueKey="t" valueLabel="Tore" />
+                <StatTable titel="Schiessbuden" emoji="🥅" rows={sorted_gg} valueKey="gg" valueLabel="Gegentore" />
+                <StatTable titel="Remiskönige" emoji="🤝" rows={sorted_u} valueKey="u" valueLabel="Remis" />
               </div>
             </div>
           </section>
         )
       })()}
 
-      {/* Extra-Fotos (z.B. WM 2016 mit Henning) */}
+      {/* Extra-Fotos */}
       {fotos?.extra && fotos.extra.length > 0 && (
         <section className="section--sm" style={{ background: 'var(--cream)' }}>
           <div className="container">
@@ -238,8 +269,12 @@ export default function EventDetail() {
       {/* Navigation */}
       <section className="section--sm">
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-          {prev ? <Link to={`/turniere/${prev.jahr}`} className="btn btn--outline">← WM {prev.jahr}</Link> : <div />}
-          {next ? <Link to={`/turniere/${next.jahr}`} className="btn btn--outline">WM {next.jahr} →</Link> : <div />}
+          {wm.weltmeister[wm.weltmeister.findIndex(e => String(e.jahr) === jahr) - 1]
+            ? <Link to={`/turniere/${wm.weltmeister[wm.weltmeister.findIndex(e => String(e.jahr) === jahr) - 1].jahr}`} className="btn btn--outline">← WM {wm.weltmeister[wm.weltmeister.findIndex(e => String(e.jahr) === jahr) - 1].jahr}</Link>
+            : <div />}
+          {wm.weltmeister[wm.weltmeister.findIndex(e => String(e.jahr) === jahr) + 1]
+            ? <Link to={`/turniere/${wm.weltmeister[wm.weltmeister.findIndex(e => String(e.jahr) === jahr) + 1].jahr}`} className="btn btn--outline">WM {wm.weltmeister[wm.weltmeister.findIndex(e => String(e.jahr) === jahr) + 1].jahr} →</Link>
+            : <div />}
         </div>
       </section>
     </div>
