@@ -123,9 +123,9 @@ export default function EventDetail() {
             {TURNIER_TABS.map(j => (
               <Link key={j} to={`/turniere/${j}`} style={{
                 padding: '7px 16px', fontSize: 13, fontWeight: 600,
-                borderRadius: 999, border: `1px solid ${String(j) === jahr ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.25)'}`,
-                background: String(j) === jahr ? 'rgba(255,255,255,0.15)' : 'transparent',
-                color: String(j) === jahr ? 'white' : 'rgba(255,255,255,0.7)',
+                borderRadius: 999, border: `1px solid ${String(j) === jahr ? 'var(--gold)' : 'rgba(255,255,255,0.25)'}`,
+                background: String(j) === jahr ? 'var(--gold)' : 'transparent',
+                color: String(j) === jahr ? '#1c422b' : 'rgba(255,255,255,0.7)',
                 transition: 'all 0.15s', whiteSpace: 'nowrap',
               }}>WM {j}</Link>
             ))}
