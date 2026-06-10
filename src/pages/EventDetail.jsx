@@ -116,20 +116,9 @@ export default function EventDetail() {
           </Link>
           <div className="eyebrow" style={{ color: 'rgba(176,137,45,0.8)' }}>{event.datum} · {event.ort}</div>
           <h1 style={{ fontSize: 'clamp(40px, 7vw, 80px)', color: 'var(--white)', marginBottom: 0 }}>
-            {is2026 ? '10. TRMMLR-WM' : `WM ${event.jahr}`}
+            {`WM ${event.jahr}`}
           </h1>
-          {is2026 && (
-            <div style={{ display: 'flex', gap: 16, marginTop: 24, marginBottom: 8, flexWrap: 'nowrap', overflowX: 'auto' }}>
-              {[{ val: cd.tage, label: 'Tage' }, { val: cd.std, label: 'Std' }, { val: cd.min, label: 'Min' }, { val: cd.sek, label: 'Sek' }].map(item => (
-                <div key={item.label} style={{ textAlign: 'center', minWidth: 64, flexShrink: 0 }}>
-                  <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(32px, 6vw, 56px)', color: 'var(--gold)', lineHeight: 1 }}>
-                    {String(item.val).padStart(2, '0')}
-                  </div>
-                  <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginTop: 4 }}>{item.label}</div>
-                </div>
-              ))}
-            </div>
-          )}
+
           <div className="subnav-pills" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, paddingTop: 28, paddingBottom: 28 }}>
             {TURNIER_TABS.map(j => (
               <Link key={j} to={`/turniere/${j}`} style={{
