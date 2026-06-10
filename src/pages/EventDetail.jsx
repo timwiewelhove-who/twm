@@ -2,10 +2,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useWMData } from '../useWMData'
 
-const TURNIER_TABS = [
-  2026, 2024, 2022, 2018, 2016, 2014, 2012, 2010, 2008, 2006
-]
-
+const TURNIER_TABS = [2026, 2024, 2022, 2018, 2016, 2014, 2012, 2010, 2008, 2006]
 
 const INTRO_TEXTE = {
   2006: 'Die Geburtsstunde. In einer Norderstedter WG entstand die Idee, Tischkicker ernst zu nehmen — ernsthafter jedenfalls als die meisten anderen Dinge in diesem Sommer. Stephan Krontal gewann das erste Turnier, das noch keiner für ein erstes Turnier hielt.',
@@ -24,22 +21,75 @@ function getCountdown() {
   const diff = Math.max(0, ziel - new Date())
   return {
     tage: Math.floor(diff / 86400000),
-    std:  Math.floor((diff % 86400000) / 3600000),
-    min:  Math.floor((diff % 3600000) / 60000),
-    sek:  Math.floor((diff % 60000) / 1000),
+    std: Math.floor((diff % 86400000) / 3600000),
+    min: Math.floor((diff % 3600000) / 60000),
+    sek: Math.floor((diff % 60000) / 1000),
   }
 }
 
 export default function EventDetail() {
   const { data: wm, loading } = useWMData()
+  const { jahr } = useParams()
   const [cd, setCd] = useState(getCountdown())
   const [selectedSpieltag, setSelectedSpieltag] = useState(null)
-  useEffect(() => { const t = setInterval(() => setCd(getCountdown()), 1000); return () => clearInterval(t) }, [])
 
-  const { jahr } = useParams()
+  useEffect(() => {
+    const t = setInterval(() => setCd(getCountdown()), 1000)
+    return () => clearInterval(t)
+  }, [])
+
+  const jahresMatches = useMemo(() =>
+    (wm?.matches || []).filter(m => String(m.jahr) === jahr)
+  , [wm?.matches, jahr])
+
+  const maxSpieltag = useMemo(() =>
+    jahresMatches.length > 0 ? Math.max(...jahresMatches.map(m => m.spieltag)) : 0
+  , [jahresMatches])
+
+  useEffect(() => {
+    if (maxSpieltag > 0) setSelectedSpieltag(maxSpieltag)
+  }, [maxSpieltag])
+
+  const aktiverSpieltag = selectedSpieltag || maxSpieltag
+
   const event = wm?.weltmeister?.find(e => String(e.jahr) === jahr)
   const tabelle = wm?.abschlusstabellen?.[jahr]
   const fotos = wm?.fotos?.[jahr]
+
+  const tabelleNachSpieltag = useMemo(() => {
+    if (!tabelle) return null
+    const rows = tabelle.map(r => ({ ...r, sp: 0, s: 0, u: 0, n: 0, t: 0, gg: 0, diff: 0, pkt: 0 }))
+    jahresMatches.filter(m => m.spieltag <= aktiverSpieltag).forEach(m => {
+      const home = rows.find(r => r.name === m.home)
+      const away = rows.find(r => r.name === m.away)
+      if (!home || !away) return
+      home.sp++; home.t += m.home_tore; home.gg += m.away_tore
+      away.sp++; away.t += m.away_tore; away.gg += m.home_tore
+      if (m.home_tore > m.away_tore) { home.s++; home.pkt += 3; away.n++ }
+      else if (m.home_tore < m.away_tore) { away.s++; away.pkt += 3; home.n++ }
+      else { home.u++; home.pkt++; away.u++; away.pkt++ }
+    })
+    rows.forEach(r => { r.diff = r.t - r.gg })
+    return [...rows].sort((a, b) => b.pkt !== a.pkt ? b.pkt - a.pkt : b.diff !== a.diff ? b.diff - a.diff : b.t - a.t)
+      .map((r, i) => ({ ...r, pl: i + 1 }))
+  }, [jahresMatches, aktiverSpieltag, tabelle])
+
+  const torschuetzenNachSpieltag = useMemo(() => {
+    const tore = {}; const spiele = {}
+    jahresMatches.filter(m => m.spieltag <= aktiverSpieltag).forEach(m => {
+      tore[m.home] = (tore[m.home] || 0) + m.home_tore
+      tore[m.away] = (tore[m.away] || 0) + m.away_tore
+      spiele[m.home] = (spiele[m.home] || 0) + 1
+      spiele[m.away] = (spiele[m.away] || 0) + 1
+    })
+    return Object.entries(tore)
+      .map(([name, t]) => ({ name, tore: t, spiele: spiele[name] || 0, quote: spiele[name] ? (t / spiele[name]).toFixed(2) : '0.00' }))
+      .sort((a, b) => b.tore - a.tore)
+  }, [jahresMatches, aktiverSpieltag])
+
+  const spieltagErgebnisse = useMemo(() =>
+    jahresMatches.filter(m => m.spieltag === aktiverSpieltag)
+  , [jahresMatches, aktiverSpieltag])
 
   if (loading || !wm?.weltmeister?.length) return <div style={{ paddingTop: 120, textAlign: 'center', color: 'var(--text-muted)' }}>Laden…</div>
   if (!event) return (
@@ -50,6 +100,9 @@ export default function EventDetail() {
   )
 
   const is2026 = String(event.jahr) === '2026'
+  const idx = wm.weltmeister.findIndex(e => String(e.jahr) === jahr)
+  const prev = wm.weltmeister[idx - 1]
+  const next = wm.weltmeister[idx + 1]
 
   return (
     <div style={{ paddingTop: 80 }}>
@@ -64,16 +117,9 @@ export default function EventDetail() {
           <h1 style={{ fontSize: 'clamp(40px, 7vw, 80px)', color: 'var(--white)', marginBottom: 0 }}>
             {is2026 ? '10. TRMMLR-WM' : `WM ${event.jahr}`}
           </h1>
-
-          {/* Countdown nur für 2026 */}
           {is2026 && (
             <div style={{ display: 'flex', gap: 16, marginTop: 24, marginBottom: 8, flexWrap: 'nowrap', overflowX: 'auto' }}>
-              {[
-                { val: cd.tage, label: 'Tage' },
-                { val: cd.std, label: 'Std' },
-                { val: cd.min, label: 'Min' },
-                { val: cd.sek, label: 'Sek' },
-              ].map(item => (
+              {[{ val: cd.tage, label: 'Tage' }, { val: cd.std, label: 'Std' }, { val: cd.min, label: 'Min' }, { val: cd.sek, label: 'Sek' }].map(item => (
                 <div key={item.label} style={{ textAlign: 'center', minWidth: 64, flexShrink: 0 }}>
                   <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 'clamp(32px, 6vw, 56px)', color: 'var(--gold)', lineHeight: 1 }}>
                     {String(item.val).padStart(2, '0')}
@@ -83,17 +129,14 @@ export default function EventDetail() {
               ))}
             </div>
           )}
-
-          {/* Pill-Navigation für alle WMs */}
           <div className="subnav-pills" style={{ display: 'flex', flexWrap: 'wrap', gap: 8, paddingTop: 28, paddingBottom: 28 }}>
             {TURNIER_TABS.map(j => (
               <Link key={j} to={`/turniere/${j}`} style={{
                 padding: '7px 16px', fontSize: 13, fontWeight: 600,
-                borderRadius: 999, border: '1px solid rgba(255,255,255,0.25)',
+                borderRadius: 999, border: `1px solid ${String(j) === jahr ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.25)'}`,
                 background: String(j) === jahr ? 'rgba(255,255,255,0.15)' : 'transparent',
                 color: String(j) === jahr ? 'white' : 'rgba(255,255,255,0.7)',
                 transition: 'all 0.15s', whiteSpace: 'nowrap',
-                borderColor: String(j) === jahr ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.25)',
               }}>WM {j}</Link>
             ))}
           </div>
@@ -106,13 +149,9 @@ export default function EventDetail() {
         <section className="section--sm" style={{ background: 'var(--white)' }}>
           <div className="container">
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 48, alignItems: 'start' }}>
-              {/* Intro-Text */}
-              <div>
-                <p style={{ fontSize: 16, lineHeight: 1.9, color: 'var(--text-muted)', margin: 0 }}>
-                  {INTRO_TEXTE[event.jahr] || ''}
-                </p>
-              </div>
-              {/* Fakten-Cards */}
+              <p style={{ fontSize: 16, lineHeight: 1.9, color: 'var(--text-muted)', margin: 0 }}>
+                {INTRO_TEXTE[event.jahr] || ''}
+              </p>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 {[
                   { label: 'Datum', value: event.datum },
@@ -147,7 +186,7 @@ export default function EventDetail() {
         </section>
       )}
 
-      {/* Spieltag-Selektor + Abschlusstabelle + Spieltage */}
+      {/* Abschlusstabelle */}
       <section className="section">
         <div className="container">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24, flexWrap: 'wrap', gap: 16 }}>
@@ -213,62 +252,6 @@ export default function EventDetail() {
         <section className="section--sm" style={{ background: 'var(--cream)' }}>
           <div className="container">
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'start' }}>
-              {/* Spieltag-Ergebnisse */}
-              <div>
-                <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 20 }}>Spieltag {aktiverSpieltag}</h2>
-                <div className="card" style={{ overflow: 'hidden' }}>
-                  {spieltagErgebnisse.map((m, i) => (
-                    <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: 12, padding: '12px 20px', borderBottom: i < spieltagErgebnisse.length - 1 ? '1px solid var(--border)' : 'none' }}>
-                      <div style={{ textAlign: 'right', fontSize: 15, fontWeight: 500 }}>{m.home}</div>
-                      <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 22, color: 'var(--gruen)', textAlign: 'center', minWidth: 60 }}>
-                        {m.home_tore} : {m.away_tore}
-                      </div>
-                      <div style={{ fontSize: 15, fontWeight: 500 }}>{m.away}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              {/* Torschützen */}
-              <div>
-                <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 20 }}>Torschützen</h2>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 16 }}>
-                  {torschuetzenNachSpieltag.slice(0, 3).map((r, i) => (
-                    <div key={r.name} className="card" style={{ padding: '16px 12px', textAlign: 'center', border: i === 0 ? '2px solid var(--gold)' : '1px solid var(--border)' }}>
-                      <div style={{ fontSize: 20, marginBottom: 6 }}>{['🥇','🥈','🥉'][i]}</div>
-                      <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--gruen)', marginBottom: 8 }}>{r.name}</div>
-                      <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 36, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>{r.tore}</div>
-                      <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>Tore · Ø {r.quote}</div>
-                    </div>
-                  ))}
-                </div>
-                <div className="card" style={{ overflow: 'auto' }}>
-                  <table className="data-table">
-                    <thead><tr><th style={{width:36}}>Pl.</th><th>Trommler</th><th className="num">Tore</th><th className="num">Ø</th><th className="num">Sp</th></tr></thead>
-                    <tbody>
-                      {torschuetzenNachSpieltag.slice(3).map((r, i) => (
-                        <tr key={r.name}>
-                          <td className="rank">{i + 4}</td>
-                          <td>{r.name}</td>
-                          <td className="num pts">{r.tore}</td>
-                          <td className="num" style={{ color: 'var(--text-muted)', fontSize: 13 }}>{r.quote}</td>
-                          <td className="num" style={{ color: 'var(--text-muted)' }}>{r.spiele}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-
-      {/* Spieltage und Torschuetzen */}
-      {jahresMatches.length > 0 && (
-        <section className="section--sm" style={{ background: 'var(--cream)' }}>
-          <div className="container">
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'start' }}>
               <div>
                 <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 20 }}>Spieltag {aktiverSpieltag}</h2>
                 <div className="card" style={{ overflow: 'hidden' }}>
@@ -282,11 +265,11 @@ export default function EventDetail() {
                 </div>
               </div>
               <div>
-                <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 20 }}>Torschuetzen</h2>
+                <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 20 }}>Torschützen</h2>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 16 }}>
                   {torschuetzenNachSpieltag.slice(0, 3).map((r, i) => (
                     <div key={r.name} className="card" style={{ padding: '16px 12px', textAlign: 'center', border: i === 0 ? '2px solid var(--gold)' : '1px solid var(--border)' }}>
-                      <div style={{ fontSize: 20, marginBottom: 6 }}>{['🥇','🥈','🥉'][i]}</div>
+                      <div style={{ fontSize: 20, marginBottom: 6 }}>{['🥇', '🥈', '🥉'][i]}</div>
                       <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--gruen)', marginBottom: 8 }}>{r.name}</div>
                       <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 36, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>{r.tore}</div>
                       <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>Tore · Ø {r.quote}</div>
@@ -295,7 +278,7 @@ export default function EventDetail() {
                 </div>
                 <div className="card" style={{ overflow: 'auto' }}>
                   <table className="data-table">
-                    <thead><tr><th style={{width:36}}>Pl.</th><th>Trommler</th><th className="num">Tore</th><th className="num">Ø</th><th className="num">Sp</th></tr></thead>
+                    <thead><tr><th style={{ width: 36 }}>Pl.</th><th>Trommler</th><th className="num">Tore</th><th className="num">Ø</th><th className="num">Sp</th></tr></thead>
                     <tbody>
                       {torschuetzenNachSpieltag.slice(3).map((r, i) => (
                         <tr key={r.name}>
@@ -317,35 +300,22 @@ export default function EventDetail() {
 
       {/* Turnier-Statistiken */}
       {tabelle && tabelle.length > 0 && (() => {
-        const sorted_t  = [...tabelle].sort((a,b) => b.t  - a.t)
-        const sorted_gg = [...tabelle].sort((a,b) => b.gg - a.gg)
-        const sorted_u  = [...tabelle].sort((a,b) => b.u  - a.u)
-
+        const sorted_t = [...tabelle].sort((a, b) => b.t - a.t)
+        const sorted_gg = [...tabelle].sort((a, b) => b.gg - a.gg)
+        const sorted_u = [...tabelle].sort((a, b) => b.u - a.u)
         const StatTable = ({ titel, emoji, rows, valueKey, valueLabel }) => (
           <div>
-            <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 17, fontWeight: 700, color: 'var(--gruen)', marginBottom: 14 }}>
-              {emoji} {titel}
-            </h3>
+            <h3 style={{ fontFamily: 'Nunito Sans, sans-serif', fontSize: 17, fontWeight: 700, color: 'var(--gruen)', marginBottom: 14 }}>{emoji} {titel}</h3>
             <div className="card" style={{ overflow: 'auto', marginBottom: 32 }}>
               <table className="data-table">
-                <thead>
-                  <tr>
-                    <th style={{ width: 40 }}>Pl.</th>
-                    <th>Trommler</th>
-                    <th className="num">{valueLabel}</th>
-                    <th className="num">Quote</th>
-                    <th className="num">Spiele</th>
-                  </tr>
-                </thead>
+                <thead><tr><th style={{ width: 40 }}>Pl.</th><th>Trommler</th><th className="num">{valueLabel}</th><th className="num">Quote</th><th className="num">Spiele</th></tr></thead>
                 <tbody>
                   {rows.map((r, i) => (
                     <tr key={r.name} style={{ background: i === 0 ? 'rgba(176,137,45,0.05)' : 'transparent' }}>
-                      <td className="rank">{i < 3 ? ['🥇','🥈','🥉'][i] : i+1}</td>
+                      <td className="rank">{i < 3 ? ['🥇', '🥈', '🥉'][i] : i + 1}</td>
                       <td style={{ fontWeight: i < 3 ? 700 : 400 }}>{r.name}</td>
                       <td className="num pts">{r[valueKey]}</td>
-                      <td className="num" style={{ color: 'var(--text-muted)', fontSize: 13 }}>
-                        {r.sp > 0 ? (r[valueKey] / r.sp).toFixed(3) : '–'}
-                      </td>
+                      <td className="num" style={{ color: 'var(--text-muted)', fontSize: 13 }}>{r.sp > 0 ? (r[valueKey] / r.sp).toFixed(3) : '–'}</td>
                       <td className="num" style={{ color: 'var(--text-muted)' }}>{r.sp}</td>
                     </tr>
                   ))}
@@ -354,14 +324,11 @@ export default function EventDetail() {
             </div>
           </div>
         )
-
         return (
           <section className="section--sm" style={{ background: 'var(--cream)' }}>
             <div className="container">
               <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 8 }}>Turnier-Statistiken</h2>
-              <p style={{ color: 'var(--text-muted)', fontSize: 14, marginBottom: 32 }}>
-                Alle Werte beziehen sich ausschließlich auf die WM {event.jahr}.
-              </p>
+              <p style={{ color: 'var(--text-muted)', fontSize: 14, marginBottom: 32 }}>Alle Werte beziehen sich ausschließlich auf die WM {event.jahr}.</p>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 32 }}>
                 <StatTable titel="Ballermänner" emoji="⚽" rows={sorted_t} valueKey="t" valueLabel="Tore" />
                 <StatTable titel="Schiessbuden" emoji="🥅" rows={sorted_gg} valueKey="gg" valueLabel="Gegentore" />
@@ -391,12 +358,8 @@ export default function EventDetail() {
       {/* Navigation */}
       <section className="section--sm">
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', gap: 16 }}>
-          {wm.weltmeister[wm.weltmeister.findIndex(e => String(e.jahr) === jahr) - 1]
-            ? <Link to={`/turniere/${wm.weltmeister[wm.weltmeister.findIndex(e => String(e.jahr) === jahr) - 1].jahr}`} className="btn btn--outline">← WM {wm.weltmeister[wm.weltmeister.findIndex(e => String(e.jahr) === jahr) - 1].jahr}</Link>
-            : <div />}
-          {wm.weltmeister[wm.weltmeister.findIndex(e => String(e.jahr) === jahr) + 1]
-            ? <Link to={`/turniere/${wm.weltmeister[wm.weltmeister.findIndex(e => String(e.jahr) === jahr) + 1].jahr}`} className="btn btn--outline">WM {wm.weltmeister[wm.weltmeister.findIndex(e => String(e.jahr) === jahr) + 1].jahr} →</Link>
-            : <div />}
+          {prev ? <Link to={`/turniere/${prev.jahr}`} className="btn btn--outline">← WM {prev.jahr}</Link> : <div />}
+          {next ? <Link to={`/turniere/${next.jahr}`} className="btn btn--outline">WM {next.jahr} →</Link> : <div />}
         </div>
       </section>
     </div>
