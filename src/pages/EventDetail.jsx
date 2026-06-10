@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useParams, Link } from 'react-router-dom'
 import { useWMData } from '../useWMData'
 
@@ -102,11 +103,32 @@ export default function EventDetail() {
 
   const is2026 = String(event.jahr) === '2026'
   const idx = wm.weltmeister.findIndex(e => String(e.jahr) === jahr)
+
+  const BASE_URL = 'https://www.trommelschiessen.de'
+  const DEFAULT_IMG = `${BASE_URL}/wm-2016-extra.jpg`
+  const pageImages = fotos?.extra?.length > 0
+    ? fotos.extra
+    : fotos?.gruppe ? [fotos.gruppe] : []
+  const ogImage = pageImages.length > 0
+    ? `${BASE_URL}${pageImages[Math.floor(Math.random() * pageImages.length)]}`
+    : DEFAULT_IMG
+  const ogTitle = `WM ${event.jahr} · ${event.ort?.split('–')[0]?.trim()} | Trommelschiessen`
+  const ogDesc = INTRO_TEXTE[event.jahr] || `Die Trommelschießen-Weltmeisterschaft ${event.jahr} in ${event.ort?.split('–')[0]?.trim()}. Weltmeister: ${event.sieger}.`
   const prev = wm.weltmeister[idx - 1]
   const next = wm.weltmeister[idx + 1]
 
   return (
     <div style={{ paddingTop: 80 }}>
+      <Helmet>
+        <title>{ogTitle}</title>
+        <meta property="og:title" content={ogTitle} />
+        <meta property="og:description" content={ogDesc} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:url" content={`${BASE_URL}/turniere/${jahr}`} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:image" content={ogImage} />
+      </Helmet>
       {/* Hero */}
       <section className="hero-section-2026" style={{ background: 'var(--gruen)', padding: '60px 0 0', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: -100, right: -100, width: 400, height: 400, borderRadius: '50%', background: 'rgba(255,255,255,0.03)', pointerEvents: 'none' }} />
