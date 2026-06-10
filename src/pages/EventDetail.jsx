@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useWMData } from '../useWMData'
 
@@ -33,6 +33,8 @@ function getCountdown() {
 export default function EventDetail() {
   const { data: wm, loading } = useWMData()
   const [cd, setCd] = useState(getCountdown())
+  const [selectedSpieltag, setSelectedSpieltag] = useState(null)
+  const [selectedSpieltag, setSelectedSpieltag] = useState(null)
   useEffect(() => { const t = setInterval(() => setCd(getCountdown()), 1000); return () => clearInterval(t) }, [])
   if (loading || !wm?.weltmeister?.length) return <div style={{ paddingTop: 120, textAlign: 'center', color: 'var(--text-muted)' }}>Laden…</div>
 
@@ -146,11 +148,25 @@ export default function EventDetail() {
         </section>
       )}
 
-      {/* Abschlusstabelle */}
+      {/* Spieltag-Selektor + Abschlusstabelle + Spieltage */}
       <section className="section">
         <div className="container">
-          <h2 style={{ fontSize: 36, color: 'var(--gruen)', marginBottom: 24 }}>Abschlusstabelle</h2>
-          {tabelle ? (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24, flexWrap: 'wrap', gap: 16 }}>
+            <h2 style={{ fontSize: 36, color: 'var(--gruen)', margin: 0 }}>
+              {aktiverSpieltag === maxSpieltag ? 'Abschlusstabelle' : `Tabelle nach Spieltag ${aktiverSpieltag}`}
+            </h2>
+            {maxSpieltag > 1 && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ fontSize: 13, color: 'var(--text-muted)', fontWeight: 600 }}>Spieltag</span>
+                <input type="range" min={1} max={maxSpieltag} value={aktiverSpieltag}
+                  onChange={e => setSelectedSpieltag(Number(e.target.value))}
+                  style={{ width: 160, accentColor: 'var(--gruen)' }}
+                />
+                <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 22, color: 'var(--gruen)', minWidth: 32, textAlign: 'right' }}>{aktiverSpieltag}</span>
+              </div>
+            )}
+          </div>
+          {tabelleNachSpieltag ? (
             <div className="card" style={{ overflow: 'auto' }}>
               <table className="data-table">
                 <thead>
@@ -168,7 +184,7 @@ export default function EventDetail() {
                   </tr>
                 </thead>
                 <tbody>
-                  {tabelle.map(r => (
+                  {tabelleNachSpieltag.map(r => (
                     <tr key={r.name} style={{ background: r.pl === 1 ? 'rgba(176,137,45,0.06)' : 'transparent' }}>
                       <td className="rank">{r.pl === 1 ? '🏆' : r.pl}</td>
                       <td style={{ fontWeight: r.pl <= 3 ? 700 : 400 }}>
@@ -192,6 +208,113 @@ export default function EventDetail() {
           )}
         </div>
       </section>
+
+      {/* Spieltage & Torschützen */}
+      {jahresMatches.length > 0 && (
+        <section className="section--sm" style={{ background: 'var(--cream)' }}>
+          <div className="container">
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'start' }}>
+              {/* Spieltag-Ergebnisse */}
+              <div>
+                <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 20 }}>Spieltag {aktiverSpieltag}</h2>
+                <div className="card" style={{ overflow: 'hidden' }}>
+                  {spieltagErgebnisse.map((m, i) => (
+                    <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: 12, padding: '12px 20px', borderBottom: i < spieltagErgebnisse.length - 1 ? '1px solid var(--border)' : 'none' }}>
+                      <div style={{ textAlign: 'right', fontSize: 15, fontWeight: 500 }}>{m.home}</div>
+                      <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 22, color: 'var(--gruen)', textAlign: 'center', minWidth: 60 }}>
+                        {m.home_tore} : {m.away_tore}
+                      </div>
+                      <div style={{ fontSize: 15, fontWeight: 500 }}>{m.away}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {/* Torschützen */}
+              <div>
+                <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 20 }}>Torschützen</h2>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 16 }}>
+                  {torschuetzenNachSpieltag.slice(0, 3).map((r, i) => (
+                    <div key={r.name} className="card" style={{ padding: '16px 12px', textAlign: 'center', border: i === 0 ? '2px solid var(--gold)' : '1px solid var(--border)' }}>
+                      <div style={{ fontSize: 20, marginBottom: 6 }}>{['🥇','🥈','🥉'][i]}</div>
+                      <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--gruen)', marginBottom: 8 }}>{r.name}</div>
+                      <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 36, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>{r.tore}</div>
+                      <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>Tore · Ø {r.quote}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="card" style={{ overflow: 'auto' }}>
+                  <table className="data-table">
+                    <thead><tr><th style={{width:36}}>Pl.</th><th>Trommler</th><th className="num">Tore</th><th className="num">Ø</th><th className="num">Sp</th></tr></thead>
+                    <tbody>
+                      {torschuetzenNachSpieltag.slice(3).map((r, i) => (
+                        <tr key={r.name}>
+                          <td className="rank">{i + 4}</td>
+                          <td>{r.name}</td>
+                          <td className="num pts">{r.tore}</td>
+                          <td className="num" style={{ color: 'var(--text-muted)', fontSize: 13 }}>{r.quote}</td>
+                          <td className="num" style={{ color: 'var(--text-muted)' }}>{r.spiele}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+
+      {/* Spieltage und Torschuetzen */}
+      {jahresMatches.length > 0 && (
+        <section className="section--sm" style={{ background: 'var(--cream)' }}>
+          <div className="container">
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 40, alignItems: 'start' }}>
+              <div>
+                <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 20 }}>Spieltag {aktiverSpieltag}</h2>
+                <div className="card" style={{ overflow: 'hidden' }}>
+                  {spieltagErgebnisse.map((m, i) => (
+                    <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center', gap: 12, padding: '12px 20px', borderBottom: i < spieltagErgebnisse.length - 1 ? '1px solid var(--border)' : 'none' }}>
+                      <div style={{ textAlign: 'right', fontSize: 15, fontWeight: 500 }}>{m.home}</div>
+                      <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 22, color: 'var(--gruen)', textAlign: 'center', minWidth: 60 }}>{m.home_tore} : {m.away_tore}</div>
+                      <div style={{ fontSize: 15, fontWeight: 500 }}>{m.away}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h2 style={{ fontSize: 28, color: 'var(--gruen)', marginBottom: 20 }}>Torschuetzen</h2>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 16 }}>
+                  {torschuetzenNachSpieltag.slice(0, 3).map((r, i) => (
+                    <div key={r.name} className="card" style={{ padding: '16px 12px', textAlign: 'center', border: i === 0 ? '2px solid var(--gold)' : '1px solid var(--border)' }}>
+                      <div style={{ fontSize: 20, marginBottom: 6 }}>{['🥇','🥈','🥉'][i]}</div>
+                      <div style={{ fontWeight: 700, fontSize: 14, color: 'var(--gruen)', marginBottom: 8 }}>{r.name}</div>
+                      <div style={{ fontFamily: "'Bayon', sans-serif", fontSize: 36, color: i === 0 ? 'var(--gold)' : 'var(--gruen)', lineHeight: 1 }}>{r.tore}</div>
+                      <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>Tore · Ø {r.quote}</div>
+                    </div>
+                  ))}
+                </div>
+                <div className="card" style={{ overflow: 'auto' }}>
+                  <table className="data-table">
+                    <thead><tr><th style={{width:36}}>Pl.</th><th>Trommler</th><th className="num">Tore</th><th className="num">Ø</th><th className="num">Sp</th></tr></thead>
+                    <tbody>
+                      {torschuetzenNachSpieltag.slice(3).map((r, i) => (
+                        <tr key={r.name}>
+                          <td className="rank">{i + 4}</td>
+                          <td>{r.name}</td>
+                          <td className="num pts">{r.tore}</td>
+                          <td className="num" style={{ color: 'var(--text-muted)', fontSize: 13 }}>{r.quote}</td>
+                          <td className="num" style={{ color: 'var(--text-muted)' }}>{r.spiele}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Turnier-Statistiken */}
       {tabelle && tabelle.length > 0 && (() => {
