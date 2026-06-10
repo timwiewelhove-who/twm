@@ -108,7 +108,7 @@ export default function EventDetail() {
   return (
     <div style={{ paddingTop: 80 }}>
       {/* Hero */}
-      <section style={{ background: 'var(--gruen)', padding: '60px 0 0', position: 'relative', overflow: 'hidden' }}>
+      <section className="hero-section-2026" style={{ background: 'var(--gruen)', padding: '60px 0 0', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', top: -100, right: -100, width: 400, height: 400, borderRadius: '50%', background: 'rgba(255,255,255,0.03)', pointerEvents: 'none' }} />
         <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <Link to="/turniere" style={{ color: 'rgba(255,255,255,0.5)', fontSize: 14, display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 24 }}>
@@ -130,7 +130,7 @@ export default function EventDetail() {
               }}>WM {j}</Link>
             ))}
           </div>
-          <style>{`@media (max-width: 700px) { .subnav-pills { display: none !important; } }`}</style>
+          <style>{`@media (max-width: 700px) { .subnav-pills { display: none !important; } .hero-section-2026 { padding-bottom: 32px !important; } }`}</style>
         </div>
       </section>
 
@@ -182,13 +182,16 @@ export default function EventDetail() {
               {aktiverSpieltag === maxSpieltag ? 'Abschlusstabelle' : `Tabelle nach Spieltag ${aktiverSpieltag}`}
             </h2>
             {maxSpieltag > 1 && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span style={{ fontSize: 13, color: 'var(--text-muted)', fontWeight: 600 }}>Spieltag</span>
-                <input type="range" min={1} max={maxSpieltag} value={aktiverSpieltag}
-                  onChange={e => setSelectedSpieltag(Number(e.target.value))}
-                  style={{ width: 160, accentColor: 'var(--gruen)', touchAction: 'none' }}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <button onClick={() => setSelectedSpieltag(s => Math.max(1, (s || maxSpieltag) - 1))}
+                  style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 6, width: 32, height: 32, cursor: 'pointer', fontSize: 16, color: 'var(--gruen)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>←</button>
+                <input type="number" min={1} max={maxSpieltag} value={aktiverSpieltag}
+                  onChange={e => { const v = Number(e.target.value); if (v >= 1 && v <= maxSpieltag) setSelectedSpieltag(v) }}
+                  onBlur={e => { const v = Number(e.target.value); setSelectedSpieltag(Math.min(maxSpieltag, Math.max(1, v || 1))) }}
+                  style={{ width: 52, textAlign: 'center', border: '1px solid var(--border)', borderRadius: 6, height: 32, fontSize: 15, fontFamily: "'Bayon', sans-serif", color: 'var(--gruen)', fontWeight: 700 }}
                 />
-                <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 22, color: 'var(--gruen)', minWidth: 32, textAlign: 'right' }}>{aktiverSpieltag}</span>
+                <button onClick={() => setSelectedSpieltag(s => Math.min(maxSpieltag, (s || maxSpieltag) + 1))}
+                  style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 6, width: 32, height: 32, cursor: 'pointer', fontSize: 16, color: 'var(--gruen)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>→</button>
               </div>
             )}
           </div>
@@ -244,12 +247,16 @@ export default function EventDetail() {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, gap: 16, flexWrap: 'wrap' }}>
                   <h2 style={{ fontSize: 28, color: 'var(--gruen)', margin: 0 }}>Spieltag {aktiverSpieltag}</h2>
                   {maxSpieltag > 1 && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <input type="range" min={1} max={maxSpieltag} value={aktiverSpieltag}
-                        onChange={e => setSelectedSpieltag(Number(e.target.value))}
-                        style={{ width: 120, accentColor: 'var(--gruen)', touchAction: 'none' }}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <button onClick={() => setSelectedSpieltag(s => Math.max(1, (s || maxSpieltag) - 1))}
+                        style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 6, width: 32, height: 32, cursor: 'pointer', fontSize: 16, color: 'var(--gruen)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>←</button>
+                      <input type="number" min={1} max={maxSpieltag} value={aktiverSpieltag}
+                        onChange={e => { const v = Number(e.target.value); if (v >= 1 && v <= maxSpieltag) setSelectedSpieltag(v) }}
+                        onBlur={e => { const v = Number(e.target.value); setSelectedSpieltag(Math.min(maxSpieltag, Math.max(1, v || 1))) }}
+                        style={{ width: 52, textAlign: 'center', border: '1px solid var(--border)', borderRadius: 6, height: 32, fontSize: 15, fontFamily: "'Bayon', sans-serif", color: 'var(--gruen)', fontWeight: 700 }}
                       />
-                      <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 20, color: 'var(--gruen)', minWidth: 28 }}>{aktiverSpieltag}</span>
+                      <button onClick={() => setSelectedSpieltag(s => Math.min(maxSpieltag, (s || maxSpieltag) + 1))}
+                        style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 6, width: 32, height: 32, cursor: 'pointer', fontSize: 16, color: 'var(--gruen)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>→</button>
                     </div>
                   )}
                 </div>
@@ -267,12 +274,16 @@ export default function EventDetail() {
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20, gap: 16, flexWrap: 'wrap' }}>
                   <h2 style={{ fontSize: 28, color: 'var(--gruen)', margin: 0 }}>Torschützen</h2>
                   {maxSpieltag > 1 && (
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                      <input type="range" min={1} max={maxSpieltag} value={aktiverSpieltag}
-                        onChange={e => setSelectedSpieltag(Number(e.target.value))}
-                        style={{ width: 120, accentColor: 'var(--gruen)', touchAction: 'none' }}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <button onClick={() => setSelectedSpieltag(s => Math.max(1, (s || maxSpieltag) - 1))}
+                        style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 6, width: 32, height: 32, cursor: 'pointer', fontSize: 16, color: 'var(--gruen)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>←</button>
+                      <input type="number" min={1} max={maxSpieltag} value={aktiverSpieltag}
+                        onChange={e => { const v = Number(e.target.value); if (v >= 1 && v <= maxSpieltag) setSelectedSpieltag(v) }}
+                        onBlur={e => { const v = Number(e.target.value); setSelectedSpieltag(Math.min(maxSpieltag, Math.max(1, v || 1))) }}
+                        style={{ width: 52, textAlign: 'center', border: '1px solid var(--border)', borderRadius: 6, height: 32, fontSize: 15, fontFamily: "'Bayon', sans-serif", color: 'var(--gruen)', fontWeight: 700 }}
                       />
-                      <span style={{ fontFamily: "'Bayon', sans-serif", fontSize: 20, color: 'var(--gruen)', minWidth: 28 }}>{aktiverSpieltag}</span>
+                      <button onClick={() => setSelectedSpieltag(s => Math.min(maxSpieltag, (s || maxSpieltag) + 1))}
+                        style={{ background: 'none', border: '1px solid var(--border)', borderRadius: 6, width: 32, height: 32, cursor: 'pointer', fontSize: 16, color: 'var(--gruen)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>→</button>
                     </div>
                   )}
                 </div>
