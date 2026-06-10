@@ -35,13 +35,13 @@ export default function EventDetail() {
   const [cd, setCd] = useState(getCountdown())
   const [selectedSpieltag, setSelectedSpieltag] = useState(null)
   useEffect(() => { const t = setInterval(() => setCd(getCountdown()), 1000); return () => clearInterval(t) }, [])
-  if (loading || !wm?.weltmeister?.length) return <div style={{ paddingTop: 120, textAlign: 'center', color: 'var(--text-muted)' }}>Laden…</div>
 
   const { jahr } = useParams()
-  const event = wm.weltmeister.find(e => String(e.jahr) === jahr)
-  const tabelle = wm.abschlusstabellen[jahr]
-  const fotos = wm.fotos?.[jahr]
+  const event = wm?.weltmeister?.find(e => String(e.jahr) === jahr)
+  const tabelle = wm?.abschlusstabellen?.[jahr]
+  const fotos = wm?.fotos?.[jahr]
 
+  if (loading || !wm?.weltmeister?.length) return <div style={{ paddingTop: 120, textAlign: 'center', color: 'var(--text-muted)' }}>Laden…</div>
   if (!event) return (
     <div style={{ paddingTop: 120, textAlign: 'center' }}>
       <h2>WM {jahr} nicht gefunden</h2>
